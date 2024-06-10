@@ -6,23 +6,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type TopicRouter struct{
-	Router *mux.Router
+type TopicRouter struct {
+	Router  *mux.Router
 	Handler *handler.Handler
 }
 
-func StartTopicsRoute(mainRoute *mux.Router, handler *handler.Handler){
-	TopicRoute := mainRoute.PathPrefix("/topics").Subrouter()
-	ur := TopicRouter{TopicRoute, handler}
-	ur.HandleFunctions()
+func NewTopicsRouter(tr *mux.Router, handler *handler.Handler) *TopicRouter {
+	return &TopicRouter{Router: tr, Handler: handler}
 }
 
-
-func (ur *TopicRouter) HandleFunctions() {
+func StartTopicsRoute(mainRouter *mux.Router, handler *handler.Handler) {
 	// Topic CRUD
-	ur.Router.HandleFunc("/getaall/", ur.Handler.GetTopics).Methods("GET")
-	ur.Router.HandleFunc("/{id}", ur.Handler.GetTopicByID).Methods("GET")
-	ur.Router.HandleFunc("/create", ur.Handler.CreateTopic).Methods("POST")
-	ur.Router.HandleFunc("/update/{id}", ur.Handler.UpdateTopic).Methods("PUT")
-	ur.Router.HandleFunc("/delete/{id}", ur.Handler.DeleteTopic).Methods("DELETE")
+	tr := mainRouter.PathPrefix("/Topics").Subrouter()
+	r := NewTopicsRouter(tr, handler)
+
+	r.Router.HandleFunc("/getaall/", r.Handler.GetTopics).Methods("GET")
+	r.Router.HandleFunc("/{id}", r.Handler.GetTopicByID).Methods("GET")
+	r.Router.HandleFunc("/create", r.Handler.CreateTopic).Methods("POST")
+	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateTopic).Methods("PUT")
+	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteTopic).Methods("DELETE")
 }

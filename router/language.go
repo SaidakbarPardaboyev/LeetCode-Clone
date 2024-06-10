@@ -6,23 +6,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type LanguageRouter struct{
-	Router *mux.Router
+type LanguageRouter struct {
+	Router  *mux.Router
 	Handler *handler.Handler
 }
 
-func StartLanguagesRoute(mainRoute *mux.Router, handler *handler.Handler){
-	LanguageRoute := mainRoute.PathPrefix("/Languages").Subrouter()
-	ur := LanguageRouter{LanguageRoute, handler}
-	ur.HandleFunctions()
+func NewLanguageRouter(l *mux.Router, handler *handler.Handler) *LanguageRouter {
+	return &LanguageRouter{Router: l, Handler: handler}
 }
 
-
-func (ur *LanguageRouter) HandleFunctions() {
+func StartLanguagesRoute(mainRouter *mux.Router, handler *handler.Handler) {
 	// Language CRUD
-	ur.Router.HandleFunc("/getall/", ur.Handler.GetLanguages).Methods("GET")
-	ur.Router.HandleFunc("/{id}", ur.Handler.GetLanguageByID).Methods("GET")
-	ur.Router.HandleFunc("/create", ur.Handler.CreateLanguage).Methods("POST")
-	ur.Router.HandleFunc("/update/{id}", ur.Handler.UpdateLanguage).Methods("PUT")
-	ur.Router.HandleFunc("/delete/{id}", ur.Handler.DeleteLanguage).Methods("DELETE")
+	l := mainRouter.PathPrefix("/Language").Subrouter()
+	r := NewLanguageRouter(l, handler)
+
+	r.Router.HandleFunc("/get", r.Handler.GetLanguages).Methods("GET")
+	r.Router.HandleFunc("/{id}", r.Handler.GetLanguageByID).Methods("GET")
+	r.Router.HandleFunc("/create", r.Handler.CreateLanguage).Methods("POST")
+	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateLanguage).Methods("PUT")
+	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteLanguage).Methods("DELETE")
 }

@@ -31,7 +31,7 @@ func (h *Handler) GetProblems(w http.ResponseWriter, r *http.Request) {
 		filter.Title = &DifficultyLevel
 	}
 
-	problems, err := h.ProblemRepo.GetProblems(filter)
+	problems, err := h.ProblemRepo.GetProblems(&filter)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error getting problems", err)
@@ -72,7 +72,7 @@ func (h *Handler) CreateProblem(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error while decoding problem", err)
 		return
 	}
-	err = h.ProblemRepo.CreateProblem(newproblem)
+	err = h.ProblemRepo.CreateProblem(&newproblem)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while creating problem", err)
@@ -92,7 +92,7 @@ func (h *Handler) UpdateProblem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	problem.Id = vars["id"]
-	err = h.ProblemRepo.UpdateProblem(problem)
+	err = h.ProblemRepo.UpdateProblem(&problem)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while updating problem", err)

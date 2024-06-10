@@ -17,7 +17,7 @@ func (h *Handler) GetTopics(w http.ResponseWriter, r *http.Request) {
 		filter.Name = &name
 	}
 
-	topics, err := h.TopicRepo.GetTopics(filter)
+	topics, err := h.TopicRepo.GetTopics(&filter)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error getting topics",err)
@@ -59,7 +59,7 @@ func (h *Handler) CreateTopic(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error while decoding topic", err)
 		return
 	}
-	err = h.TopicRepo.CreateTopic(newtopic)
+	err = h.TopicRepo.CreateTopic(&newtopic)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while creating topic", err)
@@ -79,7 +79,7 @@ func (h *Handler) UpdateTopic(w http.ResponseWriter, r *http.Request) {
 	}
 
 	topic.Id = vars["id"]
-	err = h.TopicRepo.UpdateTopic(topic)
+	err = h.TopicRepo.UpdateTopic(&topic)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while updating topic", err)

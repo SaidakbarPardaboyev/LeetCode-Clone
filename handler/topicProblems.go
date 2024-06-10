@@ -22,7 +22,7 @@ func (h *Handler) GetTopicProblems(w http.ResponseWriter, r *http.Request) {
 		filter.ProblemId = &ProblemId
 	}
 
-	TopicProblems, err := h.TopicProblemRepo.GetTopicProblems(filter)
+	TopicProblems, err := h.TopicProblemRepo.GetTopicProblems(&filter)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error getting TopicProblems ",err)
@@ -100,7 +100,7 @@ func (h *Handler) CreateTopicProblem(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error while decoding TopicProblem", err)
 		return
 	}
-	err = h.TopicProblemRepo.CreateTopicProblem(newTopicProblem)
+	err = h.TopicProblemRepo.CreateTopicProblem(&newTopicProblem)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while creating TopicProblem", err)
@@ -121,7 +121,7 @@ func (h *Handler) UpdateTopicProblem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	TopicProblem.Id = vars["id"]
-	err = h.TopicProblemRepo.UpdateTopicProblem(TopicProblem)
+	err = h.TopicProblemRepo.UpdateTopicProblem(&TopicProblem)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while updating TopicProblem", err)

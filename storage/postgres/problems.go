@@ -18,7 +18,7 @@ func NewProblemRepo(db *sql.DB) *ProblemRepo {
 }
 
 // Create
-func (p *ProblemRepo) CreateProblem(problem model.Problem) error {
+func (p *ProblemRepo) CreateProblem(problem *model.Problem) error {
 
 	tx, err := p.Db.Begin()
 	if err != nil {
@@ -27,10 +27,13 @@ func (p *ProblemRepo) CreateProblem(problem model.Problem) error {
 	defer tx.Commit()
 	query := `
 	insert into 
-	problems(question_number, title, difficulty_level, description, examples, hints, constraints)
+	problems(question_number, title, difficulty_level, description, 
+	examples, hints, constraints)
 	values($1, $2, $3, $4, $5, $6, $7)`
-	_, err = tx.Exec(query, problem.QuestionNumber, problem.Title, problem.DifficultyLevel, 
-	problem.Description, pq.Array(problem.Examples), pq.Array(problem.Hints), pq.Array(problem.Constraints))
+	_, err = tx.Exec(query, problem.QuestionNumber, problem.Title,
+		problem.DifficultyLevel, problem.Description,
+		pq.Array(problem.Examples), pq.Array(problem.Hints),
+		pq.Array(problem.Constraints))
 
 	return err
 }
@@ -44,15 +47,16 @@ func (p *ProblemRepo) GetProblemById(id string) (model.Problem, error) {
 		id = $1 and deleted_at is null
 	`
 	row := p.Db.QueryRow(query, id)
-	err := row.Scan(&problem.Id, &problem.QuestionNumber, &problem.Title, &problem.DifficultyLevel, &problem.Description,
-		pq.Array(&problem.Examples), pq.Array(&problem.Hints), pq.Array(&problem.Constraints), 
-		&problem.Created_at, &problem.Updated_at, &problem.Deleted_at)
+	err := row.Scan(&problem.Id, &problem.QuestionNumber, &problem.Title,
+		&problem.DifficultyLevel, &problem.Description,
+		pq.Array(&problem.Examples), pq.Array(&problem.Hints),
+		pq.Array(&problem.Constraints), &problem.Created_at,
+		&problem.Updated_at, &problem.Deleted_at)
 
-	
 	return problem, err
 }
 
-func (p *ProblemRepo) GetProblems(filter model.ProblemFilter) (*[]model.Problem, error) {
+func (p *ProblemRepo) GetProblems(filter *model.ProblemFilter) (*[]model.Problem, error) {
 	params := []interface{}{}
 	paramCount := 1
 	query := `
@@ -81,9 +85,11 @@ func (p *ProblemRepo) GetProblems(filter model.ProblemFilter) (*[]model.Problem,
 	problems := []model.Problem{}
 	for rows.Next() {
 		problem := model.Problem{}
-		err = rows.Scan(&problem.Id, &problem.QuestionNumber, &problem.Title, &problem.DifficultyLevel, &problem.Description,
-			pq.Array(&problem.Examples), pq.Array(&problem.Hints), pq.Array(&problem.Constraints), 
-			&problem.Created_at, &problem.Updated_at, &problem.Deleted_at)
+		err = rows.Scan(&problem.Id, &problem.QuestionNumber,
+			&problem.Title, &problem.DifficultyLevel, &problem.Description,
+			pq.Array(&problem.Examples), pq.Array(&problem.Hints),
+			pq.Array(&problem.Constraints), &problem.Created_at,
+			&problem.Updated_at, &problem.Deleted_at)
 		if err != nil {
 			return nil, err
 		}
@@ -98,7 +104,7 @@ func (p *ProblemRepo) GetProblems(filter model.ProblemFilter) (*[]model.Problem,
 }
 
 // Update
-func (p *ProblemRepo) UpdateProblem(problem model.Problem) error {
+func (p *ProblemRepo) UpdateProblem(problem *model.Problem) error {
 	tx, err := p.Db.Begin()
 	if err != nil {
 		return err
@@ -115,8 +121,9 @@ func (p *ProblemRepo) UpdateProblem(problem model.Problem) error {
 		updated_at=$7
 	where 
 		deleted_at is null and id = $8 `
-	_, err = tx.Exec(query, problem.Title, problem.DifficultyLevel, problem.Description,
-		problem.Examples, problem.Hints,problem.Constraints, time.Now(), problem.Id)
+	_, err = tx.Exec(query, problem.Title, problem.DifficultyLevel,
+		problem.Description, problem.Examples, problem.Hints,
+		problem.Constraints, time.Now(), problem.Id)
 
 	return err
 }

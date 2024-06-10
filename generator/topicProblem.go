@@ -69,7 +69,7 @@ func InsertTopicProblems(db *sql.DB) {
 	for provlemId, topics := range leetcodeToTopic {
 		for _, topicId := range topics{
 			topicProblem := model.TopicProblem{TopicId: topicId, ProblemId: provlemId}
-			tp.CreateTopicProblem(topicProblem)
+			tp.CreateTopicProblem(&topicProblem)
 		}
 	}
 }

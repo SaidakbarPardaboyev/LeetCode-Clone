@@ -12,6 +12,6 @@ func InsertLanguages(db *sql.DB) {
 	l := postgres.NewLanguageRepo(db)
 	for _, lang := range languages {
 		lm := model.Language{Name: lang}
-		l.CreateLanguage(lm)
+		l.CreateLanguage(&lm)
 	}
 }

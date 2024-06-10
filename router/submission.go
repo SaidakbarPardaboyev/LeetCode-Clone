@@ -6,25 +6,25 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type SubmissionRouter struct{
-	Router *mux.Router
+type SubmissionRouter struct {
+	Router  *mux.Router
 	Handler *handler.Handler
 }
 
-func StartSubmissionsRoute(mainRoute *mux.Router, handler *handler.Handler){
-	SubmissionRoute := mainRoute.PathPrefix("/submissions").Subrouter()
-	ur := SubmissionRouter{SubmissionRoute, handler}
-	ur.HandleFunctions()
+func NewSubmissionsRouter(sb *mux.Router, handler *handler.Handler) *SubmissionRouter {
+	return &SubmissionRouter{Router: sb, Handler: handler}
 }
 
-
-func (ur *SubmissionRouter) HandleFunctions() {
+func StartSubmissionsRoute(mainRouter *mux.Router, handler *handler.Handler) {
 	// Submission CRUD
-	ur.Router.HandleFunc("/getall/", ur.Handler.GetSubmissions).Methods("GET")
-	ur.Router.HandleFunc("/{id}", ur.Handler.GetSubmissionByID).Methods("GET")
-	ur.Router.HandleFunc("/getsubmissions", ur.Handler.GetSubmissionsOfUserForProblem).Methods("GET")
-	ur.Router.HandleFunc("/getrecentac", ur.Handler.GetRecentAcceptedSubmissions).Methods("GET")
-	ur.Router.HandleFunc("/create", ur.Handler.CreateSubmission).Methods("POST")
-	ur.Router.HandleFunc("/update/{id}", ur.Handler.UpdateSubmission).Methods("PUT")
-	ur.Router.HandleFunc("/delete/{id}", ur.Handler.DeleteSubmission).Methods("DELETE")
+	sb := mainRouter.PathPrefix("/Submissions").Subrouter()
+	r := NewSubmissionsRouter(sb, handler)
+
+	r.Router.HandleFunc("/getall/", r.Handler.GetSubmissions).Methods("GET")
+	r.Router.HandleFunc("/{id}", r.Handler.GetSubmissionByID).Methods("GET")
+	r.Router.HandleFunc("/getsubmissions", r.Handler.GetSubmissionsOfUserForProblem).Methods("GET")
+	r.Router.HandleFunc("/getrecentac", r.Handler.GetRecentAcceptedSubmissions).Methods("GET")
+	r.Router.HandleFunc("/create", r.Handler.CreateSubmission).Methods("POST")
+	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateSubmission).Methods("PUT")
+	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteSubmission).Methods("DELETE")
 }

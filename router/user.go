@@ -6,23 +6,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type UserRouter struct{
-	Router *mux.Router
+type UserRouter struct {
+	Router  *mux.Router
 	Handler *handler.Handler
 }
 
-func StartUsersRoute(mainRoute *mux.Router, handler *handler.Handler){
-	userRoute := mainRoute.PathPrefix("/users").Subrouter()
-	ur := UserRouter{userRoute, handler}
-	ur.HandleFunctions()
+func NewUsersRouter(ur *mux.Router, handler *handler.Handler) *UserRouter {
+	return &UserRouter{Router: ur, Handler: handler}
 }
 
-
-func (ur *UserRouter) HandleFunctions() {
+func StartUsersRoute(LeetcodeRouter *mux.Router, handler *handler.Handler) {
 	// User CRUD
-	ur.Router.HandleFunc("/getall/", ur.Handler.GetUsers).Methods("GET")
-	ur.Router.HandleFunc("/{id}", ur.Handler.GetUserByID).Methods("GET")
-	ur.Router.HandleFunc("/create", ur.Handler.CreateUser).Methods("POST")
-	ur.Router.HandleFunc("/update/{id}", ur.Handler.UpdateUser).Methods("PUT")
-	ur.Router.HandleFunc("/delete/{id}", ur.Handler.DeleteUser).Methods("DELETE")
+	ur := LeetcodeRouter.PathPrefix("/Users").Subrouter()
+	r := NewUsersRouter(ur, handler)
+
+	r.Router.HandleFunc("/getall/", r.Handler.GetUsers).Methods("GET")
+	r.Router.HandleFunc("/{id}", r.Handler.GetUserByID).Methods("GET")
+	r.Router.HandleFunc("/create", r.Handler.CreateUser).Methods("POST")
+	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateUser).Methods("PUT")
+	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteUser).Methods("DELETE")
 }

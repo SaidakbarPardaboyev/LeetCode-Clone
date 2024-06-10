@@ -15,7 +15,7 @@ func NewLanguageRepo(db *sql.DB) *LanguageRepo {
 }
 
 // Create
-func (l *LanguageRepo) CreateLanguage(language model.Language) error {
+func (l *LanguageRepo) CreateLanguage(language *model.Language) error {
 
 	tx, err := l.Db.Begin()
 	if err != nil {
@@ -37,10 +37,11 @@ func (l *LanguageRepo) GetLanguageById(id string) (model.Language, error) {
 		id = $1 and deleted_at is null
 	`
 	row := l.Db.QueryRow(query, id)
-	err := row.Scan(&language.Id, &language.Name, &language.Created_at, &language.Updated_at, &language.Deleted_at)
+	err := row.Scan(&language.Id, &language.Name, &language.Created_at,
+		&language.Updated_at, &language.Deleted_at)
 	return language, err
 }
-func (l *LanguageRepo) GetLanguages(filter model.LanguageFilter) (*[]model.Language, error) {
+func (l *LanguageRepo) GetLanguages(filter *model.LanguageFilter) (*[]model.Language, error) {
 	params := []interface{}{}
 	query := `
 	select * from languages where deleted_at is null`
@@ -57,7 +58,8 @@ func (l *LanguageRepo) GetLanguages(filter model.LanguageFilter) (*[]model.Langu
 	languages := []model.Language{}
 	for rows.Next() {
 		language := model.Language{}
-		err = rows.Scan(&language.Id, &language.Name, &language.Created_at, &language.Updated_at, &language.Deleted_at)
+		err = rows.Scan(&language.Id, &language.Name, &language.Created_at,
+			&language.Updated_at, &language.Deleted_at)
 		if err != nil {
 			return nil, err
 		}
@@ -72,7 +74,7 @@ func (l *LanguageRepo) GetLanguages(filter model.LanguageFilter) (*[]model.Langu
 }
 
 // Update
-func (l *LanguageRepo) UpdateLanguage(language model.Language) error {
+func (l *LanguageRepo) UpdateLanguage(language *model.Language) error {
 	tx, err := l.Db.Begin()
 	if err != nil {
 		return err

@@ -2,20 +2,23 @@ package router
 
 import (
 	"leetcode/handler"
+	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-func CreateServer(handler *handler.Handler) *mux.Router {
-	r := mux.NewRouter()
-	route := r.PathPrefix("/leetcode.uz").Subrouter()
+func CreateServer(handler *handler.Handler) *http.Server {
+	LeetcodeRouter := mux.NewRouter().PathPrefix("/leetcode.uz").Subrouter()
 
-	StartUsersRoute(route, handler)
-	StartProblemsRoute(route, handler)
-	StartLanguagesRoute(route, handler)
-	StartTopicsRoute(route, handler)
-	StartTopicProblemsRoute(route, handler)
-	StartSubmissionsRoute(route, handler)
+	StartUsersRoute(LeetcodeRouter, handler)
+	StartProblemsRoute(LeetcodeRouter, handler)
+	StartLanguagesRoute(LeetcodeRouter, handler)
+	StartTopicsRoute(LeetcodeRouter, handler)
+	StartTopicProblemsRoute(LeetcodeRouter, handler)
+	StartSubmissionsRoute(LeetcodeRouter, handler)
 
-	return r
+	return &http.Server{
+		Addr:    ":8080",
+		Handler: LeetcodeRouter,
+	}
 }

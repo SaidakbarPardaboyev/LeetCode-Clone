@@ -47,6 +47,6 @@ func InsertTopics(db *sql.DB) {
 	l := postgres.NewTopicRepo(db)
 	for _, tp := range topics {
 		lm := model.Topic{Name: tp}
-		l.CreateTopic(lm)
+		l.CreateTopic(&lm)
 	}
 }

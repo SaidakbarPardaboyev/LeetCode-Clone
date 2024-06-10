@@ -18,14 +18,15 @@ func NewTopicProblemRepo(db *sql.DB) *TopicProblemRepo {
 }
 
 // Create
-func (l *TopicProblemRepo) CreateTopicProblem(tp model.TopicProblem) error {
+func (l *TopicProblemRepo) CreateTopicProblem(tp *model.TopicProblem) error {
 
 	tx, err := l.Db.Begin()
 	if err != nil {
 		return err
 	}
 	defer tx.Commit()
-	query := "insert into topics_problems(topic_id, problem_id) values($1, $2)"
+	query := `insert into topics_problems(topic_id, problem_id) 
+	values($1, $2)`
 	_, err = tx.Exec(query, tp.TopicId, tp.ProblemId)
 
 	return err
@@ -40,11 +41,14 @@ func (l *TopicProblemRepo) GetTopicProblemById(id string) (model.TopicProblem, e
 		id = $1 and deleted_at is null
 	`
 	row := l.Db.QueryRow(query, id)
-	err := row.Scan(&topicProblem.Id, &topicProblem.TopicId, &topicProblem.ProblemId, &topicProblem.Created_at, &topicProblem.Updated_at, &topicProblem.Deleted_at)
+	err := row.Scan(&topicProblem.Id, &topicProblem.TopicId,
+		&topicProblem.ProblemId, &topicProblem.Created_at,
+		&topicProblem.Updated_at, &topicProblem.Deleted_at)
+
 	return topicProblem, err
 }
 
-func (l *TopicProblemRepo) GetTopicProblems(filter model.TopicProblemFilter) (*[]model.TopicProblem, error) {
+func (l *TopicProblemRepo) GetTopicProblems(filter *model.TopicProblemFilter) (*[]model.TopicProblem, error) {
 	params := []interface{}{}
 	paramcount := 1
 	query := `
@@ -68,8 +72,10 @@ func (l *TopicProblemRepo) GetTopicProblems(filter model.TopicProblemFilter) (*[
 	topicProblems := []model.TopicProblem{}
 	for rows.Next() {
 		topicProblem := model.TopicProblem{}
-		err = rows.Scan(&topicProblem.Id, &topicProblem.TopicId, &topicProblem.ProblemId, &topicProblem.Created_at,
+		err = rows.Scan(&topicProblem.Id, &topicProblem.TopicId,
+			&topicProblem.ProblemId, &topicProblem.Created_at,
 			&topicProblem.Updated_at, &topicProblem.Deleted_at)
+
 		if err != nil {
 			return nil, err
 		}
@@ -85,7 +91,8 @@ func (l *TopicProblemRepo) GetTopicProblems(filter model.TopicProblemFilter) (*[
 func (t *TopicProblemRepo) GetProblemsByTopicId(topicId string) (*[]model.Problem, error) {
 	query := `
 	select 
-		p.id, p.question_number, p.title, p.difficulty_level, p.description, p.examples, p.hints, p.constraints
+		p.id, p.question_number, p.title, p.difficulty_level, 
+		p.description, p.examples, p.hints, p.constraints
 	from 
 		topics_problems as tp
 	join
@@ -108,9 +115,11 @@ func (t *TopicProblemRepo) GetProblemsByTopicId(topicId string) (*[]model.Proble
 	problems := []model.Problem{}
 	for rows.Next() {
 		problem := model.Problem{}
-		err := rows.Scan(&problem.Id, &problem.QuestionNumber, &problem.Title, 
-			&problem.DifficultyLevel, &problem.Description,
-			pq.Array(&problem.Examples), pq.Array(&problem.Hints), pq.Array(&problem.Constraints))
+		err := rows.Scan(&problem.Id, &problem.QuestionNumber,
+			&problem.Title, &problem.DifficultyLevel, &problem.Description,
+			pq.Array(&problem.Examples), pq.Array(&problem.Hints),
+			pq.Array(&problem.Constraints))
+
 		if err != nil {
 			return nil, err
 		}
@@ -136,7 +145,8 @@ func (t *TopicProblemRepo) GetTopicsByProblemId(problemId string) (*[]model.Topi
 	on 
 		p.id = tp.problem_id and p.deleted_at is null
 	where
-		tp.problem_id = 'c81c3b88-6937-47cc-9a8f-32f195911209' and tp.deleted_at is null
+		tp.problem_id = 'c81c3b88-6937-47cc-9a8f-32f195911209' 
+		and tp.deleted_at is null
 	`
 
 	rows, err := t.Db.Query(query, problemId)
@@ -159,7 +169,7 @@ func (t *TopicProblemRepo) GetTopicsByProblemId(problemId string) (*[]model.Topi
 }
 
 // Update
-func (t *TopicProblemRepo) UpdateTopicProblem(tp model.TopicProblem) error {
+func (t *TopicProblemRepo) UpdateTopicProblem(tp *model.TopicProblem) error {
 	tx, err := t.Db.Begin()
 	if err != nil {
 		return err

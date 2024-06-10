@@ -6,7 +6,6 @@ import (
 	"leetcode/handler"
 	"leetcode/router"
 	"leetcode/storage/postgres"
-	"net/http"
 )
 
 func main() {
@@ -15,10 +14,10 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+
 	// generator.GenerateAllMockData(db)
 
 	h := handler.NewHandler(db)
-	r := router.CreateServer(h)
-	http.ListenAndServe(":8080", r)
-
+	server := router.CreateServer(h)
+	server.ListenAndServe()
 }

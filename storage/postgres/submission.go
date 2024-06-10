@@ -16,17 +16,19 @@ func NewSubmissionRepo(db *sql.DB) *SubmissionRepo {
 }
 
 // Create
-func (u *SubmissionRepo) CreateSubmission(submission model.Submission) error {
+func (u *SubmissionRepo) CreateSubmission(submission *model.Submission) error {
 
 	tx, err := u.Db.Begin()
 	if err != nil {
 		return err
 	}
 	defer tx.Commit()
-	query := `insert into submissions(problem_id, user_id, language_id, code, submission_status, submission_date)
+	query := `insert into submissions(problem_id, user_id, language_id, 
+	code, submission_status, submission_date)
 	values($1, $2, $3, $4, $5, $6)`
-	_, err = tx.Exec(query, submission.ProblemId, submission.UserId, submission.LanguageId,
-		submission.Code, submission.SubmissionStatus, submission.SubmissionDate)
+	_, err = tx.Exec(query, submission.ProblemId, submission.UserId,
+		submission.LanguageId, submission.Code, submission.SubmissionStatus,
+		submission.SubmissionDate)
 
 	return err
 }
@@ -40,13 +42,16 @@ func (u *SubmissionRepo) GetSubmissionById(id string) (*model.Submission, error)
 		id = $1 and deleted_at is null
 	`
 	row := u.Db.QueryRow(query, id)
-	err := row.Scan(&submission.Id, &submission.ProblemId, &submission.UserId, &submission.LanguageId, &submission.Code,
-		&submission.SubmissionStatus, &submission.SubmissionDate, &submission.Created_at,
-		&submission.Updated_at, &submission.Deleted_at)
+	err := row.Scan(&submission.Id, &submission.ProblemId,
+		&submission.UserId, &submission.LanguageId, &submission.Code,
+		&submission.SubmissionStatus, &submission.SubmissionDate,
+		&submission.Created_at, &submission.Updated_at,
+		&submission.Deleted_at)
 
 	return &submission, err
 }
-func (u *SubmissionRepo) GetSubmissions(filter model.SubmissionFilter) (*[]model.Submission, error) {
+
+func (u *SubmissionRepo) GetSubmissions(filter *model.SubmissionFilter) (*[]model.Submission, error) {
 	params := []interface{}{}
 	paramCount := 1
 	query := `
@@ -85,9 +90,12 @@ func (u *SubmissionRepo) GetSubmissions(filter model.SubmissionFilter) (*[]model
 	submissions := []model.Submission{}
 	for rows.Next() {
 		submission := model.Submission{}
-		err = rows.Scan(&submission.Id, &submission.ProblemId, &submission.UserId, &submission.LanguageId, &submission.Code,
-			&submission.SubmissionStatus, &submission.SubmissionDate, &submission.Created_at,
-			&submission.Updated_at, &submission.Deleted_at)
+		err = rows.Scan(&submission.Id, &submission.ProblemId,
+			&submission.UserId, &submission.LanguageId, &submission.Code,
+			&submission.SubmissionStatus, &submission.SubmissionDate,
+			&submission.Created_at, &submission.Updated_at,
+			&submission.Deleted_at)
+
 		if err != nil {
 			return nil, err
 		}
@@ -109,11 +117,14 @@ func (u *SubmissionRepo) GetSubmissionsOfUserForProblem(user_id, problem_id stri
 		deleted_at is null and user_id = $1 and problem_id =  $2
 	`
 	rows, err := u.Db.Query(query, user_id, problem_id)
-	for rows.Next(){
+	for rows.Next() {
 		submission := model.Submission{}
-		err := rows.Scan(&submission.Id, &submission.ProblemId, &submission.UserId, &submission.LanguageId, &submission.Code,
-			&submission.SubmissionStatus, &submission.SubmissionDate, &submission.Created_at,
-			&submission.Updated_at, &submission.Deleted_at)
+		err := rows.Scan(&submission.Id, &submission.ProblemId,
+			&submission.UserId, &submission.LanguageId, &submission.Code,
+			&submission.SubmissionStatus, &submission.SubmissionDate,
+			&submission.Created_at, &submission.Updated_at,
+			&submission.Deleted_at)
+
 		if err != nil {
 			return nil, err
 		}
@@ -131,11 +142,14 @@ func (u *SubmissionRepo) GetRecentAcceptedSubmissions(user_id string) (*[]model.
 		deleted_at is null and user_id = $1 and submission_status = 'Passed'
 	`
 	rows, err := u.Db.Query(query, user_id)
-	for rows.Next(){
+	for rows.Next() {
 		submission := model.Submission{}
-		err := rows.Scan(&submission.Id, &submission.ProblemId, &submission.UserId, &submission.LanguageId, &submission.Code,
-			&submission.SubmissionStatus, &submission.SubmissionDate, &submission.Created_at,
-			&submission.Updated_at, &submission.Deleted_at)
+		err := rows.Scan(&submission.Id, &submission.ProblemId,
+			&submission.UserId, &submission.LanguageId, &submission.Code,
+			&submission.SubmissionStatus, &submission.SubmissionDate,
+			&submission.Created_at, &submission.Updated_at,
+			&submission.Deleted_at)
+
 		if err != nil {
 			return nil, err
 		}
@@ -146,7 +160,7 @@ func (u *SubmissionRepo) GetRecentAcceptedSubmissions(user_id string) (*[]model.
 }
 
 // Update
-func (u *SubmissionRepo) UpdateSubmission(submission model.Submission) error {
+func (u *SubmissionRepo) UpdateSubmission(submission *model.Submission) error {
 	tx, err := u.Db.Begin()
 	if err != nil {
 		return err
@@ -160,7 +174,8 @@ func (u *SubmissionRepo) UpdateSubmission(submission model.Submission) error {
 		updated_at=$4
 	where 
 		deleted_at is null and id = $5 `
-	_, err = tx.Exec(query, submission.Code, submission.SubmissionStatus, submission.SubmissionDate, time.Now(), submission.Id)
+	_, err = tx.Exec(query, submission.Code, submission.SubmissionStatus,
+		submission.SubmissionDate, time.Now(), submission.Id)
 
 	return err
 }

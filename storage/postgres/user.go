@@ -16,8 +16,8 @@ func NewUserRepo(db *sql.DB) *UserRepo {
 }
 
 // Create
-func (u *UserRepo) CreateUser(user model.User) error{
-	
+func (u *UserRepo) CreateUser(user *model.User) error {
+
 	tx, err := u.Db.Begin()
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (u *UserRepo) CreateUser(user model.User) error{
 }
 
 // Read
-func (u *UserRepo) GetUserById(id string) (model.User, error){
+func (u *UserRepo) GetUserById(id string) (model.User, error) {
 	user := model.User{}
 	query := `
 	select * from users
@@ -38,20 +38,21 @@ func (u *UserRepo) GetUserById(id string) (model.User, error){
 		id = $1 and deleted_at is null
 	`
 	row := u.Db.QueryRow(query, id)
-	err := row.Scan(&user.Id, &user.FullName, &user.Username, &user.Bio, &user.Created_at, &user.Updated_at, &user.Deleted_at)
+	err := row.Scan(&user.Id, &user.FullName, &user.Username,
+		&user.Bio, &user.Created_at, &user.Updated_at, &user.Deleted_at)
 	return user, err
 }
-func (u *UserRepo) GetUsers(filter model.UserFilter) (*[]model.User, error){
+func (u *UserRepo) GetUsers(filter *model.UserFilter) (*[]model.User, error) {
 	params := []interface{}{}
 	paramCount := 1
 	query := `
 	select * from users where deleted_at is null`
-	if filter.FullName != nil{
+	if filter.FullName != nil {
 		query += fmt.Sprintf(" and full_name=$%d", paramCount)
 		params = append(params, *filter.FullName)
 		paramCount++
 	}
-	if filter.Username != nil{
+	if filter.Username != nil {
 		query += fmt.Sprintf(" and username=$%d", paramCount)
 		params = append(params, *filter.Username)
 		paramCount++
@@ -63,16 +64,18 @@ func (u *UserRepo) GetUsers(filter model.UserFilter) (*[]model.User, error){
 	}
 
 	users := []model.User{}
-	for rows.Next(){
+	for rows.Next() {
 		user := model.User{}
-		err = rows.Scan(&user.Id, &user.FullName, &user.Username, &user.Bio, &user.Created_at, &user.Updated_at, &user.Deleted_at)
+		err = rows.Scan(&user.Id, &user.FullName, &user.Username,
+			&user.Bio, &user.Created_at, &user.Updated_at,
+			&user.Deleted_at)
 		if err != nil {
 			return nil, err
 		}
 		users = append(users, user)
 	}
 	err = rows.Err()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
@@ -80,7 +83,7 @@ func (u *UserRepo) GetUsers(filter model.UserFilter) (*[]model.User, error){
 }
 
 // Update
-func (u *UserRepo) UpdateUser(user model.User) error{
+func (u *UserRepo) UpdateUser(user *model.User) error {
 	tx, err := u.Db.Begin()
 	if err != nil {
 		return err
@@ -94,13 +97,14 @@ func (u *UserRepo) UpdateUser(user model.User) error{
 		updated_at = $4
 	where 
 		deleted_at is null and id = $5 `
-	_, err = tx.Exec(query, user.FullName, user.Username, user.Bio, time.Now(), user.Id)
+	_, err = tx.Exec(query, user.FullName, user.Username,
+		user.Bio, time.Now(), user.Id)
 
 	return err
 }
 
 // Delete
-func (u *UserRepo) DeleteUser(id string) error{
+func (u *UserRepo) DeleteUser(id string) error {
 	tx, err := u.Db.Begin()
 	if err != nil {
 		return err

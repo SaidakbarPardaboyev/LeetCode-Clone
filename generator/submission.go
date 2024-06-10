@@ -132,7 +132,7 @@ func InsertSubmissions(db *sql.DB) {
 			SubmissionStatus: status[rand.Intn(len(status))],
 			SubmissionDate:   randomDate(),
 		}
-		if err := s.CreateSubmission(newSub); err != nil {
+		if err := s.CreateSubmission(&newSub); err != nil {
 			panic(err)
 		}
 	}

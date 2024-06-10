@@ -33,7 +33,7 @@ func (h *Handler) GetSubmissions(w http.ResponseWriter, r *http.Request) {
 		filter.SubmissionStatus = &submissionStatus
 	}
 
-	submissions, err := h.SubmissionRepo.GetSubmissions(filter)
+	submissions, err := h.SubmissionRepo.GetSubmissions(&filter)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error getting Submissions",err)
@@ -111,7 +111,7 @@ func (h *Handler) CreateSubmission(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error while decoding Submission", err)
 		return
 	}
-	err = h.SubmissionRepo.CreateSubmission(newSubmission)
+	err = h.SubmissionRepo.CreateSubmission(&newSubmission)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while creating Submission", err)
@@ -132,7 +132,7 @@ func (h *Handler) UpdateSubmission(w http.ResponseWriter, r *http.Request) {
 		}
 		
 	Submission.Id = vars["id"]
-	err = h.SubmissionRepo.UpdateSubmission(Submission)
+	err = h.SubmissionRepo.UpdateSubmission(&Submission)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while updating Submission", err)

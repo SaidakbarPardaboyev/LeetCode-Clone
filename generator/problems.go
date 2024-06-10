@@ -1241,6 +1241,6 @@ var problems = []model.Problem{
 func InsertProblems(db *sql.DB) {
 	l := postgres.NewProblemRepo(db)
 	for _, p := range problems {
-		l.CreateProblem(p)
+		l.CreateProblem(&p)
 	}
 }

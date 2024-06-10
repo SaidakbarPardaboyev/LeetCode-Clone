@@ -77,6 +77,6 @@ func InsertUsers(db *sql.DB) {
 	users := GenerateUsers()
 	u := postgres.NewUserRepo(db)
 	for _, user := range users {
-		u.CreateUser(user)
+		u.CreateUser(&user)
 	}
 }

@@ -21,7 +21,7 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 		filter.FullName = &username
 	}
 
-	users, err := h.UserRepo.GetUsers(filter)
+	users, err := h.UserRepo.GetUsers(&filter)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error getting users",err)
@@ -62,7 +62,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error while decoding user", err)
 		return
 	}
-	err = h.UserRepo.CreateUser(newUser)
+	err = h.UserRepo.CreateUser(&newUser)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while creating user", err)
@@ -82,7 +82,7 @@ func (h *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.Id = vars["id"]
-	err = h.UserRepo.UpdateUser(user)
+	err = h.UserRepo.UpdateUser(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error while updating user", err)
