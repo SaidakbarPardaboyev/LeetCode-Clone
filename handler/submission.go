@@ -3,152 +3,198 @@ package handler
 import (
 	"encoding/json"
 	"leetcode/model"
-	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
+
 // Read
-func (h *Handler) GetSubmissions(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetSubmissions(c *gin.Context) {
 	filter := model.SubmissionFilter{}
-	query := r.URL.Query()
-	if query.Has("problem_id"){
-		problemId := query.Get("problem_id")
+	problemId, hasProblemId := c.GetQuery("problem_id")
+	if hasProblemId {
 		filter.ProblemId = &problemId
 	}
-	if query.Has("user_id"){
-		userId := query.Get("user_id")
+
+	userId, hasUserId := c.GetQuery("user_id")
+	if hasUserId {
 		filter.UserId = &userId
 	}
-	if query.Has("language_id"){
-		languageId := query.Get("language_id")
+
+	languageId, hasLanguageId := c.GetQuery("language_id")
+	if hasLanguageId {
 		filter.LanguageId = &languageId
 	}
-	if query.Has("code"){
-		code := query.Get("code")
+
+	code, hasCode := c.GetQuery("code")
+	if hasCode {
 		filter.Code = &code
 	}
-	if query.Has("submission_status"){
-		submissionStatus := query.Get("submission_status")
+
+	submissionStatus, hasSubmissionStatus := c.GetQuery("submission_status")
+	if hasSubmissionStatus {
 		filter.SubmissionStatus = &submissionStatus
 	}
 
 	submissions, err := h.SubmissionRepo.GetSubmissions(&filter)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting Submissions",err)
-		return
-	} 
-	err = json.NewEncoder(w).Encode(submissions)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding Submissions", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"measage": "Error getting Submissions",
+		})
 		return
 	}
 
+	c.JSON(http.StatusOK, submissions)
 }
 
-func (h *Handler) GetSubmissionByID(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+func (h *Handler) GetSubmissionByID(c *gin.Context) {
+	id, hasId := c.Params.Get("id")
+	if !hasId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error: id not found in params",
+		})
+		return
+	}
 
 	submission, err := h.SubmissionRepo.GetSubmissionById(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting Submission by Id", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"measage": "Error getting Submission by Id",
+		})
 		return
 	}
-	err = json.NewEncoder(w).Encode(submission)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding Submission", err)
-		return
-	}
+
+	c.JSON(http.StatusOK, submission)
 }
 
-func (h *Handler) GetSubmissionsOfUserForProblem(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userId := vars["user_id"]
-	problemId := vars["problem_id"]
+func (h *Handler) GetSubmissionsOfUserForProblem(c *gin.Context) {
+	userId, hasUserId := c.GetQuery("user_id")
+	if !hasUserId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error: userId not found in params",
+		})
+		return
+	}
+
+	problemId, hasProblemId := c.GetQuery("problem_id")
+	if !hasProblemId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error: problemId not found in params",
+		})
+		return
+	}
 
 	submissions, err := h.SubmissionRepo.GetSubmissionsOfUserForProblem(userId, problemId)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting Submission by Id", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"measage": "Error getting Submission by Id",
+		})
 		return
 	}
-	err = json.NewEncoder(w).Encode(submissions)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding Submission", err)
-		return
-	}
+	c.JSON(http.StatusOK, submissions)
 }
-func (h *Handler) GetRecentAcceptedSubmissions(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userId := vars["user_id"]
+
+func (h *Handler) GetRecentAcceptedSubmissions(c *gin.Context) {
+	userId, hasUserId := c.Params.Get("user_id")
+	if !hasUserId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error: userId not found in params",
+		})
+		return
+	}
 
 	submissions, err := h.SubmissionRepo.GetRecentAcceptedSubmissions(userId)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting Submission by Id", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"measage": "Error getting Submission by Id",
+		})
 		return
 	}
-	err = json.NewEncoder(w).Encode(submissions)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding Submission", err)
-		return
-	}
+
+	c.JSON(http.StatusOK, submissions)
 }
 
 // Create
-func (h *Handler) CreateSubmission(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateSubmission(c *gin.Context) {
 	newSubmission := model.Submission{}
-	err := json.NewDecoder(r.Body).Decode(&newSubmission)
+	err := json.NewDecoder(c.Request.Body).Decode(&newSubmission)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		log.Println("Error while decoding Submission", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error while decoding Submission",
+		})
 		return
 	}
+
 	err = h.SubmissionRepo.CreateSubmission(&newSubmission)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while creating Submission", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"measage": "Error while creating Submission",
+		})
 		return
 	}
 }
 
 // Update
-func (h *Handler) UpdateSubmission(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateSubmission(c *gin.Context) {
 	Submission := model.Submission{}
-	vars := mux.Vars(r)
-	
-	err := json.NewDecoder(r.Body).Decode(&Submission)
+
+	err := json.NewDecoder(c.Request.Body).Decode(&Submission)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		log.Println("Error while decoding Submission", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error while decoding Submission",
+		})
 		return
-		}
-		
-	Submission.Id = vars["id"]
+	}
+
+	id, hasId := c.Params.Get("id")
+	if !hasId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error: id not found in params",
+		})
+		return
+	}
+	Submission.Id = id
+
 	err = h.SubmissionRepo.UpdateSubmission(&Submission)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while updating Submission", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"measage": "Error while updating Submission",
+		})
 		return
 	}
 }
 
 // Delete
-func (h *Handler) DeleteSubmission(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteSubmission(c *gin.Context) {
 
-	vars := mux.Vars(r)
-	id := vars["id"]
+	id, hasId := c.Params.Get("id")
+	if !hasId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"measage": "Error: id not found in params",
+		})
+		return
+	}
+
 	err := h.SubmissionRepo.DeleteSubmission(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while deleting Submission", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"measage": "Error while deleting Submission",
+		})
 		return
 	}
 }

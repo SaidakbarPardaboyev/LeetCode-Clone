@@ -3,28 +3,28 @@ package router
 import (
 	"leetcode/handler"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type SubmissionRouter struct {
-	Router  *mux.Router
+	Router  *gin.RouterGroup
 	Handler *handler.Handler
 }
 
-func NewSubmissionsRouter(sb *mux.Router, handler *handler.Handler) *SubmissionRouter {
+func NewSubmissionsRouter(sb *gin.RouterGroup, handler *handler.Handler) *SubmissionRouter {
 	return &SubmissionRouter{Router: sb, Handler: handler}
 }
 
-func StartSubmissionsRoute(mainRouter *mux.Router, handler *handler.Handler) {
+func StartSubmissionsRoute(mainRouter *gin.RouterGroup, handler *handler.Handler) {
 	// Submission CRUD
-	sb := mainRouter.PathPrefix("/Submissions").Subrouter()
+	sb := mainRouter.Group("/Submissions")
 	r := NewSubmissionsRouter(sb, handler)
 
-	r.Router.HandleFunc("/getall/", r.Handler.GetSubmissions).Methods("GET")
-	r.Router.HandleFunc("/{id}", r.Handler.GetSubmissionByID).Methods("GET")
-	r.Router.HandleFunc("/getsubmissions", r.Handler.GetSubmissionsOfUserForProblem).Methods("GET")
-	r.Router.HandleFunc("/getrecentac", r.Handler.GetRecentAcceptedSubmissions).Methods("GET")
-	r.Router.HandleFunc("/create", r.Handler.CreateSubmission).Methods("POST")
-	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateSubmission).Methods("PUT")
-	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteSubmission).Methods("DELETE")
+	r.Router.GET("/getall/", r.Handler.GetSubmissions)
+	r.Router.GET("/:id", r.Handler.GetSubmissionByID)
+	r.Router.GET("/getsubmissions", r.Handler.GetSubmissionsOfUserForProblem)
+	r.Router.GET("/getrecentac/:id", r.Handler.GetRecentAcceptedSubmissions)
+	r.Router.POST("/create", r.Handler.CreateSubmission)
+	r.Router.PUT("/update/:id", r.Handler.UpdateSubmission)
+	r.Router.DELETE("/delete/:id", r.Handler.DeleteSubmission)
 }

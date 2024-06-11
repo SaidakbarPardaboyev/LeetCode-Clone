@@ -3,98 +3,126 @@ package handler
 import (
 	"encoding/json"
 	"leetcode/model"
-	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) GetTopics(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetTopics(c *gin.Context) {
 	filter := model.TopicFilter{}
-	query := r.URL.Query()
-	if query.Has("name"){
-		name := query.Get("name")
+	name, hasName := c.GetQuery("name")
+	if hasName {
 		filter.Name = &name
 	}
 
 	topics, err := h.TopicRepo.GetTopics(&filter)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting topics",err)
-		return
-	} 
-
-	err = json.NewEncoder(w).Encode(topics)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding topics", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error getting topics",
+		})
 		return
 	}
-
+	c.JSON(http.StatusOK, topics)
 }
 
-func (h *Handler) GetTopicByID(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+func (h *Handler) GetTopicByID(c *gin.Context) {
+	id, hasId := c.Params.Get("id")
+
+	if !hasId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Id URL da berilmagan",
+		})
+		return
+	}
 
 	topic, err := h.TopicRepo.GetTopicById(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting topic by Id", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error getting topic by Id",
+		})
 		return
 	}
-	err = json.NewEncoder(w).Encode(topic)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding topic", err)
-		return
-	}
+
+	c.JSON(http.StatusOK, topic)
 }
 
-func (h *Handler) CreateTopic(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateTopic(c *gin.Context) {
 	newtopic := model.Topic{}
-	err := json.NewDecoder(r.Body).Decode(&newtopic)
+	err := json.NewDecoder(c.Request.Body).Decode(&newtopic)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		log.Println("Error while decoding topic", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error while decoding topic",
+		})
 		return
 	}
 	err = h.TopicRepo.CreateTopic(&newtopic)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while creating topic", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while creating topic",
+		})
 		return
 	}
+	c.JSON(http.StatusOK, "Created Succesfully")
 }
 
-func (h *Handler) UpdateTopic(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateTopic(c *gin.Context) {
 	topic := model.Topic{}
-	vars := mux.Vars(r)
-	
-	err := json.NewDecoder(r.Body).Decode(&topic)
+
+	err := json.NewDecoder(c.Request.Body).Decode(&topic)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		log.Println("Error while decoding topic", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error while decoding topic",
+		})
 		return
 	}
 
-	topic.Id = vars["id"]
-	err = h.TopicRepo.UpdateTopic(&topic)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while updating topic", err)
+	id, hasId := c.Params.Get("id")
+	if !hasId {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while creating topic",
+		})
 		return
 	}
+	topic.Id = id
+	err = h.TopicRepo.UpdateTopic(&topic)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while updating topic",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, "Updated Succesfully")
 }
 
-func (h *Handler) DeleteTopic(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteTopic(c *gin.Context) {
 
-	vars := mux.Vars(r)
-	id := vars["id"]
+	params := c.Params
+	id, hasId := params.Get("id")
+	if !hasId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error: Id is not found in URL",
+		})
+		return
+	}
+
 	err := h.TopicRepo.DeleteTopic(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while deleting topic", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while deleting topic",
+		})
 		return
 	}
+
+	c.JSON(http.StatusOK, "Deleted Succesfully")
 }

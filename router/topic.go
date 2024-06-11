@@ -3,26 +3,26 @@ package router
 import (
 	"leetcode/handler"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type TopicRouter struct {
-	Router  *mux.Router
+	Router  *gin.RouterGroup
 	Handler *handler.Handler
 }
 
-func NewTopicsRouter(tr *mux.Router, handler *handler.Handler) *TopicRouter {
+func NewTopicsRouter(tr *gin.RouterGroup, handler *handler.Handler) *TopicRouter {
 	return &TopicRouter{Router: tr, Handler: handler}
 }
 
-func StartTopicsRoute(mainRouter *mux.Router, handler *handler.Handler) {
+func StartTopicsRoute(mainRouter *gin.RouterGroup, handler *handler.Handler) {
 	// Topic CRUD
-	tr := mainRouter.PathPrefix("/Topics").Subrouter()
+	tr := mainRouter.Group("/Topics")
 	r := NewTopicsRouter(tr, handler)
 
-	r.Router.HandleFunc("/getaall/", r.Handler.GetTopics).Methods("GET")
-	r.Router.HandleFunc("/{id}", r.Handler.GetTopicByID).Methods("GET")
-	r.Router.HandleFunc("/create", r.Handler.CreateTopic).Methods("POST")
-	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateTopic).Methods("PUT")
-	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteTopic).Methods("DELETE")
+	r.Router.GET("/getaall/", r.Handler.GetTopics)
+	r.Router.GET("/:id", r.Handler.GetTopicByID)
+	r.Router.POST("/create", r.Handler.CreateTopic)
+	r.Router.PUT("/update/:id", r.Handler.UpdateTopic)
+	r.Router.DELETE("/delete/:id", r.Handler.DeleteTopic)
 }
