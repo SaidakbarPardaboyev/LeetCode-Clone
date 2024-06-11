@@ -6,7 +6,7 @@ import (
 	"leetcode/storage/postgres"
 )
 
-var languages = []string{"Go", "Python3", "C", "C++", "C#", "Rust", "Java", "JavaScript", "Swift", "Kotlin", "PHP"}
+var languages = []string{"Go", "Python3", "C", "C++", "Rust", "Java", "JavaScript", "Kotlin", "PHP"}
 
 func InsertLanguages(db *sql.DB) {
 	l := postgres.NewLanguageRepo(db)
