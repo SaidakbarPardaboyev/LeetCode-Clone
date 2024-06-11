@@ -3,26 +3,26 @@ package router
 import (
 	"leetcode/handler"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type LanguageRouter struct {
-	Router  *mux.Router
+	Router  *gin.RouterGroup
 	Handler *handler.Handler
 }
 
-func NewLanguageRouter(l *mux.Router, handler *handler.Handler) *LanguageRouter {
+func NewLanguageRouter(l *gin.RouterGroup, handler *handler.Handler) *LanguageRouter {
 	return &LanguageRouter{Router: l, Handler: handler}
 }
 
-func StartLanguagesRoute(mainRouter *mux.Router, handler *handler.Handler) {
+func StartLanguagesRoute(mainRouter *gin.RouterGroup, handler *handler.Handler) {
 	// Language CRUD
-	l := mainRouter.PathPrefix("/Language").Subrouter()
-	r := NewLanguageRouter(l, handler)
+	languageGroup := mainRouter.Group("/language")
+	r := NewLanguageRouter(languageGroup, handler)
 
-	r.Router.HandleFunc("/get", r.Handler.GetLanguages).Methods("GET")
-	r.Router.HandleFunc("/{id}", r.Handler.GetLanguageByID).Methods("GET")
-	r.Router.HandleFunc("/create", r.Handler.CreateLanguage).Methods("POST")
-	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateLanguage).Methods("PUT")
-	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteLanguage).Methods("DELETE")
+	r.Router.GET("/get", r.Handler.GetLanguages)
+	r.Router.GET("/{id}", r.Handler.GetLanguageByID)
+	r.Router.POST("/create", r.Handler.CreateLanguage)
+	r.Router.PUT("/update/{id}", r.Handler.UpdateLanguage)
+	r.Router.DELETE("/delete/{id}", r.Handler.DeleteLanguage)
 }

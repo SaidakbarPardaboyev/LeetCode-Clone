@@ -3,26 +3,26 @@ package router
 import (
 	"leetcode/handler"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type UserRouter struct {
-	Router  *mux.Router
+	Router  *gin.RouterGroup
 	Handler *handler.Handler
 }
 
-func NewUsersRouter(ur *mux.Router, handler *handler.Handler) *UserRouter {
+func NewUsersRouter(ur *gin.RouterGroup, handler *handler.Handler) *UserRouter {
 	return &UserRouter{Router: ur, Handler: handler}
 }
 
-func StartUsersRoute(LeetcodeRouter *mux.Router, handler *handler.Handler) {
+func StartUsersRoute(LeetcodeGroup *gin.RouterGroup, handler *handler.Handler) {
 	// User CRUD
-	ur := LeetcodeRouter.PathPrefix("/Users").Subrouter()
+	ur := LeetcodeGroup.Group("/users")
 	r := NewUsersRouter(ur, handler)
 
-	r.Router.HandleFunc("/getall/", r.Handler.GetUsers).Methods("GET")
-	r.Router.HandleFunc("/{id}", r.Handler.GetUserByID).Methods("GET")
-	r.Router.HandleFunc("/create", r.Handler.CreateUser).Methods("POST")
-	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateUser).Methods("PUT")
-	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteUser).Methods("DELETE")
+	r.Router.GET("/getall/", r.Handler.GetUsers)
+	r.Router.GET("/:id", r.Handler.GetUserByID)
+	r.Router.POST("/create", r.Handler.CreateUser)
+	r.Router.PUT("/update/:id", r.Handler.UpdateUser)
+	r.Router.DELETE("/delete/:id", r.Handler.DeleteUser)
 }

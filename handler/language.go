@@ -6,98 +6,128 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 // Read
-func (h *Handler) GetLanguages(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetLanguages(c *gin.Context) {
 	filter := model.LanguageFilter{}
-	query := r.URL.Query()
-	if query.Has("name"){
-		name := query.Get("name")
+	if name, has := c.GetQuery("name"); has {
 		filter.Name = &name
 	}
 
 	languages, err := h.LanguageRepo.GetLanguages(&filter)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting languages",err)
-		return
-	} 
-
-	err = json.NewEncoder(w).Encode(languages)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding languages", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error getting languages by filter",
+		})
+		log.Println("Error getting languages by filter", err)
 		return
 	}
 
+	c.JSON(200, languages)
+
 }
 
-func (h *Handler) GetLanguageByID(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+func (h *Handler) GetLanguageByID(c *gin.Context) {
+	id, hasKey := c.GetQuery("id")
+	if !hasKey {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error no Id sent",
+		})
+		log.Println("Error no Id sent")
+		return
+	}
 
 	language, err := h.LanguageRepo.GetLanguageById(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error getting language by Id",
+		})
 		log.Println("Error getting language by Id", err)
 		return
 	}
-	err = json.NewEncoder(w).Encode(language)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding language", err)
-		return
-	}
+	c.JSON(200, language)
 }
 
 // Create
-func (h *Handler) CreateLanguage(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateLanguage(c *gin.Context) {
 	newlanguage := model.Language{}
-	err := json.NewDecoder(r.Body).Decode(&newlanguage)
+	err := json.NewDecoder(c.Request.Body).Decode(&newlanguage)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error while decoding language",
+		})
 		log.Println("Error while decoding language", err)
 		return
 	}
 	err = h.LanguageRepo.CreateLanguage(&newlanguage)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while creating language",
+		})
 		log.Println("Error while creating language", err)
 		return
 	}
 }
 
 // Update
-func (h *Handler) UpdateLanguage(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateLanguage(c *gin.Context) {
 	language := model.Language{}
-	vars := mux.Vars(r)
-	
-	err := json.NewDecoder(r.Body).Decode(&language)
+	id, hasKey := c.GetQuery("id")
+	if !hasKey {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error no Id sent",
+		})
+		log.Println("Error no Id sent")
+		return
+	}
+	language.Id = id
+	err := json.NewDecoder(c.Request.Body).Decode(&language)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error while decoding language",
+		})
 		log.Println("Error while decoding language", err)
 		return
 	}
 
-	language.Id = vars["id"]
 	err = h.LanguageRepo.UpdateLanguage(&language)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while updating language",
+		})
 		log.Println("Error while updating language", err)
 		return
 	}
 }
 
 // Delete
-func (h *Handler) DeleteLanguage(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteLanguage(c *gin.Context) {
 
-	vars := mux.Vars(r)
-	id := vars["id"]
+	id, hasKey := c.GetQuery("id")
+	if !hasKey {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error no Id sent",
+		})
+		log.Println("Error no Id sent")
+		return
+	}
 	err := h.LanguageRepo.DeleteLanguage(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while deleting language",
+		})
 		log.Println("Error while deleting language", err)
 		return
 	}

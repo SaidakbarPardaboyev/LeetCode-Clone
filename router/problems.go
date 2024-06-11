@@ -3,26 +3,26 @@ package router
 import (
 	"leetcode/handler"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type ProblemRouter struct {
-	Router  *mux.Router
+	Router  *gin.RouterGroup
 	Handler *handler.Handler
 }
 
-func NewProblemRouter(pr *mux.Router, handler *handler.Handler) *ProblemRouter {
+func NewProblemRouter(pr *gin.RouterGroup, handler *handler.Handler) *ProblemRouter {
 	return &ProblemRouter{Router: pr, Handler: handler}
 }
 
-func StartProblemsRoute(mainRouter *mux.Router, handler *handler.Handler) {
+func StartProblemsRoute(mainRouter *gin.RouterGroup, handler *handler.Handler) {
 	// Problem CRUD
-	p := mainRouter.PathPrefix("/Problems").Subrouter()
+	p := mainRouter.Group("/problems")
 	r := NewProblemRouter(p, handler)
 
-	r.Router.HandleFunc("/getall/", r.Handler.GetProblems).Methods("GET")
-	r.Router.HandleFunc("/{id}", r.Handler.GetProblemByID).Methods("GET")
-	r.Router.HandleFunc("/create", r.Handler.CreateProblem).Methods("POST")
-	r.Router.HandleFunc("/update/{id}", r.Handler.UpdateProblem).Methods("PUT")
-	r.Router.HandleFunc("/delete/{id}", r.Handler.DeleteProblem).Methods("DELETE")
+	r.Router.GET("/getall/", r.Handler.GetProblems)
+	r.Router.GET("/:id", r.Handler.GetProblemByID)
+	r.Router.POST("/create", r.Handler.CreateProblem)
+	r.Router.PUT("/update/:id", r.Handler.UpdateProblem)
+	r.Router.DELETE("/delete/:id", r.Handler.DeleteProblem)
 }

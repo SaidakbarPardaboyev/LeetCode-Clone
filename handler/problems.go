@@ -7,106 +7,141 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) GetProblems(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetProblems(c *gin.Context) {
 	filter := model.ProblemFilter{}
-	query := r.URL.Query()
-	if query.Has("question_number") {
-		qn, err := strconv.Atoi(query.Get("question_number"))
+
+	if qs, hasKey := c.GetQuery("question_number"); hasKey {
+		qn, err := strconv.Atoi(qs)
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			log.Println("Error converting id", err)
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":   "Bad Request",
+				"message": "Error converting question_number",
+			})
+			log.Println("Error converting question_number:", err)
 			return
 		}
 		filter.QuestionNumber = &qn
 	}
-	if query.Has("title") {
-		title := query.Get("title")
+	if title, hasKey := c.GetQuery("title"); hasKey {
 		filter.Title = &title
 	}
-	if query.Has("difficulty_level") {
-		DifficultyLevel := query.Get("difficulty_level")
-		filter.Title = &DifficultyLevel
+	if difficultyLevel, hasKey := c.GetQuery("difficulty_level"); hasKey {
+
+		filter.DifficultyLevel = &difficultyLevel
 	}
 
 	problems, err := h.ProblemRepo.GetProblems(&filter)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error getting problems", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error getting problems by filter",
+		})
+		log.Println("Error getting problems by filter", err)
 		return
 	}
-	err = json.NewEncoder(w).Encode(problems)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding problems", err)
-		return
-	}
+	c.JSON(200, problems)
 
 }
 
-func (h *Handler) GetProblemByID(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+func (h *Handler) GetProblemByID(c *gin.Context) {
+	id, hasKey := c.GetQuery("id")
+	if !hasKey {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error no Id sent",
+		})
+		log.Println("Error no Id sent")
+		return
+	}
 
 	problem, err := h.ProblemRepo.GetProblemById(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while getting problem by id",
+		})
 		log.Println("Error getting problem by Id", err)
 		return
 	}
-	err = json.NewEncoder(w).Encode(problem)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error while encoding problem", err)
-		return
-	}
+	c.JSON(200, problem)
 }
 
-func (h *Handler) CreateProblem(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateProblem(c *gin.Context) {
 	newproblem := model.Problem{}
-	err := json.NewDecoder(r.Body).Decode(&newproblem)
+	err := json.NewDecoder(c.Request.Body).Decode(&newproblem)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error while decoding",
+		})
 		log.Println("Error while decoding problem", err)
 		return
 	}
 	err = h.ProblemRepo.CreateProblem(&newproblem)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while creating problem",
+		})
 		log.Println("Error while creating problem", err)
 		return
 	}
 }
 
-func (h *Handler) UpdateProblem(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateProblem(c *gin.Context) {
 	problem := model.Problem{}
-	vars := mux.Vars(r)
 
-	err := json.NewDecoder(r.Body).Decode(&problem)
+	err := json.NewDecoder(c.Request.Body).Decode(&problem)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error while decoding problem",
+		})
 		log.Println("Error while decoding problem", err)
 		return
 	}
 
-	problem.Id = vars["id"]
+	id, hasId := c.GetQuery("id")
+	if !hasId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error no Id",
+		})
+		log.Println("Error no Id")
+		return
+	}
+	problem.Id = id
 	err = h.ProblemRepo.UpdateProblem(&problem)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while updating problem",
+		})
 		log.Println("Error while updating problem", err)
 		return
 	}
 }
 
-func (h *Handler) DeleteProblem(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteProblem(c *gin.Context) {
 
-	vars := mux.Vars(r)
-	id := vars["id"]
+	id, hasId := c.GetQuery("id")
+	if !hasId {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "StatusBadRequest",
+			"message": "Error no Id",
+		})
+		log.Println("Error no Id")
+		return
+	}
 	err := h.ProblemRepo.DeleteProblem(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "StatusInternalServerError",
+			"message": "Error while deleting problem",
+		})
 		log.Println("Error while deleting problem", err)
 		return
 	}
