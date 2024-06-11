@@ -108,6 +108,7 @@ func (h *Handler) UpdateLanguage(c *gin.Context) {
 		log.Println("Error while updating language", err)
 		return
 	}
+	c.JSON(http.StatusOK, "Updated Succesfully")
 }
 
 // Delete
@@ -131,4 +132,5 @@ func (h *Handler) DeleteLanguage(c *gin.Context) {
 		log.Println("Error while deleting language", err)
 		return
 	}
+	c.JSON(http.StatusOK, "Deleted Succesfully")
 }

@@ -175,6 +175,7 @@ func (h *Handler) UpdateSubmission(c *gin.Context) {
 		})
 		return
 	}
+	c.JSON(http.StatusOK, "Updated Succesfully")
 }
 
 // Delete
@@ -196,5 +197,6 @@ func (h *Handler) DeleteSubmission(c *gin.Context) {
 			"measage": "Error while deleting Submission",
 		})
 		return
-	}
+	}	
+	c.JSON(http.StatusOK, "Deleted Succesfully")
 }

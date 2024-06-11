@@ -123,6 +123,7 @@ func (h *Handler) UpdateProblem(c *gin.Context) {
 		log.Println("Error while updating problem", err)
 		return
 	}
+	c.JSON(http.StatusOK, "Updated Succesfully")
 }
 
 func (h *Handler) DeleteProblem(c *gin.Context) {
@@ -145,4 +146,5 @@ func (h *Handler) DeleteProblem(c *gin.Context) {
 		log.Println("Error while deleting problem", err)
 		return
 	}
+	c.JSON(http.StatusOK, "Deleted Succesfully")
 }

@@ -148,6 +148,7 @@ func (h *Handler) UpdateTopicProblem(c *gin.Context) {
 		})
 		return
 	}
+	c.JSON(http.StatusOK, "Updated Succesfully")
 }
 
 // Delete
@@ -169,4 +170,5 @@ func (h *Handler) DeleteTopicProblem(c *gin.Context) {
 		})
 		return
 	}
+	c.JSON(http.StatusOK, "Deleted Succesfully")
 }

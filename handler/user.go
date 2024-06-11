@@ -92,6 +92,7 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 		log.Println("Error while updating user", err)
 		return
 	}
+	c.JSON(http.StatusOK, "Updated Succesfully")
 }
 
 func (h *Handler) DeleteUser(c *gin.Context) {
@@ -106,4 +107,5 @@ func (h *Handler) DeleteUser(c *gin.Context) {
 		log.Println("Error while deleting user", err)
 		return
 	}
+	c.JSON(http.StatusOK, "Deleted Succesfully")
 }
