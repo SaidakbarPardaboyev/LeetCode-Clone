@@ -4,16 +4,6 @@ create type difficulty as enum(
   'Hard'
 );
 
-create type status as enum(
-  'Passed',
-  'Run time Error',
-  'Compile Error',
-  'Wrong Answer',
-  'Time Limit Exceeded',
-  'Memory Limit Exceeded',
-  'Output Limit Exceeded'
-);
-
 create table users(
     id uuid primary key default gen_random_uuid(),
     full_name varchar not null,
