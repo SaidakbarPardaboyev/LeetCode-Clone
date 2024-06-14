@@ -1,4 +1,7 @@
-create table language {
-	id    uuid primary key unique not null,
-	name  varchar not null
-}
+create table language (
+	id    uuid primary key not null,
+	name  varchar not null,
+    created_at timestamp default now() not null,
+    updated_at timestamp,
+    deleted_at timestamp
+);

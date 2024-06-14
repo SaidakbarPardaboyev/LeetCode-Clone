@@ -1,6 +1,6 @@
 create table testcases_non_btree (
-	id                  uuid primary key unique,
-	problem_title       varchar references problems(problem_title),
+	id                  uuid primary key unique not null,
+	problem_title       varchar references problems(title) not null,
 	int_2d_array        bigint[][],
 	int_2d_array2       bigint[][],
 	float_2d_array      double precision[][],
@@ -30,5 +30,8 @@ create table testcases_non_btree (
 	byte_val            bytea,
 	byte_val2           bytea,
 	bool_val            boolean,
-	bool_val2           boolean
-)
+	bool_val2           boolean,
+    created_at 			timestamp default now() not null,
+    updated_at 			timestamp,
+    deleted_at 			timestamp
+);
