@@ -1,4 +1,4 @@
-create type enum as difficulty_lavels("Easy", "Medium", "Hard");
+create type difficulty_lavels as enum('Easy', 'Medium', 'Hard');
 
 create table problems (
 	title varchar primary key unique not null,

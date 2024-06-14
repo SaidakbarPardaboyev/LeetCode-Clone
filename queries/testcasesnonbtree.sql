@@ -1,5 +1,5 @@
 create table testcases_non_btree (
-	id                  uuid primary key unique not null,
+	id                  uuid primary key unique default gen_random_uuid() not null,
 	problem_title       varchar references problems(title) not null,
 	int_2d_array        bigint[][],
 	int_2d_array2       bigint[][],
@@ -35,3 +35,5 @@ create table testcases_non_btree (
     updated_at 			timestamp,
     deleted_at 			timestamp
 );
+
+-- insert into testcases_non_btree ()

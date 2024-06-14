@@ -1,4 +1,4 @@
-create type enum as status(
+create type status as enum(
   'Accepted',
   'Run Time Error',
   'Compile Error',
@@ -12,7 +12,7 @@ create table submissions (
 	id serial primary key unique not null,
 	user_username varchar references users(username) not null,
 	problem_title varchar references problems(title) not null,
-	language_id uuid references language(id) not null,
+	language_name varchar references language(name) not null,
 	code text not null,
 	submission_status status not null,
 	runtime numeric,

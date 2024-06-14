@@ -1,4 +1,4 @@
-create type enum as gender("Male", "Female");
+create type gender as enum('Male', 'Female');
 
 create table users (
 	username 		varchar primary key not null,

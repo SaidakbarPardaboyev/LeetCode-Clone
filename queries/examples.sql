@@ -1,5 +1,5 @@
 create table examples (
-	id uuid primary key unique not null,
+	id uuid primary key unique default gen_random_uuid() not null,
 	problem_title varchar references problems(title) not null,
 	input text not null,
 	output text not null,
