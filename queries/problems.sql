@@ -1,10 +1,10 @@
+create type enum as difficulty_lavels("Easy", "Medium", "Hard");
 
-problems {
-	id uuid pk unique
-	title varchar unique
-	problem_number integer increments unique
-	difficulty varchar
-	description text
-	constraints text
-	hints text
+create table problems {
+	title varchar primary key not null,
+	problem_number int increments unique  not null,
+	difficulty enum references difficulty_lavels not null,
+	description text not null,
+	constraints text[] not null,
+	hints text[]
 }

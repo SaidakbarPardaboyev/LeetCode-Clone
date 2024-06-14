@@ -1,10 +1,10 @@
-topics {
-	id uuid pk unique
-	name varchar
+create table topics {
+	id uuid primary key not null,
+	name varchar unique not null
 }
 
-topics_problems {
-	id uuid pk unique
-	problem_id uuid *>* problems.id
-	topic_id uuid *>* topics.id
+create table topics_problems {
+	id uuid primary key not null,
+	problem_title varchar references problems(title) not null,
+	topic_id uuid references topics(id) not null
 }
