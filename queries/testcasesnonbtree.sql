@@ -1,6 +1,6 @@
 create type run_submit as enum ('Run', 'Submit');
 
-create type testcases_non_btree (
+create table testcases_non_btree (
     id uuid primary key unique default gen_random_uuid() not null,
     problem_title varchar references problems(title) not null,
     function_name varchar NOT NULL,
