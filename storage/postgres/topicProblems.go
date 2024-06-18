@@ -42,8 +42,8 @@ func (l *TopicProblemRepo) GetTopicProblemById(id string) (model.TopicProblem, e
 	`
 	row := l.Db.QueryRow(query, id)
 	err := row.Scan(&topicProblem.Id, &topicProblem.TopicId,
-		&topicProblem.ProblemId, &topicProblem.Created_at,
-		&topicProblem.Updated_at, &topicProblem.Deleted_at)
+		&topicProblem.ProblemId, &topicProblem.CreatedAt,
+		&topicProblem.UpdatedAt, &topicProblem.DeletedAt)
 
 	return topicProblem, err
 }
@@ -73,8 +73,8 @@ func (l *TopicProblemRepo) GetTopicProblems(filter *model.TopicProblemFilter) (*
 	for rows.Next() {
 		topicProblem := model.TopicProblem{}
 		err = rows.Scan(&topicProblem.Id, &topicProblem.TopicId,
-			&topicProblem.ProblemId, &topicProblem.Created_at,
-			&topicProblem.Updated_at, &topicProblem.Deleted_at)
+			&topicProblem.ProblemId, &topicProblem.CreatedAt,
+			&topicProblem.UpdatedAt, &topicProblem.DeletedAt)
 
 		if err != nil {
 			return nil, err

@@ -37,8 +37,8 @@ func (l *TopicRepo) GetTopicById(id string) (model.Topic, error) {
 		id = $1 and deleted_at is null
 	`
 	row := l.Db.QueryRow(query, id)
-	err := row.Scan(&topic.Id, &topic.Name, &topic.Created_at,
-		&topic.Updated_at, &topic.Deleted_at)
+	err := row.Scan(&topic.Id, &topic.Name, &topic.CreatedAt,
+		&topic.UpdatedAt, &topic.DeletedAt)
 	return topic, err
 }
 func (l *TopicRepo) GetTopics(filter *model.TopicFilter) (*[]model.Topic, error) {
@@ -58,8 +58,8 @@ func (l *TopicRepo) GetTopics(filter *model.TopicFilter) (*[]model.Topic, error)
 	languages := []model.Topic{}
 	for rows.Next() {
 		topic := model.Topic{}
-		err = rows.Scan(&topic.Id, &topic.Name, &topic.Created_at,
-			&topic.Updated_at, &topic.Deleted_at)
+		err = rows.Scan(&topic.Id, &topic.Name, &topic.CreatedAt,
+			&topic.UpdatedAt, &topic.DeletedAt)
 		if err != nil {
 			return nil, err
 		}

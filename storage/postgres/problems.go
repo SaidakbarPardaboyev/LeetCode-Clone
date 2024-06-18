@@ -50,8 +50,8 @@ func (p *ProblemRepo) GetProblemById(id string) (model.Problem, error) {
 	err := row.Scan(&problem.Id, &problem.QuestionNumber, &problem.Title,
 		&problem.DifficultyLevel, &problem.Description,
 		pq.Array(&problem.Examples), pq.Array(&problem.Hints),
-		pq.Array(&problem.Constraints), &problem.Created_at,
-		&problem.Updated_at, &problem.Deleted_at)
+		pq.Array(&problem.Constraints), &problem.CreatedAt,
+		&problem.UpdatedAt, &problem.DeletedAt)
 
 	return problem, err
 }
@@ -88,8 +88,8 @@ func (p *ProblemRepo) GetProblems(filter *model.ProblemFilter) (*[]model.Problem
 		err = rows.Scan(&problem.Id, &problem.QuestionNumber,
 			&problem.Title, &problem.DifficultyLevel, &problem.Description,
 			pq.Array(&problem.Examples), pq.Array(&problem.Hints),
-			pq.Array(&problem.Constraints), &problem.Created_at,
-			&problem.Updated_at, &problem.Deleted_at)
+			pq.Array(&problem.Constraints), &problem.CreatedAt,
+			&problem.UpdatedAt, &problem.DeletedAt)
 		if err != nil {
 			return nil, err
 		}

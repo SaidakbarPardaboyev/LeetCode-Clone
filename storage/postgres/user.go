@@ -39,7 +39,7 @@ func (u *UserRepo) GetUserById(id string) (model.User, error) {
 	`
 	row := u.Db.QueryRow(query, id)
 	err := row.Scan(&user.Id, &user.FullName, &user.Username,
-		&user.Bio, &user.Created_at, &user.Updated_at, &user.Deleted_at)
+		&user.Bio, &user.CreatedAt, &user.UpdatedAt, &user.DeletedAt)
 	return user, err
 }
 func (u *UserRepo) GetUsers(filter *model.UserFilter) (*[]model.User, error) {
@@ -67,8 +67,7 @@ func (u *UserRepo) GetUsers(filter *model.UserFilter) (*[]model.User, error) {
 	for rows.Next() {
 		user := model.User{}
 		err = rows.Scan(&user.Id, &user.FullName, &user.Username,
-			&user.Bio, &user.Created_at, &user.Updated_at,
-			&user.Deleted_at)
+			&user.Bio, &user.CreatedAt, &user.UpdatedAt, &user.DeletedAt)
 		if err != nil {
 			return nil, err
 		}

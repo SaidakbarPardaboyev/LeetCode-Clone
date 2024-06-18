@@ -6,7 +6,7 @@ import (
 )
 
 type Time struct {
-	Created_at time.Time
-	Updated_at sql.NullTime
-	Deleted_at sql.NullTime
+	CreatedAt time.Time
+	UpdatedAt sql.NullTime
+	DeletedAt sql.NullTime
 }
