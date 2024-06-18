@@ -11,6 +11,6 @@ func GenerateAllMockData(db *sql.DB) {
 	// InsertTopics(db)
 	// InsertUsers(db)
 	// InsertProblems(db)
-	// InsertSubmissions(db)
-	InsertTopicProblems(db)
+	InsertSubmissions(db)
+	// InsertTopicProblems(db)
 }

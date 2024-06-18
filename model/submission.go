@@ -3,17 +3,17 @@ package model
 import "time"
 
 type Submission struct {
-	Id               string
-	ProblemId        string
-	UserId           string
-	LanguageId       string
+	Id               int
+	ProblemTitle     string
+	UserUsername     string
+	LanguageName     string
 	Code             string
 	SubmissionStatus string
 	SubmissionDate   time.Time
 	Time
 }
 
-type SubmissionFilter struct{
+type SubmissionFilter struct {
 	ProblemId        *string
 	UserId           *string
 	LanguageId       *string

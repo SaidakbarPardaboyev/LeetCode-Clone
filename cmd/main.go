@@ -3,8 +3,7 @@ package main
 import (
 	// "leetcode/generator"
 
-	"leetcode/handler"
-	"leetcode/router"
+	"leetcode/generator"
 	"leetcode/storage/postgres"
 )
 
@@ -15,9 +14,9 @@ func main() {
 	}
 	defer db.Close()
 
-	// generator.GenerateAllMockData(db)
+	generator.GenerateAllMockData(db)
 
-	h := handler.NewHandler(db)
-	server := router.CreateServer(h)
-	server.ListenAndServe()
+	// h := handler.NewHandler(db)
+	// server := router.CreateServer(h)
+	// server.ListenAndServe()
 }

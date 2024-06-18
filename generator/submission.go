@@ -3,14 +3,13 @@ package generator
 import (
 	"database/sql"
 	"leetcode/model"
-	"leetcode/storage/postgres"
 	"math/rand"
 	"time"
 )
 
 var status = []string{
-	"Passed",
-	"Run time Error",
+	"Accepted",
+	"Run Time Error",
 	"Compile Error",
 	"Wrong Answer",
 	"Time Limit Exceeded",
@@ -18,8 +17,9 @@ var status = []string{
 	"Output Limit Exceeded",
 }
 
-func getProblemIDs(db *sql.DB) ([]string, error) {
-	query := `SELECT id FROM problems`
+
+func getProblemTitles(db *sql.DB) ([]string, error) {
+	query := `SELECT title FROM problems`
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -41,8 +41,8 @@ func getProblemIDs(db *sql.DB) ([]string, error) {
 	return problems, nil
 }
 
-func getUserIDs(db *sql.DB) ([]string, error) {
-	query := `SELECT id FROM users`
+func getUserUsernames(db *sql.DB) ([]string, error) {
+	query := `SELECT username FROM users`
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -64,8 +64,8 @@ func getUserIDs(db *sql.DB) ([]string, error) {
 	return users, nil
 }
 
-func getLanguageIDs(db *sql.DB) ([]string, error) {
-	query := `SELECT id FROM languages`
+func getLanguageNames(db *sql.DB) ([]string, error) {
+	query := `SELECT name FROM languages`
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -106,34 +106,45 @@ func randomDate() time.Time {
 }
 
 func InsertSubmissions(db *sql.DB) {
-	problemIds, err := getProblemIDs(db)
+	problemTitles, err := getProblemTitles(db)
 	if err != nil {
 		panic(err)
 	}
 
-	userIds, err := getUserIDs(db)
+	userUsernames, err := getUserUsernames(db)
 	if err != nil {
 		panic(err)
 	}
 
-	languageIds, err := getLanguageIDs(db)
+	languageNames, err := getLanguageNames(db)
 	if err != nil {
 		panic(err)
 	}
 
-	s := postgres.NewSubmissionRepo(db)
-
-	for i := 0; i < 10000; i++ {
-		newSub := model.Submission{
-			ProblemId:        problemIds[rand.Intn(len(problemIds))],
-			UserId:           userIds[rand.Intn(len(userIds))],
-			LanguageId:       languageIds[rand.Intn(len(languageIds))],
-			Code:             randomString(50), 
-			SubmissionStatus: status[rand.Intn(len(status))],
-			SubmissionDate:   randomDate(),
-		}
-		if err := s.CreateSubmission(&newSub); err != nil {
-			panic(err)
+	for _, username := range userUsernames {
+		for i := 0; i < 10; i++ {
+			submission := model.Submission{
+				ProblemTitle:     problemTitles[rand.Intn(len(problemTitles))],
+				UserUsername:     username,
+				LanguageName:     languageNames[rand.Intn(len(languageNames))],
+				Code:             randomString(50),
+				SubmissionStatus: status[rand.Intn(len(status))],
+				SubmissionDate:   randomDate(),
+			}
+			tx, err := db.Begin()
+			if err != nil {
+				panic(err)
+			}
+			defer tx.Commit()
+			query := `insert into submissions(problem_title, user_username, language_name, 
+			code, submission_status, submission_date)
+			values($1, $2, $3, $4, $5, $6)`
+			_, err = tx.Exec(query, submission.ProblemTitle, submission.UserUsername,
+				submission.LanguageName, submission.Code, submission.SubmissionStatus,
+				submission.SubmissionDate)
+			if err != nil {
+				panic(err)
+			}
 		}
 	}
 }
