@@ -2,8 +2,9 @@ create type run_submit as enum ('Run', 'Submit');
 
 create type testcases_non_btree (
     id uuid primary key unique default gen_random_uuid() not null,
-    problem_title       varchar references problems(title) not null,
-    function_name TEXT NOT NULL,
+    problem_title varchar references problems(title) not null,
+    function_name varchar NOT NULL,
+    run_or_submit run_submit not null,
     arg1 JSONB,
     arg2 JSONB,
     arg3 JSONB,
@@ -18,7 +19,9 @@ create type testcases_non_btree (
     arg5_type varchar,
     arg6_type varchar,
     answer_type varchar,
-    run_or_submit run_submit not null
+    created_at timestamp default now() not null,
+    updated_at timestamp,
+    deleted_at timestamp
 );
 
 INSERT INTO function_calls (

@@ -166,6 +166,10 @@ func checkResult(result []reflect.Value, answerJson sql.NullString) (bool, error
 	return false, nil
 }
 
+var funcMap = map[string]interface{}{
+	"Two Sum": twoSum,
+}
+
 func twoSum(nums []int, target int) []int {
 	count := map[int][]int{}
 	for i, num := range nums {
@@ -177,8 +181,4 @@ func twoSum(nums []int, target int) []int {
 		}
 	}
 	return []int{}
-}
-
-var funcMap = map[string]interface{}{
-	"Two Sum": twoSum,
 }
