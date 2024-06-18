@@ -33,14 +33,14 @@ VALUES
 ('greedy', DEFAULT, NULL, NULL),
 ('design', DEFAULT, NULL, NULL),
 ('math', DEFAULT, NULL, NULL),
-('bit_manipulation', DEFAULT, NULL, NULL),
+('bit-manipulation', DEFAULT, NULL, NULL),
 ('sort', DEFAULT, NULL, NULL),
 ('recursion', DEFAULT, NULL, NULL),
 ('memoization', DEFAULT, NULL, NULL),
 ('segment_tree', DEFAULT, NULL, NULL),
-('union_find', DEFAULT, NULL, NULL),
+('union-find', DEFAULT, NULL, NULL),
 ('trie', DEFAULT, NULL, NULL),
-('sliding_window', DEFAULT, NULL, NULL),
+('sliding-window', DEFAULT, NULL, NULL),
 ('binary-indexed-tree', DEFAULT, NULL, NULL),
 ('topological-sort', DEFAULT, NULL, NULL),
 ('minimum-spanning-tree', DEFAULT, NULL, NULL),
@@ -50,3 +50,60 @@ VALUES
 ('probability', DEFAULT, NULL, NULL),
 ('concurrency', DEFAULT, NULL, NULL),
 ('database', DEFAULT, NULL, NULL);
+
+-- Two Sum
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('two-sum', 'array'),
+('two-sum', 'hash-table');
+
+-- Add Two Numbers
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('add-two-numbers', 'linked-list'),
+('add-two-numbers', 'math');
+
+-- Longest Substring Without Repeating Characters
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('longest-substring-without-repeating-characters', 'string'),
+('longest-substring-without-repeating-characters', 'two-pointers'),
+('longest-substring-without-repeating-characters', 'sliding-window');
+
+-- Median of Two Sorted Arrays
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('median-of-two-sorted-arrays', 'array'),
+('median-of-two-sorted-arrays', 'binary-search');
+
+-- Longest Palindromic Substring
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('longest-palindromic-substring', 'string'),
+('longest-palindromic-substring', 'dynamic-programming');
+
+-- ZigZag Conversion
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('zigzag-conversion', 'string');
+
+-- Reverse Integer
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('reverse-integer', 'math');
+
+-- String to Integer (atoi)
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('string-to-integer-(atoi)', 'string');
+
+-- Palindrome Number
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('palindrome-number', 'math');
+
+-- Regular Expression Matching
+INSERT INTO topics_problems (problem_title, topic_name)
+VALUES
+('regular-expression-matching', 'string'),
+('regular-expression-matching', 'dynamic-programming');
