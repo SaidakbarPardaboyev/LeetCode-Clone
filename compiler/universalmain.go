@@ -59,7 +59,7 @@ func main() {
 			}
 		}
 	}
-	fmt.Println("Eccepted")
+	fmt.Println("Accepted")
 }
 
 func callFunction(name string, args []sql.NullString, argsTypes []sql.NullString, answertype sql.NullString) ([]reflect.Value, error) {
