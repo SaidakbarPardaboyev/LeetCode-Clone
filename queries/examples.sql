@@ -61,9 +61,9 @@ VALUES
 -- String to Integer (atoi)
 INSERT INTO examples (problem_title, input, output, explanation, updated_at, deleted_at)
 VALUES
-('string-to-integer (atoi)', 's = "42"', '42', 'String "42" is converted to integer 42.', DEFAULT, NULL),
-('string-to-integer (atoi)', 's = "   -42"', '-42', 'String "   -42" is converted to integer -42.', DEFAULT, NULL),
-('string-to-integer (atoi)', 's = "4193 with words"', '4193', 'String "4193 with words" is converted to integer 4193.', DEFAULT, NULL);
+('string-to-integer-(atoi)', 's = "42"', '42', 'String "42" is converted to integer 42.', DEFAULT, NULL),
+('string-to-integer-(atoi)', 's = "   -42"', '-42', 'String "   -42" is converted to integer -42.', DEFAULT, NULL),
+('string-to-integer-(atoi)', 's = "4193 with words"', '4193', 'String "4193 with words" is converted to integer 4193.', DEFAULT, NULL);
 
 -- Palindrome Number
 INSERT INTO examples (problem_title, input, output, explanation, updated_at, deleted_at)

@@ -12,20 +12,6 @@ create table problems (
     deleted_at timestamp
 );
 
-insert into problems(
-	title, difficulty, description, constraints
-) values (
-	'two-sum',
-	'Easy', 
-	'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-	'{
-    	2 <= nums.length <= 104,
-    	-109 <= nums[i] <= 109,
-    	-109 <= target <= 109,
-    	Only one valid answer exists.
-	}'
-);
-
 INSERT INTO problems (title, problem_number, difficulty, description, constraints, hints, updated_at, deleted_at)
 VALUES
 ('two-sum', DEFAULT, 'Easy', 'Find indices of the two numbers such that they add up to a specific target.', ARRAY['Each input would have exactly one solution.', 'You may not use the same element twice.'], ARRAY['Try using a hashmap.', 'Think about the complement of each number.'], DEFAULT, NULL);
@@ -56,7 +42,7 @@ VALUES
 
 INSERT INTO problems (title, problem_number, difficulty, description, constraints, hints, updated_at, deleted_at)
 VALUES
-('string-to-integer (atoi)', DEFAULT, 'Medium', 'Convert a string to an integer.', ARRAY['Implement atoi which converts a string to an integer.', 'The function first discards as many whitespace characters as necessary.'], ARRAY['Check for valid characters.', 'Consider edge cases for overflow.'], DEFAULT, NULL);
+('string-to-integer-(atoi)', DEFAULT, 'Medium', 'Convert a string to an integer.', ARRAY['Implement atoi which converts a string to an integer.', 'The function first discards as many whitespace characters as necessary.'], ARRAY['Check for valid characters.', 'Consider edge cases for overflow.'], DEFAULT, NULL);
 
 INSERT INTO problems (title, problem_number, difficulty, description, constraints, hints, updated_at, deleted_at)
 VALUES
