@@ -12,11 +12,9 @@ func CreateServer(handler *handler.Handler) *http.Server {
 	LeetcodeGroup := router.Group("leetcode.uz")
 
 	StartUsersRoute(LeetcodeGroup, handler)
-	StartProblemsRoute(LeetcodeGroup, handler)
 	StartLanguagesRoute(LeetcodeGroup, handler)
 	StartTopicsRoute(LeetcodeGroup, handler)
-	StartTopicProblemsRoute(LeetcodeGroup, handler)
-	// StartSubmissionsRoute(LeetcodeGroup, handler)
+	StartSubmissionsRoute(LeetcodeGroup, handler)
 
 	return &http.Server{
 		Addr:    ":8080",

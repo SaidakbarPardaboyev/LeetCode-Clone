@@ -1,6 +1,7 @@
 package model
 
 type Topic struct {
+	Id   string
 	Name string
 	Time
 }
