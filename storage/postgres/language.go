@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"database/sql"
+	"fmt"
 	"leetcode/model"
 	"time"
 )
@@ -39,6 +40,7 @@ func (l *LanguageRepo) GetLanguageById(id string) (model.Language, error) {
 	row := l.Db.QueryRow(query, id)
 	err := row.Scan(&language.Id, &language.Name, &language.CreatedAt,
 		&language.UpdatedAt, &language.DeletedAt)
+
 	return language, err
 }
 func (l *LanguageRepo) GetLanguages(filter *model.LanguageFilter) (*[]model.Language, error) {
@@ -85,7 +87,19 @@ func (l *LanguageRepo) UpdateLanguage(language *model.Language) error {
 		name = $1
 	where 
 		deleted_at is null and id = $2 `
-	_, err = tx.Exec(query, language.Name, time.Now(), language.Id)
+	result, err := tx.Exec(query, language.Name, time.Now(), language.Id)
+
+	if err != nil {
+		return err
+	}
+
+	affectedRows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affectedRows == 0 {
+		return fmt.Errorf("nothing updated")
+	}
 
 	return err
 }
@@ -102,7 +116,19 @@ func (l *LanguageRepo) DeleteLanguage(id string) error {
 		deleted_at = $1
 	where 
 		deleted_at is null and id = $2 `
-	_, err = tx.Exec(query, time.Now(), id)
+	result, err := tx.Exec(query, time.Now(), id)
+
+	if err != nil {
+		return err
+	}
+
+	affectedRows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affectedRows == 0 {
+		return fmt.Errorf("nothing deleted")
+	}
 
 	return err
 }

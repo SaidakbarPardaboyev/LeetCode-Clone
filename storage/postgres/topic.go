@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"database/sql"
+	"fmt"
 	"leetcode/model"
 	"time"
 )
@@ -15,9 +16,9 @@ func NewTopicRepo(db *sql.DB) *TopicRepo {
 }
 
 // Create
-func (l *TopicRepo) CreateTopic(topic *model.Topic) error {
+func (t *TopicRepo) CreateTopic(topic *model.Topic) error {
 
-	tx, err := l.Db.Begin()
+	tx, err := t.Db.Begin()
 	if err != nil {
 		return err
 	}
@@ -29,19 +30,21 @@ func (l *TopicRepo) CreateTopic(topic *model.Topic) error {
 }
 
 // Read
-func (l *TopicRepo) GetTopicById(id string) (model.Topic, error) {
+func (t *TopicRepo) GetTopicByName(name string) (model.Topic, error) {
 	topic := model.Topic{}
 	query := `
-	select * from topics
+	select * 
+	from 
+		topics
 	where
-		id = $1 and deleted_at is null
+		name = $1 and deleted_at is null
 	`
-	row := l.Db.QueryRow(query, id)
-	err := row.Scan(&topic.Id, &topic.Name, &topic.CreatedAt,
+	row := t.Db.QueryRow(query, name)
+	err := row.Scan(&topic.Name, &topic.CreatedAt,
 		&topic.UpdatedAt, &topic.DeletedAt)
 	return topic, err
 }
-func (l *TopicRepo) GetTopics(filter *model.TopicFilter) (*[]model.Topic, error) {
+func (t *TopicRepo) GetTopics(filter *model.TopicFilter) (*[]model.Topic, error) {
 	params := []interface{}{}
 	query := `
 	select * from topics where deleted_at is null`
@@ -50,7 +53,7 @@ func (l *TopicRepo) GetTopics(filter *model.TopicFilter) (*[]model.Topic, error)
 		params = append(params, *filter.Name)
 	}
 
-	rows, err := l.Db.Query(query, params...)
+	rows, err := t.Db.Query(query, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +61,7 @@ func (l *TopicRepo) GetTopics(filter *model.TopicFilter) (*[]model.Topic, error)
 	languages := []model.Topic{}
 	for rows.Next() {
 		topic := model.Topic{}
-		err = rows.Scan(&topic.Id, &topic.Name, &topic.CreatedAt,
+		err = rows.Scan(&topic.Name, &topic.CreatedAt,
 			&topic.UpdatedAt, &topic.DeletedAt)
 		if err != nil {
 			return nil, err
@@ -80,12 +83,26 @@ func (t *TopicRepo) UpdateTopic(topic *model.Topic) error {
 		return err
 	}
 	defer tx.Commit()
-	query := `update topics 
+	query := `
+	update 	
+		topics 
 	set 
 		name = $1
 	where 
-		deleted_at is null and id = $2 `
-	_, err = tx.Exec(query, topic.Name, time.Now(), topic.Id)
+		deleted_at is null and name = $2 `
+	result, err := tx.Exec(query, topic.Name, time.Now(), topic.Name)
+
+	if err != nil {
+		return err
+	}
+
+	affectedRows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affectedRows == 0 {
+		return fmt.Errorf("nothing updated")
+	}
 
 	return err
 }
@@ -97,12 +114,26 @@ func (t *TopicRepo) DeleteTopic(id string) error {
 		return err
 	}
 	defer tx.Commit()
-	query := `update topics 
+	query := `
+	update 
+		topics 
 	set 
 		deleted_at = $1
 	where 
 		deleted_at is null and id = $2 `
-	_, err = tx.Exec(query, time.Now(), id)
+	result, err := tx.Exec(query, time.Now(), id)
+
+	if err != nil {
+		return err
+	}
+
+	affectedRows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affectedRows == 0 {
+		return fmt.Errorf("nothing deleted")
+	}
 
 	return err
 }

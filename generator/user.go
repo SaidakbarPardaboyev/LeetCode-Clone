@@ -57,14 +57,12 @@ func GenerateUsers() []model.User {
 		firstName := firstNames[rand.Intn(len(firstNames))]
 		lastName := lastNames[rand.Intn(len(lastNames))]
 		username := fmt.Sprintf("%s%d", usernames[rand.Intn(len(usernames))], i)
-		bio := bios[rand.Intn(len(bios))]
 
 		fullName := fmt.Sprintf("%s %s", firstName, lastName)
 
 		user := model.User{
 			FullName: fullName,
 			Username: username,
-			Bio:      bio,
 		}
 
 		users = append(users, user)

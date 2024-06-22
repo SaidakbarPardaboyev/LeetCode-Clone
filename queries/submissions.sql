@@ -10,14 +10,14 @@ create type status as enum(
 
 create table submissions (
 	id serial primary key unique not null,
-	user_username varchar references users(username) not null,
-	problem_title varchar references problems(title) not null,
-	language_name varchar references languages(name) not null,
+	user_id uuid references users(id) not null,
+	problem_id uuid references problems(id) not null,
+	language_id uuid references languages(id) not null,
 	code text not null,
 	submission_status status not null,
 	runtime numeric,
 	submission_date timestamp default now() not null,
-    created_at timestamp default now() not null,
-    updated_at timestamp,
-    deleted_at timestamp
+  created_at timestamp default now() not null,
+  updated_at timestamp,
+  deleted_at timestamp
 );

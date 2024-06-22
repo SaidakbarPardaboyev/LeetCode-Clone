@@ -1,11 +1,12 @@
 create type gender as enum('Male', 'Female');
 
 create table users (
-	username 		varchar primary key not null,
+	id 				uuid primary key gen_random_uuid()
+	username 		varchar not null,
 	full_name 		varchar not null,
     email 			varchar not null,
 	password 		varchar not null,
-	profile_image 	bytea[],
+	profile_image 	bytea,
 	gender 			gender,
 	location 		varchar,
 	birthday 		date,

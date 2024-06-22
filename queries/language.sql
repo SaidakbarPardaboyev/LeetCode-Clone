@@ -1,5 +1,6 @@
 create table languages (
-	name varchar primary key not null,
+    id 		   uuid primary key gen_random_uuid()
+	name       varchar not null,
     created_at timestamp default now() not null,
     updated_at timestamp,
     deleted_at timestamp
