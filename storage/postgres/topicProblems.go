@@ -42,8 +42,8 @@ package postgres
 // 	`
 // 	row := l.Db.QueryRow(query, id)
 // 	err := row.Scan(&topicProblem.Id, &topicProblem.TopicId,
-// 		&topicProblem.ProblemId, &topicProblem.CreatedAt,
-// 		&topicProblem.UpdatedAt, &topicProblem.DeletedAt)
+// 		&topicProblem.ProblemId, &topicProblem.Created_at,
+// 		&topicProblem.Updated_at, &topicProblem.Deleted_at)
 
 // 	return topicProblem, err
 // }
@@ -73,8 +73,13 @@ package postgres
 // 	for rows.Next() {
 // 		topicProblem := model.TopicProblem{}
 // 		err = rows.Scan(&topicProblem.Id, &topicProblem.TopicId,
+<<<<<<< HEAD
 // 			&topicProblem.ProblemId, &topicProblem.CreatedAt,
 // 			&topicProblem.UpdatedAt, &topicProblem.DeletedAt)
+=======
+// 			&topicProblem.ProblemId, &topicProblem.Created_at,
+// 			&topicProblem.Updated_at, &topicProblem.Deleted_at)
+>>>>>>> 937c7ef (added id to the tables: problems, topicptoblems)
 
 // 		if err != nil {
 // 			return nil, err

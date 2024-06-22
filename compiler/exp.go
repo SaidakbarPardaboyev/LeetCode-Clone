@@ -199,7 +199,7 @@ var funcMap = map[string]interface{}{
 	if err != nil {
 		panic(err)
 	}
-  fmt.Printf(res)
+	fmt.Printf(res)
 }
 
 // ExecuteCode executes code for a specified language and returns the output or an error

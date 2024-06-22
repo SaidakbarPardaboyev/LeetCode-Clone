@@ -6,8 +6,8 @@ import (
 )
 
 type Handler struct {
-	UserRepo         *postgres.UserRepo
-	ProblemRepo      *postgres.ProblemRepo
+	UserRepo    *postgres.UserRepo
+	ProblemRepo *postgres.ProblemRepo
 	// SubmissionRepo   *postgres.SubmissionRepo
 	LanguageRepo     *postgres.LanguageRepo
 	TopicRepo        *postgres.TopicRepo
@@ -23,14 +23,11 @@ func NewHandler(db *sql.DB) *Handler {
 	tp := postgres.NewTopicProblemRepo(db)
 
 	return &Handler{
-		UserRepo:         u,
-		ProblemRepo:      p,
+		UserRepo:    u,
+		ProblemRepo: p,
 		// SubmissionRepo:   s,
 		LanguageRepo:     l,
 		TopicRepo:        t,
 		TopicProblemRepo: tp,
 	}
 }
-
-
-

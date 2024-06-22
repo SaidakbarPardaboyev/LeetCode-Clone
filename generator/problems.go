@@ -8,15 +8,9 @@ import (
 
 var problems = []model.Problem{
 	{
-		QuestionNumber:  1,
 		Title:           "Two Sum",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description:     "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-		Examples: []string{
-			"Input: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nExplanation: Because nums[0] + nums[1] == 9, we return [0, 1].",
-			"Input: nums = [3,2,4], target = 6\nOutput: [1,2]",
-			"Input: nums = [3,3], target = 6\nOutput: [0,1]",
-		},
 		Hints: []string{
 			"Use a hashmap to store each element's index and check if the complement exists.",
 			"Consider edge cases such as no solution or multiple solutions.",
@@ -30,7 +24,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber: 2,
 		Title:          "Add Two Numbers",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:    "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.",
 		Examples: []string{
 			"Input: l1 = [2,4,3], l2 = [5,6,4]\nOutput: [7,0,8]\nExplanation: 342 + 465 = 807.",
@@ -50,7 +44,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber: 3,
 		Title:          "Longest Substring Without Repeating Characters",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:    "Given a string s, find the length of the longest substring without repeating characters.",
 		Examples: []string{
 			"Input: s = \"abcabcbb\"\nOutput: 3\nExplanation: The answer is \"abc\", with the length of 3.",
@@ -70,7 +64,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber: 4,
 		Title:          "Median of Two Sorted Arrays",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:    "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
 		Examples: []string{
 			"Input: nums1 = [1,3], nums2 = [2]\nOutput: 2.00000\nExplanation: merged array = [1,2,3] and median is 2.",
@@ -96,7 +90,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 5,
         Title:          "Longest Palindromic Substring",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given a string s, return the longest palindromic substring in s.",
         Examples: []string{
             "Input: s = \"babad\"\nOutput: \"bab\"\nNote: \"aba\" is also a valid answer.",
@@ -117,7 +111,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 6,
         Title:          "Zigzag Conversion",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "The string \"PAYPALISHIRING\" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)\nP   A   H   N\nA P L S I I G\nY   I   R\nAnd then read line by line: \"PAHNAPLSIIGYIR\"\nWrite the code that will take a string and make this conversion given a number of rows:",
         Examples: []string{
             "Input: s = \"PAYPALISHIRING\", numRows = 3\nOutput: \"PAHNAPLSIIGYIR\"",
@@ -138,7 +132,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 7,
         Title:          "Reverse Integer",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given a 32-bit signed integer, reverse digits of an integer.",
         Examples: []string{
             "Input: 123\nOutput: 321",
@@ -156,7 +150,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 8,
         Title:          "String to Integer (atoi)",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Implement the `atoi` function, which converts a string to an integer.",
         Examples: []string{
             `Input: "42"\nOutput: 42`,
@@ -180,7 +174,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 9,
         Title:          "Palindrome Number",
-        DifficultyLevel: "Easy",
+        Difficulty: "Easy",
         Description:    "Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.",
         Examples: []string{
             `Input: 121\nOutput: true`,
@@ -198,7 +192,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 10,
         Title:          "Regular Expression Matching",
-        DifficultyLevel: "Hard",
+        Difficulty: "Hard",
         Description:    "Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.",
         Examples: []string{
             `Input: s = "aa", p = "a"\nOutput: false\nExplanation: "a" does not match the entire string "aa".`,
@@ -220,7 +214,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 11,
         Title:          "Container With Most Water",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of the line i is at (i, ai) and (i, 0). Find two lines, which, together with the x-axis forms a container, such that the container contains the most water.",
         Examples: []string{
             "Input: height = [1,8,6,2,5,4,8,3,7]\nOutput: 49\nExplanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.",
@@ -241,7 +235,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 12,
         Title:          "Integer to Roman",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given an integer, convert it to a roman numeral. Input is guaranteed to be within the range from 1 to 3999.",
         Examples: []string{
             "Input: num = 3\nOutput: \"III\"",
@@ -261,7 +255,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 13,
         Title:          "Roman to Integer",
-        DifficultyLevel: "Easy",
+        Difficulty: "Easy",
         Description:    "Given a roman numeral, convert it to an integer. Input is guaranteed to be within the range from 1 to 3999.",
         Examples: []string{
             "Input: s = \"III\"\nOutput: 3",
@@ -283,7 +277,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 14,
         Title:          "Longest Common Prefix",
-        DifficultyLevel: "Easy",
+        Difficulty: "Easy",
         Description:    "Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string \"\".",
         Examples: []string{
             "Input: strs = [\"flower\",\"flow\",\"flight\"]\nOutput: \"fl\"",
@@ -302,7 +296,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 15,
         Title:          "3Sum",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0. Notice that the solution set must not contain duplicate triplets.",
         Examples: []string{
             "Input: nums = [-1,0,1,2,-1,-4]\nOutput: [[-1,-1,2],[-1,0,1]]",
@@ -322,7 +316,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 16,
         Title:          "3Sum Closest",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target. Return the sum of the three integers. You may assume that each input would have exactly one solution.",
         Examples: []string{
             "Input: nums = [-1,2,1,-4], target = 1\nOutput: 2\nExplanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).",
@@ -342,7 +336,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 17,
         Title:          "Letter Combinations of a Phone Number",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.",
         Examples: []string{
             "Input: digits = \"23\"\nOutput: [\"ad\",\"ae\",\"af\",\"bd\",\"be\",\"bf\",\"cd\",\"ce\",\"cf\"]",
@@ -362,7 +356,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 18,
         Title:          "4Sum",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:\n1. 0 <= a, b, c, d < n\n2. a, b, c, and d are distinct.\n3. nums[a] + nums[b] + nums[c] + nums[d] == target\nYou may return the answer in any order.",
         Examples: []string{
             "Input: nums = [1,0,-1,0,-2,2], target = 0\nOutput: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]",
@@ -381,7 +375,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 19,
         Title:          "Remove Nth Node From End of List",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given the head of a linked list, remove the nth node from the end of the list and return its head.",
         Examples: []string{
             "Input: head = [1,2,3,4,5], n = 2\nOutput: [1,2,3,5]",
@@ -402,7 +396,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 20,
         Title:          "Valid Parentheses",
-        DifficultyLevel: "Easy",
+        Difficulty: "Easy",
         Description:    "Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
         Examples: []string{
             "Input: s = \"()\"\nOutput: true",
@@ -424,7 +418,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 21,
         Title:          "Merge Two Sorted Lists",
-        DifficultyLevel: "Easy",
+        Difficulty: "Easy",
         Description:    "Merge two sorted linked lists and return it as a new sorted list. The new list should be made by splicing together the nodes of the first two lists.",
         Examples: []string{
             "Input: l1 = [1,2,4], l2 = [1,3,4]\nOutput: [1,1,2,3,4,4]",
@@ -445,7 +439,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 22,
         Title:          "Generate Parentheses",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.",
         Examples: []string{
             "Input: n = 3\nOutput: [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]",
@@ -462,7 +456,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 23,
         Title:          "Merge k Sorted Lists",
-        DifficultyLevel: "Hard",
+        Difficulty: "Hard",
         Description:    "Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.",
         Examples: []string{
             "Input: lists = [[1,4,5],[1,3,4],[2,6]]  Output: [1,1,2,3,4,4,5,6]",
@@ -484,7 +478,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 24,
         Title:          "Swap Nodes in Pairs",
-        DifficultyLevel: "Medium",
+        Difficulty: "Medium",
         Description:    "Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed).",
         Examples: []string{
             "Input: head = [1,2,3,4]  Output: [2,1,4,3]",
@@ -503,7 +497,7 @@ var problems = []model.Problem{
 	{
         QuestionNumber: 25,
         Title:          "Reverse Nodes in k-Group",
-        DifficultyLevel: "Hard",
+        Difficulty: "Hard",
         Description:    "Given a linked list, reverse the nodes of a linked list k at a time and return its modified list. k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k, then left-out nodes, in the end, should remain as it is.",
         Examples: []string{
             "Input: head = [1,2,3,4,5], k = 2  Output: [2,1,4,3,5]",
@@ -525,7 +519,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  26,
 		Title:           "Remove Duplicates from Sorted Array",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description: `
 		Given an integer array nums sorted in non-decreasing order, 
 		remove the duplicates in-place such that each unique element appears only once.
@@ -592,7 +586,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  27,
 		Title:           "Remove Element",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description:     "Given an array nums and a value val, remove all instances of that value in-place and return the new length.",
 		Examples: []string{
 			"Input: nums = [3,2,2,3], val = 3\nOutput: 2 with nums = [2,2]",
@@ -611,7 +605,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  28,
 		Title:           "Implement strStr()",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description:     "Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.",
 		Examples: []string{
 			"Input: haystack = 'hello', needle = 'll'\nOutput: 2",
@@ -629,7 +623,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  29,
 		Title:           "Divide Two Integers",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator.",
 		Examples: []string{
 			"Input: dividend = 10, divisor = 3\nOutput: 3",
@@ -647,7 +641,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  30,
 		Title:           "Substring with Concatenation of All Words",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "You are given a string s and an array of words words of the same length. Return all starting indices of substring(s) in s that is a concatenation of each word in words exactly once, in any order, and without any intervening characters.",
 		Examples: []string{
 			"Input: s = 'barfoothefoobarman', words = ['foo','bar']\nOutput: [0,9]",
@@ -666,7 +660,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  31,
 		Title:           "Next Permutation",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers. If such an arrangement is not possible, it must rearrange it as the lowest possible order (i.e., sorted in ascending order).",
 		Examples: []string{
 			"Input: nums = [1,2,3]\nOutput: [1,3,2]",
@@ -685,7 +679,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  32,
 		Title:           "Longest Valid Parentheses",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.",
 		Examples: []string{
 			"Input: s = '(()'\nOutput: 2",
@@ -703,7 +697,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  33,
 		Title:           "Search in Rotated Sorted Array",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "There is an integer array nums sorted in ascending order (with distinct values). Prior to being rotated at some unknown pivot, nums was originally a sorted ascending array. You are given a target value to search. If found in the array return its index, otherwise return -1.",
 		Examples: []string{
 			"Input: nums = [4,5,6,7,0,1,2], target = 0\nOutput: 4",
@@ -723,7 +717,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  34,
 		Title:           "Find First and Last Position of Element in Sorted Array",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value. If the target is not found in the array, return [-1, -1].",
 		Examples: []string{
 			"Input: nums = [5,7,7,8,8,10], target = 8\nOutput: [3,4]",
@@ -742,7 +736,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  35,
 		Title:           "Search Insert Position",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description:     "Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.",
 		Examples: []string{
 			"Input: nums = [1,3,5,6], target = 5\nOutput: 2",
@@ -763,7 +757,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  36,
 		Title:           "Valid Sudoku",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:\n\n1. Each row must contain the digits 1-9 without repetition.\n2. Each column must contain the digits 1-9 without repetition.\n3. Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.",
 		Examples: []string{
 			"Input: board = [['5','3','.','.','7','.','.','.','.'],['6','.','.','1','9','5','.','.','.'],['.','9','8','.','.','.','.','6','.'],['8','.','.','.','6','.','.','.','3'],['4','.','.','8','.','3','.','.','1'],['7','.','.','.','2','.','.','.','6'],['.','6','.','.','.','.','2','8','.'],['.','.','.','4','1','9','.','.','5'],['.','.','.','.','8','.','.','7','9']]\nOutput: true",
@@ -783,7 +777,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  37,
 		Title:           "Sudoku Solver",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "Write a program to solve a Sudoku puzzle by filling the empty cells.\n\nA sudoku solution must satisfy all of the following rules:\n\n1. Each of the digits 1-9 must occur exactly once in each row.\n2. Each of the digits 1-9 must occur exactly once in each column.\n3. Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.\n\nThe '.' character indicates empty cells.",
 		Examples: []string{
 			"Input: board = [['5','3','.','.','7','.','.','.','.'],['6','.','.','1','9','5','.','.','.'],['.','9','8','.','.','.','.','6','.'],['8','.','.','.','6','.','.','.','3'],['4','.','.','8','.','3','.','.','1'],['7','.','.','.','2','.','.','.','6'],['.','6','.','.','.','.','2','8','.'],['.','.','.','4','1','9','.','.','5'],['.','.','.','.','8','.','.','7','9']]\nOutput: [['5','3','4','6','7','8','9','1','2'],['6','7','2','1','9','5','3','4','8'],['1','9','8','3','4','2','5','6','7'],['8','5','9','7','6','1','4','2','3'],['4','2','6','8','5','3','7','9','1'],['7','1','3','9','2','4','8','5','6'],['9','6','1','5','3','7','2','8','4'],['2','8','7','4','1','9','6','3','5'],['3','4','5','2','8','6','1','7','9']]",
@@ -802,7 +796,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  38,
 		Title:           "Count and Say",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description:     "The count-and-say sequence is a sequence of digit strings defined by the recursive formula:\n\n1. countAndSay(1) = '1'\n2. countAndSay(n) is the way you would 'say' the digit string from countAndSay(n-1), which is then converted into a different representation.\n\nTo determine how you 'say' a digit string, split it into the minimal number of groups so that each group is a contiguous section all of the same character. Then for each group, say the number of characters, then say the character. To convert the saying into a digit string, replace the counts with a number and concatenate every saying.\n\nFor example, the saying and conversion for digit string '3322251' is '2 3 3 2 2 1' ('two 3s, two 2s, then one 1').",
 		Examples: []string{
 			"Input: n = 1\nOutput: '1'\nExplanation: This is the base case.",
@@ -819,7 +813,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  39,
 		Title:           "Combination Sum",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.\n\nThe same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.",
 		Examples: []string{
 			"Input: candidates = [2,3,6,7], target = 7\nOutput: [[2,2,3],[7]]\nExplanation:\n2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times, similarly with 3.\n7 is a candidate, and 7 = 7.\nThese are the only two combinations.",
@@ -842,7 +836,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  40,
 		Title:           "Combination Sum II",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.\n\nEach number in candidates may only be used once in the combination.\n\nNote: The solution set must not contain duplicate combinations.",
 		Examples: []string{
 			"Input: candidates = [10,1,2,7,6,1,5], target = 8\nOutput: [[1,1,6],[1,2,5],[1,7],[2,6]]\nExplanation:\n1 + 1 + 6 = 8\n1 + 2 + 5 = 8\n1 + 7 = 8\n2 + 6 = 8\nThese are the only unique combinations.",
@@ -861,7 +855,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  41,
 		Title:           "First Missing Positive",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "Given an unsorted integer array nums, return the smallest missing positive integer.\n\nYou must implement an algorithm that runs in O(n) time and uses constant extra space.",
 		Examples: []string{
 			"Input: nums = [1,2,0]\nOutput: 3",
@@ -880,7 +874,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  42,
 		Title:           "Trapping Rain Water",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.\n\nThe height at each index i represents the elevation of the terrain at that point. The width of each bar is 1.\n\nConstraints:\n\nn == height.length\n0 <= n <= 3 * 10^4\n0 <= height[i] <= 10^5",
 		Examples: []string{
 			"Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]\nOutput: 6\nExplanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.",
@@ -898,7 +892,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  43,
 		Title:           "Multiply Strings",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.\n\nNote: You must not use any built-in BigInteger library or convert the inputs to integer directly.",
 		Examples: []string{
 			"Input: num1 = '2', num2 = '3'\nOutput: '6'",
@@ -917,7 +911,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  44,
 		Title:           "Wildcard Matching",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*'.\n\n'?' Matches any single character.\n'*' Matches any sequence of characters (including the empty sequence).\nThe matching should cover the entire input string (not partial).\n\nConstraints:\n\n0 <= s.length, p.length <= 2000\ns contains only lowercase English letters.\np contains only lowercase English letters, '?' or '*'.",
 		Examples: []string{
 			"Input: s = 'aa', p = 'a'\nOutput: false\nExplanation: 'a' does not match the entire string 'aa'.",
@@ -937,7 +931,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  45,
 		Title:           "Jump Game II",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "Given an array of non-negative integers nums, you are initially positioned at the first index of the array.\n\nEach element in the array represents your maximum jump length at that position.\n\nYour goal is to reach the last index in the minimum number of jumps.\n\nYou can assume that you can always reach the last index.",
 		Examples: []string{
 			"Input: nums = [2,3,1,1,4]\nOutput: 2\nExplanation: The minimum jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.",
@@ -955,7 +949,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  46,
 		Title:           "Permutations",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.",
 		Examples: []string{
 			"Input: nums = [1,2,3]\nOutput: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]",
@@ -975,7 +969,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  47,
 		Title:           "Permutations II",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.",
 		Examples: []string{
 			"Input: nums = [1,1,2]\nOutput: [[1,1,2],[1,2,1],[2,1,1]]",
@@ -993,7 +987,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  48,
 		Title:           "Rotate Image",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).\n\nYou have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.",
 		Examples: []string{
 			"Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [[7,4,1],[8,5,2],[9,6,3]]",
@@ -1014,7 +1008,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  49,
 		Title:           "Group Anagrams",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given an array of strings strs, group the anagrams together. You can return the answer in any order.\n\nAn Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
 		Examples: []string{
 			"Input: strs = ['eat','tea','tan','ate','nat','bat']\nOutput: [['bat'],['nat','tan'],['ate','eat','tea']]",
@@ -1034,7 +1028,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  50,
 		Title:           "Pow(x, n)",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Implement `pow(x, n)`, which calculates `x` raised to the power `n` (i.e., `x^n`).",
 		Examples: []string{
 			"Input: x = 2.00000, n = 10\nOutput: 1024.00000",
@@ -1054,7 +1048,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  51,
 		Title:           "N-Queens",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.\n\nGiven an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.",
 		Examples: []string{
 			"Input: n = 4\nOutput: [['.Q..','...Q','Q...','..Q.'],['..Q.','Q...','...Q','.Q..']]\nExplanation: There exist two distinct solutions to the 4-queens puzzle as shown above.",
@@ -1071,7 +1065,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  52,
 		Title:           "N-Queens II",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.\n\nGiven an integer n, return the number of distinct solutions to the n-queens puzzle.",
 		Examples: []string{
 			"Input: n = 4\nOutput: 2\nExplanation: There are two distinct solutions to the 4-queens puzzle as shown above.",
@@ -1088,7 +1082,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  53,
 		Title:           "Maximum Subarray",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description:     "Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.",
 		Examples: []string{
 			"Input: nums = [-2,1,-3,4,-1,2,1,-5,4]\nOutput: 6\nExplanation: [4,-1,2,1] has the largest sum = 6.",
@@ -1107,7 +1101,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  54,
 		Title:           "Spiral Matrix",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given an m x n matrix, return all elements of the matrix in spiral order.",
 		Examples: []string{
 			"Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [1,2,3,6,9,8,7,4,5]",
@@ -1127,7 +1121,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  55,
 		Title:           "Jump Game",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given an array of non-negative integers nums, you are initially positioned at the first index of the array.\nEach element in the array represents your maximum jump length at that position.\nDetermine if you can reach the last index.",
 		Examples: []string{
 			"Input: nums = [2,3,1,1,4]\nOutput: true\nExplanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.",
@@ -1145,7 +1139,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  56,
 		Title:           "Merge Intervals",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given an array of intervals where intervals[i] = [start_i, end_i], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.",
 		Examples: []string{
 			"Input: intervals = [[1,3],[2,6],[8,10],[15,18]]\nOutput: [[1,6],[8,10],[15,18]]\nExplanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].",
@@ -1164,7 +1158,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  57,
 		Title:           "Insert Interval",
-		DifficultyLevel: "Hard",
+		Difficulty: "Hard",
 		Description:     "Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).\n\nYou may assume that the intervals were initially sorted according to their start times.",
 		Examples: []string{
 			"Input: intervals = [[1,3],[6,9]], newInterval = [2,5]\nOutput: [[1,5],[6,9]]\nExplanation: Insert [2,5] into the intervals [1,3] and [6,9] and merge them to [1,5],[6,9].",
@@ -1184,7 +1178,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  58,
 		Title:           "Length of Last Word",
-		DifficultyLevel: "Easy",
+		Difficulty: "Easy",
 		Description:     "Given a string s consisting of some words separated by some number of spaces, return the length of the last word in the string.\nA word is a maximal substring consisting of non-space characters only.",
 		Examples: []string{
 			"Input: s = \"Hello World\"\nOutput: 5\nExplanation: The last word is \"World\" with length 5.",
@@ -1204,7 +1198,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  59,
 		Title:           "Spiral Matrix II",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "Given a positive integer n, generate an n x n matrix filled with elements from 1 to n^2 in spiral order.",
 		Examples: []string{
 			"Input: n = 3\nOutput: [[1,2,3],[8,9,4],[7,6,5]]",
@@ -1221,7 +1215,7 @@ var problems = []model.Problem{
 	{
 		QuestionNumber:  60,
 		Title:           "Permutation Sequence",
-		DifficultyLevel: "Medium",
+		Difficulty: "Medium",
 		Description:     "The set [1, 2, 3, ..., n] contains a total of n! unique permutations.\nBy listing and labeling all of the permutations in order, return the kth permutation sequence.",
 		Examples: []string{
 			"Input: n = 3, k = 3\nOutput: \"213\"\nExplanation: The permutations of [1,2,3] are \"123\", \"132\", \"213\", \"231\", \"312\", and \"321\". The 3rd permutation is \"213\".",

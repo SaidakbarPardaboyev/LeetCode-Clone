@@ -2,7 +2,7 @@ create type run_submit as enum ('Run', 'Submit');
 
 create table testcases_non_btree (
     id uuid primary key unique default gen_random_uuid() not null,
-    problem_title varchar references problems(title) not null,
+    problem_id varchar references problems(id) not null,
     function_name varchar NOT NULL,
     run_or_submit run_submit not null,
     arg1 JSONB,
