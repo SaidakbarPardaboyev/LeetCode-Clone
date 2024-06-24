@@ -3,7 +3,7 @@ package main
 import (
 	// "leetcode/generator"
 
-	"fmt"
+	"leetcode/generator"
 	"leetcode/storage/postgres"
 )
 
@@ -14,7 +14,7 @@ func main() {
 	}
 	defer db.Close()
 
-	// generator.GenerateAllMockData(db)
+	generator.GenerateAllMockData(db)
 
 	// mockUser := model.User{
 	// 	Username:     "john_doe",
@@ -53,11 +53,11 @@ func main() {
 	// server := router.CreateServer(h)
 	// server.ListenAndServe()
 
-	problems := postgres.NewProblemRepo(db)
+	// problems := postgres.NewProblemRepo(db)
 
-	tem, err := problems.GetSubmissionStatisticsByProblemTitle("zigzag-conversion")
-	fmt.Println(err)
-	fmt.Println(tem)
+	// tem, err := problems.GetSubmissionStatisticsByProblemTitle("zigzag-conversion")
+	// fmt.Println(err)
+	// fmt.Println(tem)
 
 	// pro := model.Problem{
 	// 	Title:         "containers-with-most-water",

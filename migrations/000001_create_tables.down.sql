@@ -1,0 +1,12 @@
+drop table if exists testcases_non_btree;
+drop type if exists run_submit;
+drop table if exists submissions;
+drop type if exists status;
+drop table if exists topics_problems;
+drop table if exists topics;
+drop table if exists examples;
+drop table if exists users;
+drop type if exists gender;
+drop table if exists problems;
+drop type if exists difficulty_levels;
+drop table if exists languages;

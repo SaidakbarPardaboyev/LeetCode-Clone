@@ -25,7 +25,7 @@ package postgres
 // 		return err
 // 	}
 // 	defer tx.Commit()
-// 	query := `insert into topics_problems(topic_id, problem_id) 
+// 	query := `insert into topics_problems(topic_id, problem_id)
 // 	values($1, $2)`
 // 	_, err = tx.Exec(query, tp.TopicId, tp.ProblemId)
 
@@ -73,13 +73,8 @@ package postgres
 // 	for rows.Next() {
 // 		topicProblem := model.TopicProblem{}
 // 		err = rows.Scan(&topicProblem.Id, &topicProblem.TopicId,
-<<<<<<< HEAD
-// 			&topicProblem.ProblemId, &topicProblem.CreatedAt,
-// 			&topicProblem.UpdatedAt, &topicProblem.DeletedAt)
-=======
 // 			&topicProblem.ProblemId, &topicProblem.Created_at,
 // 			&topicProblem.Updated_at, &topicProblem.Deleted_at)
->>>>>>> 937c7ef (added id to the tables: problems, topicptoblems)
 
 // 		if err != nil {
 // 			return nil, err
@@ -95,18 +90,18 @@ package postgres
 // }
 // func (t *TopicProblemRepo) GetProblemsByTopicId(topicId string) (*[]model.Problem, error) {
 // 	query := `
-// 	select 
-// 		p.id, p.question_number, p.title, p.difficulty_level, 
+// 	select
+// 		p.id, p.question_number, p.title, p.difficulty_level,
 // 		p.description, p.examples, p.hints, p.constraints
-// 	from 
+// 	from
 // 		topics_problems as tp
 // 	join
 // 		topics as t
-// 	on 
+// 	on
 // 		tp.topic_id = t.id and t.deleted_at is null
 // 	join
 // 		problems as p
-// 	on 
+// 	on
 // 		p.id = tp.problem_id and p.deleted_at is null
 // 	where
 // 		tp.topic_id = $1 and tp.deleted_at is null
@@ -137,20 +132,20 @@ package postgres
 
 // func (t *TopicProblemRepo) GetTopicsByProblemId(problemId string) (*[]model.Topic, error) {
 // 	query := `
-// 	select 
+// 	select
 // 		t.id, t.name
-// 	from 
+// 	from
 // 		topics_problems as tp
 // 	join
 // 		topics as t
-// 	on 
+// 	on
 // 		tp.topic_id = t.id and t.deleted_at is null
 // 	join
 // 		problems as p
-// 	on 
+// 	on
 // 		p.id = tp.problem_id and p.deleted_at is null
 // 	where
-// 		tp.problem_id = 'c81c3b88-6937-47cc-9a8f-32f195911209' 
+// 		tp.problem_id = 'c81c3b88-6937-47cc-9a8f-32f195911209'
 // 		and tp.deleted_at is null
 // 	`
 
@@ -180,11 +175,11 @@ package postgres
 // 		return err
 // 	}
 // 	defer tx.Commit()
-// 	query := `update topics_problems 
-// 	set 
+// 	query := `update topics_problems
+// 	set
 // 		topic_id = $1,
 // 		problem_id = $2
-// 	where 
+// 	where
 // 		deleted_at is null and id = $3`
 // 	_, err = tx.Exec(query, tp.TopicId, tp.ProblemId, time.Now(), tp.Id)
 
@@ -198,10 +193,10 @@ package postgres
 // 		return err
 // 	}
 // 	defer tx.Commit()
-// 	query := `update topics_problems 
-// 	set 
+// 	query := `update topics_problems
+// 	set
 // 		deleted_at = $1
-// 	where 
+// 	where
 // 		deleted_at is null and id = $2 `
 // 	_, err = tx.Exec(query, time.Now(), id)
 

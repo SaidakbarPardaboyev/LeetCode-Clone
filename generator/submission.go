@@ -17,9 +17,8 @@ var status = []string{
 	"Output Limit Exceeded",
 }
 
-
-func getProblemTitles(db *sql.DB) ([]string, error) {
-	query := `SELECT title FROM problems`
+func getProblemID(db *sql.DB) ([]string, error) {
+	query := `SELECT id FROM problems`
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -41,8 +40,8 @@ func getProblemTitles(db *sql.DB) ([]string, error) {
 	return problems, nil
 }
 
-func getUserUsernames(db *sql.DB) ([]string, error) {
-	query := `SELECT username FROM users`
+func getUserId(db *sql.DB) ([]string, error) {
+	query := `SELECT id FROM users`
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -64,8 +63,8 @@ func getUserUsernames(db *sql.DB) ([]string, error) {
 	return users, nil
 }
 
-func getLanguageNames(db *sql.DB) ([]string, error) {
-	query := `SELECT name FROM languages`
+func getLanguageId(db *sql.DB) ([]string, error) {
+	query := `SELECT id FROM languages`
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -106,27 +105,27 @@ func randomDate() time.Time {
 }
 
 func InsertSubmissions(db *sql.DB) {
-	problemTitles, err := getProblemTitles(db)
+	problemsId, err := getProblemID(db)
 	if err != nil {
 		panic(err)
 	}
 
-	userUsernames, err := getUserUsernames(db)
+	userUsersId, err := getUserId(db)
 	if err != nil {
 		panic(err)
 	}
 
-	languageNames, err := getLanguageNames(db)
+	languagesId, err := getLanguageId(db)
 	if err != nil {
 		panic(err)
 	}
 
-	for _, username := range userUsernames {
+	for _, userId := range userUsersId {
 		for i := 0; i < 10; i++ {
 			submission := model.Submission{
-				ProblemTitle:     problemTitles[rand.Intn(len(problemTitles))],
-				UserUsername:     username,
-				LanguageName:     languageNames[rand.Intn(len(languageNames))],
+				ProblemId:        problemsId[rand.Intn(len(problemsId))],
+				UserId:           userId,
+				LanguageId:       languagesId[rand.Intn(len(languagesId))],
 				Code:             randomString(50),
 				SubmissionStatus: status[rand.Intn(len(status))],
 				SubmissionDate:   randomDate(),
@@ -136,11 +135,12 @@ func InsertSubmissions(db *sql.DB) {
 				panic(err)
 			}
 			defer tx.Commit()
-			query := `insert into submissions(problem_title, user_username, language_name, 
+			
+			query := `insert into submissions(problem_id, user_id, language_id, 
 			code, submission_status, submission_date)
 			values($1, $2, $3, $4, $5, $6)`
-			_, err = tx.Exec(query, submission.ProblemTitle, submission.UserUsername,
-				submission.LanguageName, submission.Code, submission.SubmissionStatus,
+			_, err = tx.Exec(query, submission.ProblemId, submission.UserId,
+				submission.LanguageId, submission.Code, submission.SubmissionStatus,
 				submission.SubmissionDate)
 			if err != nil {
 				panic(err)

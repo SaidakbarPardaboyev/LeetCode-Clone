@@ -1,0 +1,362 @@
+[
+    {
+        "problem_title" : "two-sum",
+        "topics" : [
+            "array", "hash-table"
+        ]
+    },
+    {
+        "problem_title" : "add-two-numbers",
+        "topics" : [
+            "linked-list", "math"
+        ]
+    },
+    {
+        "problem_title" : "longest-substring-without-repeating-characters",
+        "topics" : [
+            "string", "two-pointers", "sliding-window"
+        ]
+    },
+    {
+        "problem_title" : "median-of-two-sorted-arrays",
+        "topics" : [
+            "array", "binary-search"
+        ]
+    },
+    {
+        "problem_title" : "longest-palindromic-substring",
+        "topics" : [
+            "string", "dynamic-programming"
+        ]
+    },
+    {
+        "problem_title" : "zigzag-conversion",
+        "topics" : [
+            "string"
+        ]
+    },
+    {
+        "problem_title" : "reverse-integer",
+        "topics" : [
+            "math"
+        ]
+    },
+    {
+        "problem_title" : "string-to-integer-(atoi)",
+        "topics" : [
+            "string"
+        ]
+    },
+    {
+        "problem_title" : "palindrome-number",
+        "topics" : [
+            "math"
+        ]
+    },
+    {
+        "problem_title" : "regular-expression-matching",
+        "topics" : [
+            "string", "dynamic-programming"
+        ]
+    },
+    {
+        "problem_title" : "container-with-most-water",
+        "topics" : [
+            "array", "two-pointers", "greedy"
+        ]
+    },
+    {
+        "problem_title" : "integer-to-roman",
+        "topics" : [
+            "hash-table", "math", "string"
+        ]
+    },
+    {
+        "problem_title" : "roman-to-integer",
+        "topics" : [
+            "hash-table", "math", "string"
+        ]
+    },
+    {
+        "problem_title" : "longest-common-prefix",
+        "topics" : [
+            "string", "trie"
+        ]
+    },
+    {
+        "problem_title" : "3Sum",
+        "topics" : [
+            "array", "two-pointers", "sorting"
+        ]
+    },
+    {
+        "problem_title" : "3Sum-closest",
+        "topics" : [
+            "array", "hash-table"
+        ]
+    },
+    {
+        "problem_title" : "letter-combinations-of-a-phone-number",
+        "topics" : [
+            "string", "hash-table", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "4Sum",
+        "topics" : [
+            "array", "two-pointers", "sorting"
+        ]
+    },
+    {
+        "problem_title" : "remove-nth-node-from-end-of-list",
+        "topics" : [
+            "linked-list", "two-pointers"
+        ]
+    },
+    {
+        "problem_title" : "valid-parentheses",
+        "topics" : [
+            "string", "stack"
+        ]
+    },
+    {
+        "problem_title" : "merge-two-sorted-lists",
+        "topics" : [
+            "linked-list", "recursion"
+        ]
+    },
+    {
+        "problem_title" : "generate-parentheses",
+        "topics" : [
+            "sorting", "dynamic-programming", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "merge-k-sorted-lists",
+        "topics" : [
+            "linked-list", "divide-and-concuer", "heap"
+        ]
+    },
+    {
+        "problem_title" : "swap-nodes-in-pairs",
+        "topics" : [
+            "linked-list", "recursion"
+        ]
+    },
+    {
+        "problem_title" : "reverse-nodes-in-k-Group",
+        "topics" : [
+            "linked-list", "recursion"
+        ]
+    },
+    {
+        "problem_title" : "remove-duplicates from Sorted Array",
+        "topics" : [
+            "array", "two-pointers"
+        ]
+    },
+    {
+        "problem_title" : "remove-element",
+        "topics" : [
+            "array", "two-pointers"
+        ]
+    },
+    {
+        "problem_title" : "implement-strStr()",
+        "topics" : [
+            "two-pointers", "string"
+        ]
+    },
+    {
+        "problem_title" : "divide-two-integers",
+        "topics" : [
+            "math", "bit-manipulation"
+        ]
+    },
+    {
+        "problem_title" : "substring-with-concatenation-of-all-words",
+        "topics" : [
+            "hash-table", "string", "sliding-window"
+        ]
+    },
+    {
+        "problem_title" : "next-permutation",
+        "topics" : [
+            "array", "two-pointers"
+        ]
+    },
+    {
+        "problem_title" : "longest-valid-parentheses",
+        "topics" : [
+            "string", "dynamic-programming", "stack"
+        ]
+    },
+    {
+        "problem_title" : "search-in-rotated-sorted-array",
+        "topics" : [
+            "array", "binary-search"
+        ]
+    },
+    {
+        "problem_title" : "find-first-and-last-position-of-element-in-sorted-array",
+        "topics" : [
+           "array", "binary-search"
+        ]
+    },
+    {
+        "problem_title" : "search-insert-position",
+        "topics" : [
+            "array", "binary-search"
+        ]
+    },
+    {
+        "problem_title" : "valid-sudoku",
+        "topics" : [
+            "array", "hash-table", "matrix"
+        ]
+    },
+    {
+        "problem_title" : "sudoku-solver",
+        "topics" : [
+            "array", "hash-table", "backtracking", "matrix"
+        ]
+    },
+    {
+        "problem_title" : "count-and-say",
+        "topics" : [
+            "string"
+        ]
+    },
+    {
+        "problem_title" : "combination-sum",
+        "topics" : [
+            "array", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "combination-sum-II",
+        "topics" : [
+            "array", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "first-missing-positive",
+        "topics" : [
+            "array", "hash-table"
+        ]
+    },
+    {
+        "problem_title" : "trapping-rain-water",
+        "topics" : [
+            "array", "two-pointers", "dynamic-programming", "stack"
+        ]
+    },
+    {
+        "problem_title" : "multiply-strings",
+        "topics" : [
+            "math", "string", "simulation"
+        ]
+    },
+    {
+        "problem_title" : "wildcard-matching",
+        "topics" : [
+            "string", "dynamic-programming", "greedy", "recursion"
+        ]
+    },
+    {
+        "problem_title" : "jump-game-II",
+        "topics" : [
+            "array", "dynamic-programming", "greedy"
+        ]
+    },
+    {
+        "problem_title" : "permutations",
+        "topics" : [
+            "array", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "permutations-II",
+        "topics" : [
+            "array", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "rotate-image",
+        "topics" : [
+            "array", "math", "matrix"
+        ]
+    },
+    {
+        "problem_title" : "group-anagrams",
+        "topics" : [
+            "array", "hash-table", "string", "sorting"
+        ]
+    },
+    {
+        "problem_title" : "pow(x, n)",
+        "topics" : [
+            "array", "recursion"
+        ]
+    },
+    {
+        "problem_title" : "n-queens",
+        "topics" : [
+            "array", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "n-queens-II",
+        "topics" : [
+            "array", "backtracking"
+        ]
+    },
+    {
+        "problem_title" : "maximum-subarray",
+        "topics" : [
+            "array", "divide-and-concuer", "dynamic-programming"
+        ]
+    },
+    {
+        "problem_title" : "spiral-matrix",
+        "topics" : [
+            "array", "matrix", "simulation"
+        ]
+    },
+    {
+        "problem_title" : "jump-game",
+        "topics" : [
+            "array", "dynamic-programming", "greedy"
+        ]
+    },
+    {
+        "problem_title" : "merge-intervals",
+        "topics" : [
+            "array", "sorting"
+        ]
+    },
+    {
+        "problem_title" : "insert-interval",
+        "topics" : [
+            "array"
+        ]
+    },
+    {
+        "problem_title" : "length-of-last-word",
+        "topics" : [
+            "sorting"
+        ]
+    },
+    {
+        "problem_title" : "spiral-matrix-II",
+        "topics" : [
+            "array", "matrix", "simulation"
+        ]
+    },
+    {
+        "problem_title" : "permutation-sequence",
+        "topics" : [
+            "math", "recursion"
+        ]
+    }
+]

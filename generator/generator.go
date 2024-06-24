@@ -6,11 +6,8 @@ import (
 
 // for creating all mock data
 func GenerateAllMockData(db *sql.DB) {
-	// fmt.Println(GenerateUsers())
-	// InsertLanguages(db)
-	// InsertTopics(db)
-	// InsertUsers(db)
-	// InsertProblems(db)
-	InsertSubmissions(db)
+	// InsertExamples(db)
+	// InsertSubmissions(db)
+	// InsertTestcasesNonBtree(db)
 	// InsertTopicProblems(db)
 }

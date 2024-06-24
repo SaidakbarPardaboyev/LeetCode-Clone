@@ -1,0 +1,989 @@
+[
+    {
+        "title": "two-sum", 
+        "examples" : [
+            {
+                "input": "nums = [2, 7, 11, 15], target = 9",
+                "output": "[0, 1]",
+                "explanation": "Because nums[0] + nums[1] == 9"
+            },
+            {
+                "input": "nums = [3, 2, 4], target = 6",
+                "output": "[1, 2]",
+                "explanation": "Because nums[1] + nums[2] == 6"
+            },
+            {
+                "input": "nums = [3, 3], target = 6",
+                "output": "[0, 1]",
+                "explanation": "Because nums[0] + nums[1] == 6"
+            }
+        ]
+    },
+    {
+        "title": "add-two-numbers", 
+        "examples" : [
+            {
+                "input": "l1 = [2, 4, 3], l2 = [5, 6, 4]",
+                "output": "[7, 0, 8]",
+                "explanation": "342 + 465 = 807"
+            },
+            {
+                "input": "l1 = [0], l2 = [0]",
+                "output": "[0]",
+                "explanation": "0 + 0 = 0"
+            },
+            {
+                "input": "l1 = [9, 9, 9, 9, 9, 9, 9], l2 = [9, 9, 9, 9]",
+                "output": "[8, 9, 9, 9, 0, 0, 0, 1]",
+                "explanation": "9999999 + 9999 = 10009998"
+            }
+        ]
+    },
+    {
+        "title": "longest-substring-without-repeating-characters", 
+        "examples" : [
+            {
+                "input": "s = \"abcabcbb\"",
+                "output": "3",
+                "explanation": "The answer is \"abc\", with the length of 3."
+            },
+            {
+                "input": "s = \"bbbbb\"",
+                "output": "1",
+                "explanation": "The answer is \"b\", with the length of 1." 
+            },
+            {
+                "input": "s = \"pwwkew\"",
+                "output": "3",
+                "explanation": "The answer is \"wke\", with the length of 3."
+            }
+        ]
+    },
+    {
+        "title": "median-of-two-sorted-arrays", 
+        "examples" : [
+            {
+                "input": "nums1 = [1, 3], nums2 = [2]",
+                "output": "2.0",
+                "explanation": "The median is 2.0"
+            },
+            {
+                "input": "nums1 = [1, 2], nums2 = [3, 4]",
+                "output": "2.5",
+                "explanation": "The median is (2 + 3) / 2 = 2.5"
+            },
+            {
+                "input": "nums1 = [0, 0], nums2 = [0, 0]",
+                "output": "0.0",
+                "explanation": "The median is 0.0"
+            }
+        ]
+    },
+    {
+        "title": "longest-palindromic-substring", 
+        "examples" : [
+            {
+                "input": "s = \"babad\"",
+                "output": "\"bab\" or \"aba\"",
+                "explanation": "Both \"bab\" and \"aba\" are palindromic substrings."
+            },
+            {
+                "input": "s = \"cbbd\"",
+                "output": "\"bb\"",
+                "explanation": "The longest palindromic substring is \"bb\"."
+            },
+            {
+                "input": "s = \"a\"",
+                "output": "\"a\"",
+                "explanation": "The longest palindromic substring is \"a\"."
+            }
+        ]
+    },
+    {
+        "title": "zigzag-conversion", 
+        "examples" : [
+            {
+                "input": "s = \"PAYPALISHIRING\", numRows = 3",
+                "output": "\"PAHNAPLSIIGYIR\"",
+                "explanation": "Zigzag pattern on 3 rows results in \"PAHNAPLSIIGYIR\"."
+            },
+            {
+                "input": "s = \"PAYPALISHIRING\", numRows = 4",
+                "output": "\"PINALSIGYAHRPI\"",
+                "explanation": "Zigzag pattern on 4 rows results in \"PINALSIGYAHRPI\"."
+            },
+            {
+                "input": "s = \"A\", numRows = 1",
+                "output": "\"A\"",
+                "explanation": "Zigzag pattern with 1 row is just \"A\"."
+            }
+        ]
+    },
+    {
+        "title": "reverse-integer", 
+        "examples" : [
+            {
+                "input": "x = 123",
+                "output": "321",
+                "explanation": "Reversed integer of 123 is 321."
+            },
+            {
+                "input": "x = -123",
+                "output": "-321",
+                "explanation": "Reversed integer of -123 is -321."
+            },
+            {
+                "input": "x = 120",
+                "output": "21",
+                "explanation": "Reversed integer of 120 is 21."
+            }
+        ]
+    },
+    {
+        "title": "string-to-integer-(atoi)", 
+        "examples" : [
+            {
+                "input": "s = \"42\"",
+                "output": "42",
+                "explanation": "String \"42\" is converted to integer 42."
+            },
+            {
+                "input": "s = \"   -42\"",
+                "output": "-42",
+                "explanation": "String \"   -42\" is converted to integer -42."
+            },
+            {
+                "input": "s = \"4193 with words\"",
+                "output": "4193",
+                "explanation": "String \"4193 with words\" is converted to integer 4193."
+            }
+        ]
+    },
+    {
+        "title": "palindrome-number", 
+        "examples" : [
+            {
+                "input": "x = 121",
+                "output": "true",
+                "explanation": "121 reads as 121 from left to right and from right to left."
+            },
+            {
+                "input": "x = -121",
+                "output": "false",
+                "explanation": "-121 reads as 121- from left to right and from right to left."
+            },
+            {
+                "input": "x = 10",
+                "output": "false",
+                "explanation": "10 reads as 01 from right to left."
+            }
+        ]
+    },
+    {
+        "title": "regular-expression-matching", 
+        "examples" : [
+            {
+                "input": "s = \"aa\", p = \"a*\"",
+                "output": "true",
+                "explanation": "\"a*\" matches any sequence of \"a\"s."
+            },
+            {
+                "input": "s = \"aa\", p = \"a*\"",
+                "output": "false",
+                "explanation": "\"a\" does not match the string \"aa\"."
+            },
+            {
+                "input": "s = \"aa\", p = \"a*\"",
+                "output": "true",
+                "explanation": "\".*\" matches any string."
+            }
+        ]
+    },
+    {
+        "title": "integer-to-roman",
+        "examples": [
+            {
+                "input": "num = 3\n",
+                "output": "\"III\""
+            },
+            {
+                "input": "num = 4\n",
+                "output": "\"IV\""
+            },
+            {
+                "input": "num = 9\n",
+                "output": "\"IX\""
+            },
+            {
+                "input": "num = 58\n",
+                "output": "\"LVIII\"\n",
+                "explanation": "L = 50, V = 5, III = 3."
+            },
+            {
+                "input": "num = 1994\n",
+                "output": "\"MCMXCIV\"\n",
+                "explanation": "M = 1000, CM = 900, XC = 90, IV = 4."
+            }
+        ]
+    },
+    {
+        "title": "roman-to-integer",
+        "examples": [
+            {
+                "input": "s = \"III\"\n",
+                "output": "3"
+            },
+            {
+                "input": "s = \"IV\"\n",
+                "output": "4"
+            },
+            {
+                "input": "s = \"IX\"\n",
+                "output": "9"
+            },
+            {
+                "input": "s = \"LVIII\"\n",
+                "output": "58\n",
+                "explanation": "L = 50, V= 5, III = 3."
+            },
+            {
+                "input": "s = \"MCMXCIV\"\n",
+                "output": "1994\n",
+                "explanation": "M = 1000, CM = 900, XC = 90, IV = 4."
+            }
+        ]
+    },
+    {
+        "title": "longest-common-prefix",
+        "examples": [
+            {
+                "input": "strs = [\"flower\",\"flow\",\"flight\"]\n",
+                "output": "\"fl\""
+            },
+            {
+                "input": "strs = [\"dog\",\"racecar\",\"car\"]\n",
+                "output": "\"\""
+            }
+        ]
+    },
+    {
+        "title": "3Sum",
+        "examples": [
+            {
+                "input": "nums = [-1,0,1,2,-1,-4]\n",
+                "output": "[[-1,-1,2],[-1,0,1]]"
+            },
+            {
+                "input": "nums = []\n",
+                "output": "[]"
+            },
+            {
+                "input": "nums = [0]\n",
+                "output": "[]"
+            }
+        ]
+    },
+    {
+        "title": "3Sum-closest",
+        "examples": [
+            {
+                "input": "nums = [-1,2,1,-4], target = 1\n",
+                "output": "2\n",
+                "explanation": "The sum that is closest to the target is 2. (-1 + 2 + 1 = 2)."
+            },
+            {
+                "input": "nums = [0,0,0], target = 1\n",
+                "output": "0"
+            }
+        ]
+    },
+    {
+        "title": "letter-combinations-of-a-phone-number",
+        "examples": [
+            {
+                "input": "digits = \"23\"\n",
+                "output": "[\"ad\",\"ae\",\"af\",\"bd\",\"be\",\"bf\",\"cd\",\"ce\",\"cf\"]"
+            },
+            {
+                "input": "digits = \"\"\n",
+                "output": "[]"
+            },
+            {
+                "input": "digits = \"2\"\n",
+                "output": "[\"a\",\"b\",\"c\"]"
+            }
+        ]
+    },
+    {
+        "title": "4Sum",
+        "examples": [
+            {
+                "input": "nums = [1,0,-1,0,-2,2], target = 0\n",
+                "output": "[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]"
+            },
+            {
+                "input": "nums = [2,2,2,2,2], target = 8\n",
+                "output": "[[2,2,2,2]]"
+            }
+        ]
+    },
+    {
+        "title": "remove-nth-node-from-end-of-list",
+        "examples": [
+            {
+                "input": "head = [1,2,3,4,5], n = 2\n",
+                "output": "[1,2,3,5]"
+            },
+            {
+                "input": "head = [1], n = 1\n",
+                "output": "[]"
+            },
+            {
+                "input": "head = [1,2], n = 1\n",
+                "output": "[1]"
+            }
+        ]
+    },
+    {
+        "title": "valid-parentheses",
+        "examples": [
+            {
+                "input": "s = \"()\"\n",
+                "output": "true"
+            },
+            {
+                "input": "s = \"()[]{]\"\n",
+                "output": "true"
+            },
+            {
+                "input": "s = \"(]\"\n",
+                "output": "false"
+            },
+            {
+                "input": "s = \"([)]\"\n",
+                "output": "false"
+            },
+            {
+                "input": "s = \"{[]]\"\n",
+                "output": "true"
+            }
+        ]
+    },
+    {
+        "title": "merge-two-sorted-lists",
+        "examples": [
+            {
+                "input": "l1 = [1,2,4], l2 = [1,3,4]\n",
+                "output": "[1,1,2,3,4,4]"
+            },
+            {
+                "input": "l1 = [], l2 = []\n",
+                "output": "[]"
+            },
+            {
+                "input": "l1 = [], l2 = [0]\n",
+                "output": "[0]"
+            }
+        ]
+    },
+    {
+        "title": "generate-parentheses",
+        "examples": [
+            {
+                "input": "n = 3\n",
+                "output": "[\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]"
+            },
+            {
+                "input": "n = 1\n",
+                "output": "[\"()\"]"
+            }
+        ]
+    },
+    {
+        "title": "merge-k-sorted-lists",
+        "examples": [
+            {
+                "input": "lists = [[1,4,5],[1,3,4],[2,6]]  ",
+                "output": "[1,1,2,3,4,4,5,6]"
+            },
+            {
+                "input": "lists = []  ",
+                "output": "[]"
+            },
+            {
+                "input": "lists = [[]]  ",
+                "output": "[]"
+            }
+        ]
+    },
+    {
+        "title": "swap-nodes-in-pairs",
+        "examples": [
+            {
+                "input": "head = [1,2,3,4]  ",
+                "output": "[2,1,4,3]"
+            },
+            {
+                "input": "head = []  ",
+                "output": "[]"
+            },
+            {
+                "input": "head = [1]  ",
+                "output": "[1]"
+            }
+        ]
+    },
+    {
+        "title": "reverse-nodes-in-k-Group",
+        "examples": [
+            {
+                "input": "head = [1,2,3,4,5], k = 2  ",
+                "output": "[2,1,4,3,5]"
+            },
+            {
+                "input": "head = [1,2,3,4,5], k = 3  ",
+                "output": "[3,2,1,4,5]"
+            },
+            {
+                "input": "head = [1,2,3,4,5], k = 1  ",
+                "output": "[1,2,3,4,5]"
+            },
+            {
+                "input": "head = [1], k = 1  ",
+                "output": "[1]"
+            }
+        ]
+    },
+    {
+        "title": "remove-duplicates from Sorted Array",
+        "examples": [
+            {
+                "input": "nums = [1,1,2]\n",
+                "output": "2, nums = [1,2,_]\n",
+                "explanation": "Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.\nIt does not matter what you leave beyond the returned k (hence they are underscores)."
+            },
+            {
+                "input": "nums = [0,0,1,1,1,2,2,3,3,4]\n",
+                "output": "5, nums = [0,1,2,3,4,_,_,_,_,_]\n",
+                "explanation": "Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.\nIt does not matter what you leave beyond the returned k (hence they are underscores)."
+            }
+        ]
+    },
+    {
+        "title": "remove-element",
+        "examples": [
+            {
+                "input": "nums = [3,2,2,3], val = 3\n",
+                "output": "2 with nums = [2,2]"
+            },
+            {
+                "input": "nums = [0,1,2,2,3,0,4,2], val = 2\n",
+                "output": "5 with nums = [0,1,3,0,4]"
+            }
+        ]
+    },
+    {
+        "title": "implement-strStr()",
+        "examples": [
+            {
+                "input": "haystack = 'hello', needle = 'll'\n",
+                "output": "2"
+            },
+            {
+                "input": "haystack = 'aaaaa', needle = 'bba'\n",
+                "output": "-1"
+            }
+        ]
+    },
+    {
+        "title": "divide-two-integers",
+        "examples": [
+            {
+                "input": "dividend = 10, divisor = 3\n",
+                "output": "3"
+            },
+            {
+                "input": "dividend = 7, divisor = -3\n",
+                "output": "-2"
+            }
+        ]
+    },
+    {
+        "title": "substring-with-concatenation-of-all-words",
+        "examples": [
+            {
+                "input": "s = 'barfoothefoobarman', words = ['foo','bar']\n",
+                "output": "[0,9]"
+            },
+            {
+                "input": "s = 'wordgoodgoodgoodbestword', words = ['word','good','best','word']\n",
+                "output": "[]"
+            }
+        ]
+    },
+    {
+        "title": "next-permutation",
+        "examples": [
+            {
+                "input": "nums = [1,2,3]\n",
+                "output": "[1,3,2]"
+            },
+            {
+                "input": "nums = [3,2,1]\n",
+                "output": "[1,2,3]"
+            },
+            {
+                "input": "nums = [1,1,5]\n",
+                "output": "[1,5,1]"
+            }
+        ]
+    },
+    {
+        "title": "longest-valid-parentheses",
+        "examples": [
+            {
+                "input": "s = '(()'\n",
+                "output": "2"
+            },
+            {
+                "input": "s = ')()())'\n",
+                "output": "4"
+            }
+        ]
+    },
+    {
+        "title": "search-in-rotated-sorted-array",
+        "examples": [
+            {
+                "input": "nums = [4,5,6,7,0,1,2], target = 0\n",
+                "output": "4"
+            },
+            {
+                "input": "nums = [4,5,6,7,0,1,2], target = 3\n",
+                "output": "-1"
+            }
+        ]
+    },
+    {
+        "title": "find-first-and-last-position-of-element-in-sorted-array",
+        "examples": [
+            {
+                "input": "nums = [5,7,7,8,8,10], target = 8\n",
+                "output": "[3,4]"
+            },
+            {
+                "input": "nums = [5,7,7,8,8,10], target = 6\n",
+                "output": "[-1,-1]"
+            }
+        ]
+    },
+    {
+        "title": "search-insert-position",
+        "examples": [
+            {
+                "input": "nums = [1,3,5,6], target = 5\n",
+                "output": "2"
+            },
+            {
+                "input": "nums = [1,3,5,6], target = 2\n",
+                "output": "1"
+            },
+            {
+                "input": "nums = [1,3,5,6], target = 7\n",
+                "output": "4"
+            },
+            {
+                "input": "nums = [1,3,5,6], target = 0\n",
+                "output": "0"
+            }
+        ]
+    },
+    {
+        "title": "valid-sudoku",
+        "examples": [
+            {
+                "input": "board = [['5','3','.','.','7','.','.','.','.'],['6','.','.','1','9','5','.','.','.'],['.','9','8','.','.','.','.','6','.'],['8','.','.','.','6','.','.','.','3'],['4','.','.','8','.','3','.','.','1'],['7','.','.','.','2','.','.','.','6'],['.','6','.','.','.','.','2','8','.'],['.','.','.','4','1','9','.','.','5'],['.','.','.','.','8','.','.','7','9']]\n",
+                "output": "true"
+            },
+            {
+                "input": "board = [['8','3','.','.','7','.','.','.','.'],['6','.','.','1','9','5','.','.','.'],['.','9','8','.','.','.','.','6','.'],['8','.','.','.','6','.','.','.','3'],['4','.','.','8','.','3','.','.','1'],['7','.','.','.','2','.','.','.','6'],['.','6','.','.','.','.','2','8','.'],['.','.','.','4','1','9','.','.','5'],['.','.','.','.','8','.','.','7','9']]\n",
+                "output": "false"
+            }
+        ]
+    },
+    {
+        "title": "sudoku-solver",
+        "examples": [
+            {
+                "input": "board = [['5','3','.','.','7','.','.','.','.'],['6','.','.','1','9','5','.','.','.'],['.','9','8','.','.','.','.','6','.'],['8','.','.','.','6','.','.','.','3'],['4','.','.','8','.','3','.','.','1'],['7','.','.','.','2','.','.','.','6'],['.','6','.','.','.','.','2','8','.'],['.','.','.','4','1','9','.','.','5'],['.','.','.','.','8','.','.','7','9']]\n",
+                "output": "[['5','3','4','6','7','8','9','1','2'],['6','7','2','1','9','5','3','4','8'],['1','9','8','3','4','2','5','6','7'],['8','5','9','7','6','1','4','2','3'],['4','2','6','8','5','3','7','9','1'],['7','1','3','9','2','4','8','5','6'],['9','6','1','5','3','7','2','8','4'],['2','8','7','4','1','9','6','3','5'],['3','4','5','2','8','6','1','7','9']]"
+            }
+        ]
+    },
+    {
+        "title": "count-and-say",
+        "examples": [
+            {
+                "input": "n = 1\n",
+                "output": "'1'\n",
+                "explanation": "This is the base case."
+            },
+            {
+                "input": "n = 4\n",
+                "output": "'1211'\n",
+                "explanation": "countAndSay(1) = '1', countAndSay(2) = '11', countAndSay(3) = '21', countAndSay(4) = '1211'."
+            }
+        ]
+    },
+    {
+        "title": "combination-sum",
+        "examples": [
+            {
+                "input": "candidates = [2,3,6,7], target = 7\n",
+                "output": "[[2,2,3],[7]]\nExplanation:\n2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times, similarly with 3.\n7 is a candidate, and 7 = 7.\nThese are the only two combinations."
+            },
+            {
+                "input": "candidates = [2,3,5], target = 8\n",
+                "output": "[[2,2,2,2],[2,3,3],[3,5]]\nExplanation:\n2, 3, and 5 are candidates, and 2 + 2 + 2 + 2 = 8, 2 + 3 + 3 = 8, and 3 + 5 = 8 are the only three combinations."
+            },
+            {
+                "input": "candidates = [2], target = 1\n",
+                "output": "[]\nExplanation:\n2 is the only candidate, and 2 < 1. There are no combinations."
+            },
+            {
+                "input": "candidates = [1], target = 1\n",
+                "output": "[[1]]"
+            },
+            {
+                "input": "candidates = [1], target = 2\n",
+                "output": "[[1,1]]"
+            }
+        ]
+    },
+    {
+        "title": "combination-sum-II",
+        "examples": [
+            {
+                "input": "candidates = [10,1,2,7,6,1,5], target = 8\n",
+                "output": "[[1,1,6],[1,2,5],[1,7],[2,6]]\nExplanation:\n1 + 1 + 6 = 8\n1 + 2 + 5 = 8\n1 + 7 = 8\n2 + 6 = 8\nThese are the only unique combinations."
+            },
+            {
+                "input": "candidates = [2,5,2,1,2], target = 5\n",
+                "output": "[[1,2,2],[5]]\nExplanation:\n1 + 2 + 2 = 5\n5 = 5\nThese are the only unique combinations."
+            }
+        ]
+    },
+    {
+        "title": "first-missing-positive",
+        "examples": [
+            {
+                "input": "nums = [1,2,0]\n",
+                "output": "3"
+            },
+            {
+                "input": "nums = [3,4,-1,1]\n",
+                "output": "2"
+            },
+            {
+                "input": "nums = [7,8,9,11,12]\n",
+                "output": "1"
+            }
+        ]
+    },
+    {
+        "title": "trapping-rain-water",
+        "examples": [
+            {
+                "input": "height = [0,1,0,2,1,0,1,3,2,1,2,1]\n",
+                "output": "6\n",
+                "explanation": "The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped."
+            },
+            {
+                "input": "height = [4,2,0,3,2,5]\n",
+                "output": "9"
+            }
+        ]
+    },
+    {
+        "title": "multiply-strings",
+        "examples": [
+            {
+                "input": "num1 = '2', num2 = '3'\n",
+                "output": "'6'"
+            },
+            {
+                "input": "num1 = '123', num2 = '456'\n",
+                "output": "'56088'"
+            }
+        ]
+    },
+    {
+        "title": "wildcard-matching",
+        "examples": [
+            {
+                "input": "s = 'aa', p = 'a'\n",
+                "output": "false\n",
+                "explanation": "'a' does not match the entire string 'aa'."
+            },
+            {
+                "input": "s = 'adceb', p = '*a*b'\n",
+                "output": "true\n",
+                "explanation": "The first '*' matches the empty sequence, while the second '*' matches the substring 'dce'."
+            },
+            {
+                "input": "s = 'acdcb', p = 'a*c?b'\n",
+                "output": "false\n",
+                "explanation": "The matching substring is 'acdcb', which clearly does not match 'a*c?b'."
+            }
+        ]
+    },
+    {
+        "title": "jump-game-II",
+        "examples": [
+            {
+                "input": "nums = [2,3,1,1,4]\n",
+                "output": "2\n",
+                "explanation": "The minimum jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index."
+            },
+            {
+                "input": "nums = [2,3,0,1,4]\n",
+                "output": "2\n",
+                "explanation": "The minimum jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 4 steps to the last index."
+            }
+        ]
+    },
+    {
+        "title": "permutations",
+        "examples": [
+            {
+                "input": "nums = [1,2,3]\n",
+                "output": "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]"
+            },
+            {
+                "input": "nums = [0,1]\n",
+                "output": "[[0,1],[1,0]]"
+            },
+            {
+                "input": "nums = [1]\n",
+                "output": "[[1]]"
+            }
+        ]
+    },
+    {
+        "title": "permutations-II",
+        "examples": [
+            {
+                "input": "nums = [1,1,2]\n",
+                "output": "[[1,1,2],[1,2,1],[2,1,1]]"
+            },
+            {
+                "input": "nums = [1,2,3]\n",
+                "output": "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]"
+            }
+        ]
+    },
+    {
+        "title": "rotate-image",
+        "examples": [
+            {
+                "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]]\n",
+                "output": "[[7,4,1],[8,5,2],[9,6,3]]"
+            },
+            {
+                "input": "matrix = [[1]]\n",
+                "output": "[[1]]"
+            },
+            {
+                "input": "matrix = [[1,2],[3,4]]\n",
+                "output": "[[3,1],[4,2]]"
+            }
+        ]
+    },
+    {
+        "title": "group-anagrams",
+        "examples": [
+            {
+                "input": "strs = ['eat','tea','tan','ate','nat','bat']\n",
+                "output": "[['bat'],['nat','tan'],['ate','eat','tea']]"
+            },
+            {
+                "input": "strs = ['']\n",
+                "output": "[['']]"
+            },
+            {
+                "input": "strs = ['a']\n",
+                "output": "[['a']]"
+            }
+        ]
+    },
+    {
+        "title": "pow(x, n)",
+        "examples": [
+            {
+                "input": "x = 2.00000, n = 10\n",
+                "output": "1024.00000"
+            },
+            {
+                "input": "x = 2.10000, n = 3\n",
+                "output": "9.26100"
+            },
+            {
+                "input": "x = 2.00000, n = -2\n",
+                "output": "0.25000\n",
+                "explanation": "2^-2 = 1/2^2 = 1/4 = 0.25"
+            }
+        ]
+    },
+    {
+        "title": "n-queens",
+        "examples": [
+            {
+                "input": "n = 4\n",
+                "output": "[['.Q..','...Q','Q...','..Q.'],['..Q.','Q...','...Q','.Q..']]\n",
+                "explanation": "There exist two distinct solutions to the 4-queens puzzle as shown above."
+            },
+            {
+                "input": "n = 1\n",
+                "output": "[['Q']]\n",
+                "explanation": "The 1-queens puzzle has only one solution, which is shown above."
+            }
+        ]
+    },
+    {
+        "title": "n-queens-II",
+        "examples": [
+            {
+                "input": "n = 4\n",
+                "output": "2\n",
+                "explanation": "There are two distinct solutions to the 4-queens puzzle as shown above."
+            },
+            {
+                "input": "n = 1\n",
+                "output": "1\n",
+                "explanation": "The 1-queens puzzle has only one solution."
+            }
+        ]
+    },
+    {
+        "title": "maximum-subarray",
+        "examples": [
+            {
+                "input": "nums = [-2,1,-3,4,-1,2,1,-5,4]\n",
+                "output": "6\n",
+                "explanation": "[4,-1,2,1] has the largest sum = 6."
+            },
+            {
+                "input": "nums = [1]\n",
+                "output": "1"
+            },
+            {
+                "input": "nums = [5,4,-1,7,8]\n",
+                "output": "23"
+            }
+        ]
+    },
+    {
+        "title": "spiral-matrix",
+        "examples": [
+            {
+                "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]]\n",
+                "output": "[1,2,3,6,9,8,7,4,5]"
+            },
+            {
+                "input": "matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]\n",
+                "output": "[1,2,3,4,8,12,11,10,9,5,6,7]"
+            }
+        ]
+    },
+    {
+        "title": "jump-game",
+        "examples": [
+            {
+                "input": "nums = [2,3,1,1,4]\n",
+                "output": "true\n",
+                "explanation": "Jump 1 step from index 0 to 1, then 3 steps to the last index."
+            },
+            {
+                "input": "nums = [3,2,1,0,4]\n",
+                "output": "false\n",
+                "explanation": "You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index."
+            }
+        ]
+    },
+    {
+        "title": "merge-intervals",
+        "examples": [
+            {
+                "input": "intervals = [[1,3],[2,6],[8,10],[15,18]]\n",
+                "output": "[[1,6],[8,10],[15,18]]\n",
+                "explanation": "Since intervals [1,3] and [2,6] overlap, merge them into [1,6]."
+            },
+            {
+                "input": "intervals = [[1,4],[4,5]]\n",
+                "output": "[[1,5]]\n",
+                "explanation": "Intervals [1,4] and [4,5] are considered overlapping."
+            }
+        ]
+    },
+    {
+        "title": "insert-interval",
+        "examples": [
+            {
+                "input": "intervals = [[1,3],[6,9]], newInterval = [2,5]\n",
+                "output": "[[1,5],[6,9]]\n",
+                "explanation": "Insert [2,5] into the intervals [1,3] and [6,9] and merge them to [1,5],[6,9]."
+            },
+            {
+                "input": "intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]\n",
+                "output": "[[1,2],[3,10],[12,16]]\n",
+                "explanation": "Insert [4,8] into the intervals [3,5],[6,7],[8,10] and merge them to [3,10]."
+            }
+        ]
+    },
+    {
+        "title": "length-of-last-word",
+        "examples": [
+            {
+                "input": "s = \"Hello World\"\n",
+                "output": "5\n",
+                "explanation": "The last word is \"World\" with length 5."
+            },
+            {
+                "input": "s = \"   fly me   to   the moon  \"\n",
+                "output": "4\n",
+                "explanation": "The last word is \"moon\" with length 4."
+            },
+            {
+                "input": "s = \"\"\n",
+                "output": "0"
+            }
+        ]
+    },
+    {
+        "title": "spiral-matrix-II",
+        "examples": [
+            {
+                "input": "n = 3\n",
+                "output": "[[1,2,3],[8,9,4],[7,6,5]]"
+            },
+            {
+                "input": "n = 1\n",
+                "output": "[[1]]"
+            }
+        ]
+    },
+    {
+        "title": "permutation-sequence",
+        "examples": [
+            {
+                "input": "n = 3, k = 3\n",
+                "output": "\"213\"\n",
+                "explanation": "The permutations of [1,2,3] are \"123\", \"132\", \"213\", \"231\", \"312\", and \"321\". The 3rd permutation is \"213\"."
+            },
+            {
+                "input": "n = 4, k = 9\n",
+                "output": "\"2314\""
+            }
+        ]
+    }
+]
