@@ -1,4 +1,4 @@
-package model
+package models
 
 import (
 	"database/sql"
@@ -7,9 +7,9 @@ import (
 
 type Submission struct {
 	Id               int             `json:"id"`
-	ProblemTitle     string          `json:"problem_title"`
-	UserUsername     string          `json:"user_username"`
-	LanguageName     string          `json:"language_name"`
+	ProblemId        string          `json:"problem_id"`
+	UserId           string          `json:"user_id"`
+	LanguageId       string          `json:"language_id"`
 	Code             string          `json:"code"`
 	SubmissionStatus string          `json:"submission_status"`
 	Runtime          sql.NullFloat64 `json:"runtime"`
@@ -17,10 +17,25 @@ type Submission struct {
 	Time
 }
 
+type CreateSubmission struct {
+	ProblemId        string          `json:"problem_id"`
+	UserId           string          `json:"user_id"`
+	LanguageId       string          `json:"language_id"`
+	Code             string          `json:"code"`
+	SubmissionStatus string          `json:"submission_status"`
+	Runtime          sql.NullFloat64 `json:"runtime"`
+	SubmissionDate   time.Time       `json:"submission_date"`
+}
+
+type UpdateSubmission struct {
+	SubmissionStatus string          `json:"submission_status"`
+	Runtime          sql.NullFloat64 `json:"runtime"`
+}
+
 type SubmissionFilter struct {
-	ProblemTitle     *string
-	UserUsername     *string
-	LanguageName     *string
+	ProblemId        *string
+	UserId           *string
+	LanguageId       *string
 	Code             *string
 	SubmissionStatus *string
 	Runtime          *sql.NullFloat64

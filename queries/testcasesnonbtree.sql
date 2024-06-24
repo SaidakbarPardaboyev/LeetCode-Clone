@@ -163,3 +163,174 @@ VALUES
 ('regular-expression-matching', 'isMatch', 'Submit', '"abcd"', '".*d"', 'true', 'string', 'string', 'boolean'),
 ('regular-expression-matching', 'isMatch', 'Submit', '"abcd"', '"abcd*"', 'true', 'string', 'string', 'boolean'),
 ('regular-expression-matching', 'isMatch', 'Submit', '"a"', '"ab*"', 'true', 'string', 'string', 'boolean');
+
+-- right
+
+-- Container With Most Water
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('container-with-most-water', 'maxArea', 'Run', '[1,8,6,2,5,4,8,3,7]', '49', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Run', '[1,1]', '1', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[4,3,2,1,4]', '16', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[1,2,1]', '2', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[1,8,6,2,5,4,8,3,7]', '49', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[1,2,3,4,5,6,7,8,9,10]', '25', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[1,8,6,2,5,4,8,3,7]', '49', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[10,10,10,10,10]', '40', '[]int', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[5,5,5,5,5]', '20', 'array', 'integer'),
+('container-with-most-water', 'maxArea', 'Submit', '[1,2,1]', '2', 'array', 'integer');
+
+-- Integer to Roman
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('integer-to-roman', 'intToRoman', 'Run', '3', 'III', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Run', '4', 'IV', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '9', 'IX', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '58', 'LVIII', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '1994', 'MCMXCIV', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '42', 'XLII', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '14', 'XIV', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '444', 'CDXLIV', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '890', 'DCCCXC', 'integer', 'string'),
+('integer-to-roman', 'intToRoman', 'Submit', '2019', 'MMXIX', 'integer', 'string');
+
+
+-- Longest Common Prefix
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('longest-common-prefix', 'longestCommonPrefix', 'Run', '["flower","flow","flight"]', '"fl"', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Run', '["dog","racecar","car"]', '""', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["flower","flow","flight"]', '"fl"', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["dog","racecar","car"]', '""', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["cir","car"]', '"c"', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["ab","a"]', '"a"', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["a","a","b"]', '""', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["flower","flower","flower","flower"]', '"flower"', 'array', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["aca","cba"]', '""', '[]string', 'string'),
+('longest-common-prefix', 'longestCommonPrefix', 'Submit', '["a","b"]', '""', '[]string', 'string');
+
+-- 3Sum
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('3sum', 'threeSum', 'Run', '[-1, 0, 1, 2, -1, -4]', '[[-1, -1, 2], [-1, 0, 1]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Run', '[]', '[]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[-1, 0, 1, 2, -1, -4]', '[[-1, -1, 2], [-1, 0, 1]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[0, 0, 0, 0]', '[[0, 0, 0]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[-2, 0, 1, 1, 2]', '[[-2, 0, 2], [-2, 1, 1]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[1, 1, -2]', '[[-2, 1, 1]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[-1, 0, 1, 2, -1, -4]', '[[-1, -1, 2], [-1, 0, 1]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[-1, 0, 1, 2, -1, -4]', '[[-1, -1, 2], [-1, 0, 1]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[0, 0, 0, 0]', '[[0, 0, 0]]', '[]int', '[][]int'),
+('3sum', 'threeSum', 'Submit', '[-2, 0, 1, 1, 2]', '[[-2, 0, 2], [-2, 1, 1]]', '[]int', '[][]int');
+
+-- 3Sum Closest
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, arg2, answer, arg1_type, arg2_type, answer_type)
+VALUES
+('3sum-closest', 'threeSumClosest', 'Run', '[-1, 2, 1, -4]', '1', '2', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Run', '[0, 0, 0]', '1', '0', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[-1, 2, 1, -4]', '1', '2', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[0, 0, 0]', '1', '0', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[-1, 2, 1, -4]', '2', '2', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[-1, 2, 1, -4]', '-3', '-1', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[-1, 2, 1, -4]', '0', '0', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[1, 1, 1, 0]', '-100', '2', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[1, 1, 1, 0]', '1', '2', '[]int', 'integer', 'integer'),
+('3sum-closest', 'threeSumClosest', 'Submit', '[1, 1, 1, 0]', '100', '3', '[]int', 'integer', 'integer');
+
+-- Letter Combinations of a Phone Number
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Run', '"23"', '["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Run', '"7"', '["p", "q", "r", "s"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Submit', '"23"', '["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Submit', '"7"', '["p", "q", "r", "s"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Submit', '"2"', '["a", "b", "c"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Submit', '"9"', '["w", "x", "y", "z"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Submit', '"234"', '["adg","adh","adi","aeg","aeh","aei","afg","afh","afi","bdg","bdh","bdi","beg","beh","bei","bfg","bfh","bfi","cdg","cdh","cdi","ceg","ceh","cei","cfg","cfh","cfi"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Submit', '"78"', '["pt","pu","pv","qt","qu","qv","rt","ru","rv","st","su","sv"]', 'string', '[]string'),
+('letter-combinations-of-a-phone-number', 'letterCombinations', 'Submit', '"567"', '["jmp","jmq","jmr","jms","jnp","jnq","jnr","jns","jop","joq","jor","jos","kmp","kmq","kmr","kms","knp","knq","knr","kns","kop","koq","kor","kos","lmp","lmq","lmr","lms","lnp","lnq","lnr","lns","lop","loq","lor","los"]', 'string', '[]string')
+
+-- 4Sum
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, arg2, answer, arg1_type, arg2_type, answer_type)
+VALUES
+('4sum', 'fourSum', 'Run', '[1, 0, -1, 0, -2, 2]', '0', '[[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Run', '[2, 2, 2, 2, 2]', '8', '[[[2,2,2,2]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[1, 0, -1, 0, -2, 2]', '0', '[[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[0, 0, 0, 0]', '0', '[[[0,0,0,0]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[2, 2, 2, 2, 2]', '8', '[[[2,2,2,2]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[-1,0,1,2,-1,-4]', '-1', '[[[-4,0,1,2],[-1,-1,0,1]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[1,-2,-5,-4,-3,3,3,5]', '-11', '[[[-5,-4,-3,1]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[-3,-2,-1,0,0,1,2,3]', '0', '[[[-3,-2,2,3],[-3,-1,1,3],[-3,0,0,3],[-3,0,1,2],[-2,-1,0,3],[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[-3,-1,0,2,4,5]', '0', '[]', '[]int', 'integer', '[][]int'),
+('4sum', 'fourSum', 'Submit', '[-3,-1,0,2,4,5]', '3', '[[[-3,0,2,4]]]', '[]int', 'integer', '[][]int');
+
+-- Remove Nth Node From End of List
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, arg2, answer, arg1_type, arg2_type, answer_type)
+VALUES
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Run', '[1,2,3,4,5]', '2', '[1,2,3,5]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Run', '[1]', '1', '[]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1,2,3,4,5]', '2', '[1,2,3,5]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1]', '1', '[]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1,2]', '1', '[1]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1,2,3]', '3', '[2,3]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1,2,3,4,5]', '5', '[2,3,4,5]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1,2,3,4,5]', '1', '[1,2,3,4]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1,2,3,4,5]', '4', '[1,3,4,5]', '[]int', 'integer', '[]int'),
+('remove-nth-node-from-end-of-list', 'removeNthFromEnd', 'Submit', '[1,2,3,4,5]', '3', '[1,2,4,5]', '[]int', 'integer', '[]int');
+
+-- Valid Parentheses
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('valid-parentheses', 'isValid', 'Run', '"()"', 'true', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Run', '"()[]{}"', 'true', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Run', '"(]"', 'false', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Run', '"([)]"', 'false', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '"()"', 'true', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '"()[]{}"', 'true', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '"(]"', 'false', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '"([)]"', 'false', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '""', 'true', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '"{{}}"', 'true', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '"[[]]"', 'true', 'string', 'boolean'),
+('valid-parentheses', 'isValid', 'Submit', '"[([]])"', 'false', 'string', 'boolean');
+
+-- Merge Two Sorted Lists
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, arg2, answer, arg1_type, arg2_type, answer_type)
+VALUES
+('merge-two-sorted-lists', 'mergeTwoLists', 'Run', '[-10,-10,-9,-4,1,6,6]', '[-7]', '[-10,-10,-9,-7,-4,1,6,6]', 'array', 'array', 'array'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Run', '[1,2,4]', '[1,3,4]', '[1,1,2,3,4,4]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[1,2,4]', '[1,3,4]', '[1,1,2,3,4,4]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[]', '[]', '[]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[]', '[0]', '[0]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[-10,-10,-9,-4,1,6,6]', '[-7]', '[-10,-10,-9,-7,-4,1,6,6]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[1,3,4]', '[1,2,4]', '[1,1,2,3,4,4]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[5]', '[1]', '[1,5]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[1,2,4]', '[]', '[1,2,4]', '[]int', '[]int', '[]int'),
+('merge-two-sorted-lists', 'mergeTwoLists', 'Submit', '[1,3,4]', '[]', '[1,3,4]', '[]int', '[]int', '[]int');
+
+
+-- Generate Parentheses
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('generate-parentheses', 'generateParenthesis', 'Run', '3', '["((()))","(()())","(())()","()(())","()()()"]', 'integer', '[]string'),
+('generate-parentheses', 'generateParenthesis', 'Run', '1', '["()"]', 'integer', '[]string'),
+('generate-parentheses', 'generateParenthesis', 'Submit', '3', '["((()))","(()())","(())()","()(())","()()()"]', 'integer', '[]string'),
+('generate-parentheses', 'generateParenthesis', 'Submit', '2', '["(())","()()"]', 'integer', '[]string'),
+('generate-parentheses', 'generateParenthesis', 'Submit', '1', '["()"]', 'integer', '[]string'),
+('generate-parentheses', 'generateParenthesis', 'Submit', '4', '["(((())))","((()()))","((())())","((()))()","(()(()))","(()()())","(()())()","(())(())","(())()()","()((()))","()(()())","()(())()","()()(())","()()()()"]', 'integer', '[]string'),
+('generate-parentheses', 'generateParenthesis', 'Submit', '0', '[""]', 'integer', '[]string'),
+('generate-parentheses', 'generateParenthesis', 'Submit', '5', '["((((()))))","(((()())))","(((())()))","(((()))())","(((())))()","((()(())))","((()()()))","((()())())","((()()))()","((())(()))","((())()())","((())())()","((()))(())","((()))()()","(()((())))","(()(()()))","(()(())())","(()(()))()","(()()(()))","(()()()())","(()()())()","(()()()())","(()()()()","(())((()))","(())(()())","(())(())()","(())()(()","(())()()()","()(((())))","()((()()))","()((())())","()((()))()","()(()(()))","()(()()())","()(()())()","()(())(())","()(())()()","()()((()))","()()(()())","()()(())()","()()()(())","()()()()()"]', 'integer', '[]string');
+
+-- Merge k Sorted Lists
+INSERT INTO testcases_non_btree (problem_title, function_name, run_or_submit, arg1, answer, arg1_type, answer_type)
+VALUES
+('merge-k-sorted-lists', 'mergeKLists', 'Run', '[[1,4,5],[1,3,4],[2,6]]', '[1,1,2,3,4,4,5,6]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Run', '[]', '[]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[1,4,5],[1,3,4],[2,6]]', '[1,1,2,3,4,4,5,6]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[1,2,3],[4,5,6],[7,8,9]]', '[1,2,3,4,5,6,7,8,9]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[],[],[]]', '[]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[0,2,5],[1,3,4],[6,7,8]]', '[0,1,2,3,4,5,6,7,8]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[0],[2],[5]]', '[0,2,5]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[1,4,5],[1,3,4],[2,6],[0,0,0,0,0]]', '[0,0,0,0,0,1,1,2,3,4,4,5,6]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[1,4,5],[1,3,4],[2,6],[-1,-1,-1,-1]]', '[-1,-1,-1,-1,1,1,2,3,4,4,5,6]', '[][]int', '[]int'),
+('merge-k-sorted-lists', 'mergeKLists', 'Submit', '[[10,20,30],[15,25,35],[5,15,25]]', '[5,10,15,15,20,25,25,30,35]', '[][]int', '[]int');

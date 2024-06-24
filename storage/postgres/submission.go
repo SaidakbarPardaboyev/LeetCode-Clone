@@ -3,7 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"fmt"
-	"leetcode/model"
+	"leetcode/models"
 	"time"
 )
 
@@ -16,31 +16,41 @@ func NewSubmissionRepo(db *sql.DB) *SubmissionRepo {
 }
 
 // Create
-func (s *SubmissionRepo) CreateSubmission(submission *model.Submission) error {
-
+func (s *SubmissionRepo) CreateSubmission(submission *models.CreateSubmission) error {
+	
+	query := `
+	insert into 
+	submissions(problem_id, user_id, language_id, 
+	code, submission_status, runtime, submission_date)
+	values($1, $2, $3, $4, $5, $6, $7)`
+	
 	tx, err := s.Db.Begin()
 	if err != nil {
 		return err
 	}
-	defer tx.Commit()
-	query := `
-	insert into 
-		submissions(problem_title, user_username, language_name, 
-		code, submission_status, runtime, submission_date)
-	values($1, $2, $3, $4, $5, $6, $7)`
-	_, err = tx.Exec(query, submission.ProblemTitle, submission.UserUsername,
-		submission.LanguageName, submission.Code, submission.SubmissionStatus,
+	_, execErr := tx.Exec(query, submission.ProblemId, submission.UserId,
+		submission.LanguageId, submission.Code, submission.SubmissionStatus,
 		submission.Runtime, submission.SubmissionDate)
 
-	return err
+	if execErr != nil {
+		tx.Rollback() // Rollback the transaction in case of error
+		return execErr
+	}
+
+	commitErr := tx.Commit()
+	if commitErr != nil {
+		return commitErr
+	}
+
+	return nil
 }
 
 // Read
-func (s *SubmissionRepo) GetSubmissionById(id int) (*model.Submission, error) {
-	submission := model.Submission{}
+func (s *SubmissionRepo) GetSubmissionById(id int) (*models.Submission, error) {
+	submission := models.Submission{Id: id}
 	query := `
 	select 
-		id, problem_title, user_username, language_name, 
+		problem_id, user_id, language_id, 
 		code, submission_status, runtime, submission_date,
 		created_at, updated_at, deleted_at 
 	from 
@@ -49,39 +59,41 @@ func (s *SubmissionRepo) GetSubmissionById(id int) (*model.Submission, error) {
 		id = $1 and deleted_at is null
 	`
 	row := s.Db.QueryRow(query, id)
-	err := row.Scan(&submission.Id, &submission.ProblemTitle,
-		&submission.UserUsername, &submission.LanguageName, &submission.Code,
-		&submission.SubmissionStatus, &submission.Runtime, &submission.SubmissionDate,
-		&submission.CreatedAt, &submission.UpdatedAt, &submission.DeletedAt)
+	err := row.Scan(
+		&submission.ProblemId, &submission.UserId, &submission.LanguageId, 
+		&submission.Code, &submission.SubmissionStatus, &submission.Runtime, 
+		&submission.SubmissionDate, &submission.CreatedAt, &submission.UpdatedAt, 
+		&submission.DeletedAt,
+	)
 
 	return &submission, err
 }
 
-func (s *SubmissionRepo) GetSubmissions(filter *model.SubmissionFilter) (*[]model.Submission, error) {
+func (s *SubmissionRepo) GetSubmissions(filter *models.SubmissionFilter) (*[]models.Submission, error) {
 	params := []interface{}{}
 	paramCount := 1
 	query := `
 	select 
-		id, problem_title, user_username, language_name, 
+		problem_id, user_id, language_id, 
 		code, submission_status, runtime, submission_date,
 		created_at, updated_at, deleted_at  
 	from 
 		submissions 
 	where 
 		deleted_at is null`
-	if filter.ProblemTitle != nil {
+	if filter.ProblemId != nil {
 		query += fmt.Sprintf(" and problem_title=$%d", paramCount)
-		params = append(params, *filter.ProblemTitle)
+		params = append(params, *filter.ProblemId)
 		paramCount++
 	}
-	if filter.UserUsername != nil {
+	if filter.ProblemId != nil {
 		query += fmt.Sprintf(" and user_username=$%d", paramCount)
-		params = append(params, *filter.UserUsername)
+		params = append(params, *filter.ProblemId)
 		paramCount++
 	}
-	if filter.LanguageName != nil {
+	if filter.ProblemId != nil {
 		query += fmt.Sprintf(" and language_name=$%d", paramCount)
-		params = append(params, *filter.LanguageName)
+		params = append(params, *filter.ProblemId)
 		paramCount++
 	}
 	if filter.Code != nil {
@@ -115,11 +127,11 @@ func (s *SubmissionRepo) GetSubmissions(filter *model.SubmissionFilter) (*[]mode
 		return nil, err
 	}
 
-	submissions := []model.Submission{}
+	submissions := []models.Submission{}
 	for rows.Next() {
-		submission := model.Submission{}
-		err = rows.Scan(&submission.Id, &submission.ProblemTitle,
-			&submission.UserUsername, &submission.LanguageName, &submission.Code,
+		submission := models.Submission{}
+		err = rows.Scan(&submission.Id, &submission.ProblemId,
+			&submission.UserId, &submission.LanguageId, &submission.Code,
 			&submission.SubmissionStatus, &submission.Runtime, &submission.SubmissionDate,
 			&submission.CreatedAt, &submission.UpdatedAt, &submission.DeletedAt)
 
@@ -136,7 +148,7 @@ func (s *SubmissionRepo) GetSubmissions(filter *model.SubmissionFilter) (*[]mode
 	return &submissions, nil
 }
 
-func (s *SubmissionRepo) GetActiveDays(username string, year *int) (*model.UserActivity, error) {
+func (s *SubmissionRepo) GetActiveDays(userId string, year *int) (*models.UserActivity, error) {
 	if year == nil {
 		y := time.Now().Year()
 		year = &y
@@ -148,21 +160,21 @@ func (s *SubmissionRepo) GetActiveDays(username string, year *int) (*model.UserA
 	from
 		submissions
 	where
-		user_username = $1 and
+		user_id = $1 and
 		extract(year from submission_date) = $2
 	group by
 		submission_date
 	order by
 		submission_date
 	`
-	userActivity := model.UserActivity{}
-	rows, err := s.Db.Query(query, username, *year)
+	userActivity := models.UserActivity{}
+	rows, err := s.Db.Query(query, userId, *year)
 	if err != nil {
 		return nil, err
 	}
 	totalSubmissions := 0
 	for rows.Next() {
-		submissionDay := model.SubmissionDay{}
+		submissionDay := models.SubmissionDay{}
 		err = rows.Scan(&submissionDay.Date, &submissionDay.SubmissionCount)
 		if err != nil {
 			return nil, err
@@ -176,10 +188,10 @@ func (s *SubmissionRepo) GetActiveDays(username string, year *int) (*model.UserA
 	return &userActivity, rows.Err()
 }
 
-func (s *SubmissionRepo) GetRecentlyAcceptedSubmissionsByUsername(username string) (*[]model.RecentlyAcceptedSubmission, error) {
+func (s *SubmissionRepo) GetRecentlyAcceptedSubmissionsByUserId(userId string) (*[]models.RecentlyAcceptedSubmission, error) {
 	query := `
 	select
-		problem_title,
+		problem_id,
 		min(submission_date) as recent_submission
 	from
 		submissions
@@ -192,14 +204,14 @@ func (s *SubmissionRepo) GetRecentlyAcceptedSubmissionsByUsername(username strin
 	limit 15
 	`
 
-	recentAc := []model.RecentlyAcceptedSubmission{}
+	recentAc := []models.RecentlyAcceptedSubmission{}
 
-	rows, err := s.Db.Query(query, username)
+	rows, err := s.Db.Query(query, userId)
 	if err != nil {
 		return nil, err
 	}
 	for rows.Next(){
-		sub := model.RecentlyAcceptedSubmission{}
+		sub := models.RecentlyAcceptedSubmission{}
 		err = rows.Scan(&sub.ProblemTitle, &sub.SubmissionDate)
 		if err != nil {
 			return nil, err
@@ -211,7 +223,7 @@ func (s *SubmissionRepo) GetRecentlyAcceptedSubmissionsByUsername(username strin
 }
 
 // Update
-func (s *SubmissionRepo) UpdateSubmission(submission *model.Submission) error {
+func (s *SubmissionRepo) UpdateSubmission(submission *models.Submission) error {
 	tx, err := s.Db.Begin()
 	if err != nil {
 		return err

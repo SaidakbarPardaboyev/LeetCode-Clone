@@ -3,7 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"fmt"
-	"leetcode/model"
+	"leetcode/models"
 	"time"
 )
 
@@ -16,7 +16,7 @@ func NewLanguageRepo(db *sql.DB) *LanguageRepo {
 }
 
 // Create
-func (l *LanguageRepo) CreateLanguage(language *model.Language) error {
+func (l *LanguageRepo) CreateLanguage(language *models.Language) error {
 
 	tx, err := l.Db.Begin()
 	if err != nil {
@@ -30,8 +30,8 @@ func (l *LanguageRepo) CreateLanguage(language *model.Language) error {
 }
 
 // Read
-func (l *LanguageRepo) GetLanguageById(id string) (model.Language, error) {
-	language := model.Language{}
+func (l *LanguageRepo) GetLanguageById(id string) (models.Language, error) {
+	language := models.Language{}
 	query := `
 	select * from languages
 	where
@@ -43,7 +43,7 @@ func (l *LanguageRepo) GetLanguageById(id string) (model.Language, error) {
 
 	return language, err
 }
-func (l *LanguageRepo) GetLanguages(filter *model.LanguageFilter) (*[]model.Language, error) {
+func (l *LanguageRepo) GetLanguages(filter *models.LanguageFilter) (*[]models.Language, error) {
 	params := []interface{}{}
 	query := `
 	select * from languages where deleted_at is null`
@@ -57,9 +57,9 @@ func (l *LanguageRepo) GetLanguages(filter *model.LanguageFilter) (*[]model.Lang
 		return nil, err
 	}
 
-	languages := []model.Language{}
+	languages := []models.Language{}
 	for rows.Next() {
-		language := model.Language{}
+		language := models.Language{}
 		err = rows.Scan(&language.Id, &language.Name, &language.CreatedAt,
 			&language.UpdatedAt, &language.DeletedAt)
 		if err != nil {
@@ -76,7 +76,7 @@ func (l *LanguageRepo) GetLanguages(filter *model.LanguageFilter) (*[]model.Lang
 }
 
 // Update
-func (l *LanguageRepo) UpdateLanguage(language *model.Language) error {
+func (l *LanguageRepo) UpdateLanguage(language *models.Language) error {
 	tx, err := l.Db.Begin()
 	if err != nil {
 		return err

@@ -1,4 +1,4 @@
-package model
+package models
 
 type TopicProblem struct {
 	Id        string

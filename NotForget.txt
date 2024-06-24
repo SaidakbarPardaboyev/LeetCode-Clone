@@ -1,0 +1,1 @@
+1. Filterlar handelerlarda maximal tekshililish va xato ma'lumot aslo databazagacha yetib bormasligi kerak.

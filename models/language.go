@@ -1,4 +1,4 @@
-package model
+package models
 
 type Language struct {
 	Id   string
@@ -6,8 +6,14 @@ type Language struct {
 	Time
 }
 
+type CreateUpdateLanguage struct {
+	Name string
+}
+
 type LanguageFilter struct {
-	Name *string
+	Name   *string
+	Limit  *int
+	Offset *int
 }
 
 type UsedLanguage struct {
