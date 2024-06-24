@@ -28,3 +28,4 @@ func StartSubmissionsRoute(mainRouter *gin.RouterGroup, handler *handler.Handler
 	r.Router.PUT("/update/:id", r.Handler.UpdateSubmission)
 	r.Router.DELETE("/delete/:id", r.Handler.DeleteSubmission)
 }
+
