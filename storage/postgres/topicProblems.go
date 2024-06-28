@@ -1,21 +1,19 @@
 package postgres
 
-// import (
-// 	"database/sql"
-// 	"fmt"
-// 	"leetcode/model"
-// 	"time"
+import (
+	"database/sql"
+	"leetcode/models"
 
-// 	"github.com/lib/pq"
-// )
+	"github.com/lib/pq"
+)
 
-// type TopicProblemRepo struct {
-// 	Db *sql.DB
-// }
+type TopicProblemRepo struct {
+	Db *sql.DB
+}
 
-// func NewTopicProblemRepo(db *sql.DB) *TopicProblemRepo {
-// 	return &TopicProblemRepo{db}
-// }
+func NewTopicProblemRepo(db *sql.DB) *TopicProblemRepo {
+	return &TopicProblemRepo{db}
+}
 
 // // Create
 // func (l *TopicProblemRepo) CreateTopicProblem(tp *model.TopicProblem) error {
@@ -32,21 +30,29 @@ package postgres
 // 	return err
 // }
 
-// // Read
-// func (l *TopicProblemRepo) GetTopicProblemById(id string) (model.TopicProblem, error) {
-// 	topicProblem := model.TopicProblem{}
-// 	query := `
-// 	select * from topics_problems
-// 	where
-// 		id = $1 and deleted_at is null
-// 	`
-// 	row := l.Db.QueryRow(query, id)
-// 	err := row.Scan(&topicProblem.Id, &topicProblem.TopicId,
-// 		&topicProblem.ProblemId, &topicProblem.Created_at,
-// 		&topicProblem.Updated_at, &topicProblem.Deleted_at)
+// Read
+func (l *TopicProblemRepo) GetTopicsByProblemId(problemId string) (models.TopicsProblem, error) {
+	topicProblem := models.TopicsProblem{}
+	query := `
+		select
+			tp.problem_id,
+			array_agg(t.name) as topics
+		from
+			topics as t
+		inner join 
+			topics_problems as tp 
+				on t.id = tp.topic_id
+		where
+			tp.problem_id = $1 and
+			t.deleted_at is null
+		group by
+			tp.problem_id;
+	`
+	err := l.Db.QueryRow(query, problemId).Scan(&topicProblem.ProblemId,
+		pq.Array(&topicProblem.TopicNames))
 
-// 	return topicProblem, err
-// }
+	return topicProblem, err
+}
 
 // func (l *TopicProblemRepo) GetTopicProblems(filter *model.TopicProblemFilter) (*[]model.TopicProblem, error) {
 // 	params := []interface{}{}

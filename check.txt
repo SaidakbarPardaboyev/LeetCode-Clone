@@ -1,0 +1,44 @@
+with acceptenceRatesOfProblems as (
+    select
+        p.id as problem_id,
+        round(count(case when submission_status = 'Accepted' then 1 end)::numeric / count(*) * 100, 2)as acceptence
+    from
+        problems as p
+    inner join
+        submissions as s
+            on p.id = s.problem_id
+    group by
+        p.problem_number, p.id
+    order by
+        p.problem_number
+)
+
+select
+    case
+        when 'Accepted' = ANY(array_agg(sub.submission_status)) then 'Accepted'
+        when count(sub.submission_status) > 0 then 'Attempted'
+        else 'NOT-TRIED'
+    end as status,
+    p.problem_number as problem_number,
+    p.title as problem_title,
+    a.acceptence as acceptence,
+    p.difficulty as difficulty
+from
+    problems as p
+left join
+    submissions as sub
+        on sub.problem_id = p.id and
+        'd490e243-22df-4d17-b0bd-13887fda6e59' = sub.user_id
+left join
+    acceptenceRatesOfProblems as a
+        on a.problem_id = p.id 
+where 
+    search_vector @@ plainto_tsquery('english', 'palindromic') 
+group by 
+    p.problem_number, p.title, a.acceptence, p.id
+order by 
+    ts_rank(search_vector, plainto_tsquery('english', 'palindromic')) DESC, p.problem_number 
+limit
+    10
+offset
+    0;

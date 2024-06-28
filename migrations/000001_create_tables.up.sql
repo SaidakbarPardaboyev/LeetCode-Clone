@@ -18,22 +18,26 @@ CREATE TABLE problems (
     hints text[],
     created_at timestamp DEFAULT now() NOT NULL,
     updated_at timestamp,
-    deleted_at timestamp
+    deleted_at timestamp,
+    search_vector tsvector
 );
 
-alter table 
-    problems 
-add 
-    column search_vector tsvector;
+UPDATE problems 
+SET search_vector = to_tsvector('english', coalesce(title, '') || ' ' || coalesce(problem_number::text, ''));
 
-UPDATE 
-	problems 
-SET 
-	search_vector = to_tsvector('english', title || ' ' || problem_number::text);
+CREATE INDEX problems_search_vector_idx 
+ON problems USING gin(search_vector);
 
-create index 
-	problems_search_vector_idx 
-		ON problems USING gin(search_vector);
+CREATE OR REPLACE FUNCTION update_search_vector() RETURNS TRIGGER AS $$
+BEGIN
+  NEW.search_vector := to_tsvector('english', coalesce(NEW.title, '') || ' ' || coalesce(NEW.problem_number::text, ''));
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE
+ON problems FOR EACH ROW EXECUTE FUNCTION update_search_vector();
+
 
 CREATE TYPE gender AS ENUM ('Male', 'Female');
 

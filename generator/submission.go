@@ -2,7 +2,7 @@ package generator
 
 import (
 	"database/sql"
-	"leetcode/model"
+	"leetcode/models"
 	"math/rand"
 	"time"
 )

@@ -57,20 +57,29 @@ where
 	difficulty = 'Medium';
 
 -- select topics
+with topicsIds as (
+	select
+		id as topic_id
+	from
+		topics
+	where
+		name in ('string', 'stack')
+)
+
 select
 	p.problem_number,
 	title
 from 
 	problems as p
 inner join
-	topics_problems as t
-		on t.problem_title = p.title
+	topics_problems as werr
+		on werr.problem_id = p.id
 where
-	t.topic_name in ('string')
+	werr.topic_id in (select topic_id from topicsIds)
 group by
 	p.problem_number, title
 having
-	count(distinct t.topic_name) = 1
+	count(distinct werr.topic_id) = 2
 order by
 	p.problem_number;
 
@@ -110,11 +119,14 @@ order by
 -- select by status (NOT_STARTED)
 with AcceptedProblemsTitle as (
 	select 
-		distinct problem_title 
+		distinct problems.title as problem_title 
 	from 
-		submissions 
+		submissions
+	inner join
+		problems
+			on problems.id = submissions.problem_id
 	where
-		user_username='jdoe'
+		user_id='d490e243-22df-4d17-b0bd-13887fda6e59'
 )
 
 select
@@ -125,19 +137,24 @@ from
 where
 	p.title not in (
 		select 
-			distinct problem_title 
+			problem_title 
 		from 
 			AcceptedProblemsTitle
-	);
+	)
+order by
+	p.problem_number;
 
 -- select by status (AC)
 with AcceptedProblemsTitle as (
 	select 
-		distinct problem_title 
+		distinct problems.title as problem_title 
 	from 
 		submissions 
+	inner join
+		problems
+			on problems.id = submissions.problem_id
 	where
-		user_username='jdoe' and 
+		user_id='d490e243-22df-4d17-b0bd-13887fda6e59'  and 
 		submission_status='Accepted'
 )
 
@@ -149,7 +166,7 @@ from
 where
 	p.title in (
 		select 
-			distinct problem_title 
+			problem_title 
 		from 
 			AcceptedProblemsTitle
 	);
@@ -157,14 +174,17 @@ where
 -- select by status (TRIED but not AC)
 with AcceptedProblemsTitle as (
 	select 
-		problem_title,
+		distinct problems.title as problem_title 
 		array_agg(submission_status)
 	from 
-		submissions 
+		submissions
+	inner join
+		problems
+			on problems.id = submissions.problem_id
 	where
-		user_username='jdoe' 
+		user_id='d490e243-22df-4d17-b0bd-13887fda6e59' 
 	group by
-		problem_title
+		problems.title
 	having
 		not ('Accepted' = ANY(array_agg(submission_status)))
 )
@@ -180,7 +200,9 @@ where
 			problem_title 
 		from 
 			AcceptedProblemsTitle
-	);
+	)
+order by
+	p.problem_number;
 
 -- select by topics and acceptenceRate of sorting
 select
@@ -209,15 +231,15 @@ order by
 -- beginning of get all by fulter 
 with acceptenceRatesOfProblems as (
 	select
-		title as problem_title,
+		p.id as problem_id,
 		round(count(case when submission_status = 'Accepted' then 1 end)::numeric / count(*) * 100, 2)as acceptence
 	from
 		problems as p
 	inner join
 		submissions as s
-			on p.title = s.problem_title
+			on p.id = s.problem_id
 	group by
-		p.problem_number, title
+		p.problem_number, p.id
 	order by
 		p.problem_number
 )
@@ -236,12 +258,36 @@ from
 	problems as p
 left join
 	submissions as sub
-		on sub.problem_title = p.title and
-		'jdoe' = sub.user_username
+		on sub.problem_id = p.id and
+		'd490e243-22df-4d17-b0bd-13887fda6e59' = sub.user_id
 left join
 	acceptenceRatesOfProblems as a
-		on a.problem_title = p.title
+		on a.problem_id = p.id
 group by
-	p.problem_number, p.title, a.acceptence
+	p.problem_number, p.title, a.acceptence, p.difficulty
 order by
 	p.problem_number;
+
+
+------------------------------------------------------------------------------------------
+-- GetSubmissionStatisticsByProblemId
+with submission_stat as (
+	select
+		count(
+			case
+				when submission_status = 'Accepted' then 1
+			end
+		) as accepted,
+		count(*) as submissions
+	from
+		submissions 
+	where
+		problem_id = '79cb0553-226c-4368-b3fb-dc2b5f3b74ab'
+)
+
+select
+	accepted,
+	submissions,
+	round(accepted::numeric / submissions * 100, 1) as acceptence_rate
+from 
+	submission_stat;

@@ -3,64 +3,92 @@ package postgres
 import (
 	"database/sql"
 	"fmt"
-	"leetcode/model"
+	model "leetcode/models"
 	"leetcode/pkg"
+	"math/rand"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/lib/pq"
 )
 
 type ProblemRepo struct {
-	Db *sql.DB
+	ExampleRepo      *ExampleRepo
+	TopicProblemRepo *TopicProblemRepo
+	Db               *sql.DB
 }
 
 func NewProblemRepo(db *sql.DB) *ProblemRepo {
-	return &ProblemRepo{db}
+	return &ProblemRepo{
+		Db:               db,
+		ExampleRepo:      NewExampleRepo(db),
+		TopicProblemRepo: NewTopicProblemRepo(db),
+	}
 }
 
 // Create
-func (p *ProblemRepo) CreateProblem(problem *model.Problem) error {
+func (p *ProblemRepo) CreateProblem(problem *model.Problem) (string, error) {
 
 	tx, err := p.Db.Begin()
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer tx.Commit()
+
+	newId := uuid.NewString()
 	query := `
 		insert into problems(
-			title, difficulty, description, hints, constraints
+			id, title, difficulty, description, hints, constraints
 		) values(
-		 	$1, $2, $3, $4, $5
+		 	$1, $2, $3, $4, $5, $6
 		)`
-	_, err = tx.Exec(query, problem.Title,
+	_, err = tx.Exec(query, newId, problem.Title,
 		problem.Difficulty, problem.Description,
 		pq.Array(problem.Hints), pq.Array(problem.Constraints))
 
-	return err
+	if err != nil {
+		return "", err
+	}
+	return newId, nil
 }
 
 // Read
-func (p *ProblemRepo) GetProblemByTitle(problemTitle string) (model.Problem, error) {
-	problem := model.Problem{}
+func (p *ProblemRepo) GetProblemById(problemId string) (*model.Problem, error) {
+	problem := model.Problem{Id: problemId}
 	query := `
-		select
-			*
-		from
-			problems
-		where
-			title = $1 and 
-			deleted_at is null
+	select
+		title, problem_number, difficulty, description, constraints, hints,
+		created_at, updated_at
+	from
+		problems
+	where
+		id = $1 and 
+		deleted_at is null
 	`
-	row := p.Db.QueryRow(query, problemTitle)
-	err := row.Scan(&problem.Title, &problem.ProblemNumber,
-		&problem.Difficulty, &problem.Description,
-		pq.Array(&problem.Constraints), pq.Array(&problem.Hints), &problem.CreatedAt,
-		&problem.UpdatedAt, &problem.DeletedAt)
+	err := p.Db.QueryRow(query, problemId).Scan(&problem.Title,
+		&problem.ProblemNumber, &problem.Difficulty, &problem.Description,
+		pq.Array(&problem.Constraints), pq.Array(&problem.Hints),
+		&problem.CreatedAt, &problem.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
 
-	return problem, err
+	examples, err := p.ExampleRepo.GetExamplesByProblemId(problemId)
+	if err != nil {
+		return nil, err
+	}
+	problem.Examples = *examples
+
+	problemTopics, err := p.TopicProblemRepo.GetTopicsByProblemId(problemId)
+	if err != nil {
+		return nil, err
+	}
+	problem.Topics = problemTopics.TopicNames
+
+	return &problem, err
 }
 
-func (p *ProblemRepo) GetProblems(username string, filter *model.ProblemFilter) (*[]model.Problems, error) {
+func (p *ProblemRepo) GetProblems(username string, filter *model.ProblemFilter) (*[]model.ProblemSet, error) {
 	params := []interface{}{username}
 	paramCount := 2
 
@@ -85,8 +113,8 @@ func (p *ProblemRepo) GetProblems(username string, filter *model.ProblemFilter) 
 		pkg.FilterProblemsBySearch(filter, &whereQuery, &params, &paramCount, &orderByQuery)
 	}
 	if filter.TopicsSlugs != nil {
-		pkg.FilterProblemsByTopicsSlugs(filter, &havingQuery, &whereQuery, &params,
-			&paramCount, &innerJoinQuery)
+		pkg.FilterProblemsByTopicsSlugs(filter, &withQuery, &innerJoinQuery, &whereQuery,
+			&havingQuery, &params, &paramCount)
 	}
 	if filter.Difficulty != nil {
 		newWhere := fmt.Sprintf("difficulty = $%d", paramCount)
@@ -110,15 +138,16 @@ func (p *ProblemRepo) GetProblems(username string, filter *model.ProblemFilter) 
 	}
 
 	// fmt.Println(query)
+	// fmt.Println(query)
 	rows, err := p.Db.Query(query, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	problems := []model.Problems{}
+	problems := []model.ProblemSet{}
 	for rows.Next() {
-		problem := model.Problems{}
-		err = rows.Scan(&problem.Status, &problem.ProblemNumber,
+		problem := model.ProblemSet{}
+		err = rows.Scan(&problem.Id, &problem.Status, &problem.ProblemNumber,
 			&problem.Title, &problem.Acceptence, &problem.Difficulty)
 		if err != nil {
 			return nil, err
@@ -133,27 +162,27 @@ func (p *ProblemRepo) GetProblems(username string, filter *model.ProblemFilter) 
 	return &problems, nil
 }
 
-func (p *ProblemRepo) GetSubmissionStatisticsByProblemTitle(problemTitle string) (*model.SubmissionStatisticsOfProblem, error) {
+func (p *ProblemRepo) GetSubmissionStatisticsByProblemId(problemTitle string) (*model.SubmissionStatisticsOfProblem, error) {
 	query := `with submission_stat as (
-				select
-					count(
-						case
-							when submission_status = 'Accepted' then 1
-						end
-					) as accepted,
-					count(*) as submissions
-				from
-					submissions 
-				where
-					problem_title = $1
-			)
+					select
+						count(
+							case
+								when submission_status = 'Accepted' then 1
+							end
+						) as accepted,
+						count(*) as submissions
+					from
+						submissions 
+					where
+						problem_id = $1
+				)
 
-			select
-				accepted,
-				submissions,
-				round(accepted::numeric / submissions * 100, 1) as acceptence_rate
-			from 
-				submission_stat;`
+				select
+					accepted,
+					submissions,
+					round(accepted::numeric / submissions * 100, 1) as acceptence_rate
+				from 
+					submission_stat;`
 
 	submissionStatisticsOfProblem := &model.SubmissionStatisticsOfProblem{}
 	err := p.Db.QueryRow(query, problemTitle).Scan(&submissionStatisticsOfProblem.Accepted,
@@ -164,30 +193,67 @@ func (p *ProblemRepo) GetSubmissionStatisticsByProblemTitle(problemTitle string)
 	return submissionStatisticsOfProblem, nil
 }
 
+func (p *ProblemRepo) GetAllProblemsId() (*[]string, error) {
+	var problemsId []string
+
+	queryToGetProblemsId := `select id from problems where deleted_at is null`
+	rows, err := p.Db.Query(queryToGetProblemsId)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var problemId string
+		err := rows.Scan(&problemId)
+		if err != nil {
+			return nil, err
+		}
+		problemsId = append(problemsId, problemId)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return &problemsId, nil
+}
+
+func (p *ProblemRepo) PickRandomProblem() (*model.Problem, error) {
+	problemsId, err := p.GetAllProblemsId()
+	if err != nil {
+		return nil, err
+	}
+
+	randomProblemId := (*problemsId)[rand.Intn(len(*problemsId))]
+
+	problem, err := p.GetProblemById(randomProblemId)
+	return problem, err
+}
+
 // Update
-func (p *ProblemRepo) UpdateProblem(problem *model.Problem) error {
+func (p *ProblemRepo) UpdateProblem(problem *model.ProblemUpdate) error {
 	tx, err := p.Db.Begin()
 	if err != nil {
 		return err
 	}
 	defer tx.Commit()
+
 	query := `
 		update 
 			problems 
 		set 
-			title = $1,
-			difficulty = $2,
-			description = $3,
-			hints = $4,
+			problem_number = $1,
+			title = $2,
+			difficulty = $3,
+			description = $4,
 			constraints = $5,
-			updated_at = $6
+			hints = $6,
+			updated_at = $7
 		where 
 			deleted_at is null and
-			problem_number = $7
+			id = $8
 	`
-	result, err := tx.Exec(query, problem.Title, problem.Difficulty,
-		problem.Description, pq.Array(problem.Hints),
-		pq.Array(problem.Constraints), time.Now(), problem.ProblemNumber)
+	result, err := tx.Exec(query, problem.ProblemNumber, problem.Title,
+		problem.Difficulty, problem.Description, pq.Array(problem.Constraints),
+		pq.Array(problem.Hints), time.Now(), problem.Id)
 
 	if err != nil {
 		return err
@@ -204,7 +270,7 @@ func (p *ProblemRepo) UpdateProblem(problem *model.Problem) error {
 }
 
 // Delete
-func (p *ProblemRepo) DeleteProblem(problemTitle string) error {
+func (p *ProblemRepo) DeleteProblem(problemId string) error {
 	tx, err := p.Db.Begin()
 	if err != nil {
 		return err
@@ -218,9 +284,9 @@ func (p *ProblemRepo) DeleteProblem(problemTitle string) error {
 			deleted_at = $1
 		where 
 			deleted_at is null and
-			title = $2
+			id = $2
 	`
-	result, err := tx.Exec(query, time.Now(), problemTitle)
+	result, err := tx.Exec(query, time.Now(), problemId)
 
 	if err != nil {
 		return err
@@ -232,6 +298,38 @@ func (p *ProblemRepo) DeleteProblem(problemTitle string) error {
 	}
 	if res == 0 {
 		return fmt.Errorf("nothing deleted")
+	}
+	return nil
+}
+
+func (p *ProblemRepo) RecoverProblem(problemId string) error {
+	tx, err := p.Db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Commit()
+
+	query := `
+		update
+			problems 
+		set 
+			deleted_at = null
+		where 
+			deleted_at is not null and
+			id = $1
+	`
+	result, err := tx.Exec(query, problemId)
+
+	if err != nil {
+		return err
+	}
+
+	res, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if res == 0 {
+		return fmt.Errorf("nothing recovered")
 	}
 	return nil
 }

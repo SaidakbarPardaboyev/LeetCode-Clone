@@ -2,12 +2,13 @@ package pkg
 
 import (
 	"fmt"
-	"leetcode/model"
+	model "leetcode/models"
 	"strings"
 )
 
 func GetAllDefaultQueries() (string, string, []string, string, []string, []string, []string) {
 	selectQuery := `select
+						p.id as problem_id,
 						case
 							when 'Accepted' = ANY(array_agg(sub.submission_status)) then 'Accepted'
 							when count(sub.submission_status) > 0 then 'Attempted'
@@ -22,31 +23,31 @@ func GetAllDefaultQueries() (string, string, []string, string, []string, []strin
 
 	innerJoinQuery := `	left join
 							submissions as sub
-								on sub.problem_title = p.title and
-								$1 = sub.user_username
+								on sub.problem_id = p.id and
+								$1 = sub.user_id
 						left join
 							acceptenceRatesOfProblems as a
-								on a.problem_title = p.title`
+								on a.problem_id = p.id`
 
 	whereQuery := []string{}
-	groupByQuery := []string{"p.problem_number", "p.title", "a.acceptence"}
+	groupByQuery := []string{"p.problem_number", "p.title", "a.acceptence", "p.id"}
 	havingQuery := []string{}
 	orderByQuery := []string{"p.problem_number"}
 
 	withQuery := `with acceptenceRatesOfProblems as (
-						select
-							title as problem_title,
-							round(count(case when submission_status = 'Accepted' then 1 end)::numeric / count(*) * 100, 2)as acceptence
-						from
-							problems as p
-						inner join
-							submissions as s
-								on p.title = s.problem_title
-						group by
-							p.problem_number, title
-						order by
-							p.problem_number
-					)`
+					select
+						p.id as problem_id,
+						round(count(case when submission_status = 'Accepted' then 1 end)::numeric / count(*) * 100, 2)as acceptence
+					from
+						problems as p
+					inner join
+						submissions as s
+							on p.id = s.problem_id
+					group by
+						p.problem_number, p.id
+					order by
+						p.problem_number
+				)`
 
 	return withQuery, selectQuery, whereQuery, innerJoinQuery, groupByQuery, havingQuery, orderByQuery
 }
@@ -96,7 +97,7 @@ func FilterProblemsBySorting(filter *model.ProblemFilter, innerJoinQuery *string
 		"iJBQ19SQVRFIn1d" {
 		*innerJoinQuery += ` inner join
 								submissions as s
-									on p.title = s.problem_title`
+									on p.id = s.problem_id`
 		*groupByQuery = append(*groupByQuery, "p.problem_number")
 		*groupByQuery = append(*groupByQuery, "p.title")
 		*orderByQuery = append([]string{"round(count(case when s.submission_" +
@@ -107,7 +108,7 @@ func FilterProblemsBySorting(filter *model.ProblemFilter, innerJoinQuery *string
 		"JCeSI6IkFDX1JBVEUifV0%3D" {
 		*innerJoinQuery += ` inner join
 								submissions as s
-									on p.title = s.problem_title`
+									on p.id = s.problem_id`
 		*groupByQuery = append(*groupByQuery, "p.problem_number")
 		*groupByQuery = append(*groupByQuery, "p.title")
 		*orderByQuery = append([]string{"round(count(case when s.submission_" +
@@ -145,14 +146,17 @@ func FilterProblemsByStatus(filter *model.ProblemFilter, withQuery *string,
 	if *filter.Status == "NOT_STARTED" {
 		*withQuery += fmt.Sprintf(`,  AcceptedProblemsTitle as (
 							select 
-								distinct problem_title 
+								distinct problems.title as problem_title 
 							from 
-								submissions 
+								submissions
+							inner join
+								problems
+									on problems.id = submissions.problem_id
 							where
-								user_username=$%d)`, *paramCount)
+								user_id=$%d)`, *paramCount)
 		*whereQuery = append(*whereQuery, ` p.title not in (
 												select 
-													distinct problem_title 
+													problem_title 
 												from 
 													AcceptedProblemsTitle
 											)`)
@@ -161,16 +165,19 @@ func FilterProblemsByStatus(filter *model.ProblemFilter, withQuery *string,
 	} else if *filter.Status == "AC" {
 		*withQuery += fmt.Sprintf(`,  AcceptedProblemsTitle as (
 							select 
-								distinct problem_title 
+								distinct problems.title as problem_title 
 							from 
-								submissions 
+								submissions
+							inner join
+								problems
+									on problems.id = submissions.problem_id
 							where
-								user_username=$%d and 
+								user_id=$%d and 
 								submission_status='Accepted'
 						)`, *paramCount)
 		*whereQuery = append(*whereQuery, ` p.title in (
 												select 
-													distinct problem_title 
+													problem_title 
 												from 
 													AcceptedProblemsTitle
 											)`)
@@ -179,13 +186,16 @@ func FilterProblemsByStatus(filter *model.ProblemFilter, withQuery *string,
 	} else if *filter.Status == "TRIED" {
 		*withQuery += fmt.Sprintf(`,  AcceptedProblemsTitle as (
 								select 
-									distinct problem_title 
+									distinct problems.title as problem_title 
 								from 
 									submissions 
+								inner join
+									problems
+										on problems.id = submissions.problem_id
 								where
-									user_username=$%d
+									user_id=$%d
 								group by
-									problem_title
+									problems.title
 								having
 									not ('Accepted' = ANY(array_agg(submission_status)))
 							)`, *paramCount)
@@ -203,15 +213,11 @@ func FilterProblemsByStatus(filter *model.ProblemFilter, withQuery *string,
 	return nil
 }
 
-func FilterProblemsByTopicsSlugs(filter *model.ProblemFilter, havingQuery *[]string,
-	whereQuery *[]string, params *[]interface{},
-	paramCount *int, innerJoinQuery *string) {
+func FilterProblemsByTopicsSlugs(filter *model.ProblemFilter, withQuery *string,
+	innerJoinQuery *string, whereQuery *[]string, havingQuery *[]string, params *[]interface{},
+	paramCount *int) {
 
 	topics := strings.Split(*filter.TopicsSlugs, "%2C")
-
-	*innerJoinQuery += ` inner join
-								topics_problems as t
-									on t.problem_title = p.title`
 
 	dollars := ""
 	for i := 0; i < len(topics); i++ {
@@ -220,10 +226,22 @@ func FilterProblemsByTopicsSlugs(filter *model.ProblemFilter, havingQuery *[]str
 		*paramCount++
 	}
 	dollars = dollars[:len(dollars)-2]
-	newWhere := "t.topic_name in (" + dollars + ")"
+	*withQuery += `,  topicsIds as (
+							select
+								id as topic_id
+							from
+								topics
+							where
+								name in (` + dollars + `)
+						)`
+	*innerJoinQuery += ` inner join
+							topics_problems as werr
+								on werr.problem_id = p.id`
+
+	newWhere := "werr.topic_id in (select topic_id from topicsIds)"
 	*whereQuery = append([]string{newWhere}, *whereQuery...)
 
-	newHaving := fmt.Sprintf("count(distinct t.topic_name) = %d", len(topics))
+	newHaving := fmt.Sprintf("count(distinct werr.topic_id) = %d", len(topics))
 	*havingQuery = append(*havingQuery, newHaving)
 }
 
