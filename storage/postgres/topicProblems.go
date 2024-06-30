@@ -3,7 +3,9 @@ package postgres
 import (
 	"database/sql"
 	"leetcode/models"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/lib/pq"
 )
 
@@ -15,24 +17,49 @@ func NewTopicProblemRepo(db *sql.DB) *TopicProblemRepo {
 	return &TopicProblemRepo{db}
 }
 
-// // Create
-// func (l *TopicProblemRepo) CreateTopicProblem(tp *model.TopicProblem) error {
+// Create
+func (l *TopicProblemRepo) AddTopicToProblem(tp *models.TopicProblemCreate) (*string, error) {
+	tx, err := l.Db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Commit()
 
-// 	tx, err := l.Db.Begin()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer tx.Commit()
-// 	query := `insert into topics_problems(topic_id, problem_id)
-// 	values($1, $2)`
-// 	_, err = tx.Exec(query, tp.TopicId, tp.ProblemId)
+	newId := uuid.NewString()
+	query := `insert into topics_problems(id, topic_id, problem_id)
+	values($1, $2)`
+	_, err = tx.Exec(query, newId, tp.TopicId, tp.ProblemId)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return err
-// }
+	return &newId, nil
+}
+
+// Create
+func (l *TopicProblemRepo) AddTopicsToProblem(tp *models.TopicsOfProblem) error {
+	tx, err := l.Db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Commit()
+
+	for _, topic := range tp.TopicNames {
+		newId := uuid.NewString()
+		query := `insert into topics_problems(id, topic_id, problem_id)
+		values($1, $2)`
+		_, err = tx.Exec(query, newId, topic, tp.ProblemId)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
 
 // Read
-func (l *TopicProblemRepo) GetTopicsByProblemId(problemId string) (models.TopicsProblem, error) {
-	topicProblem := models.TopicsProblem{}
+func (l *TopicProblemRepo) GetTopicsByProblemId(problemId string) (models.TopicsOfProblem, error) {
+	topicProblem := models.TopicsOfProblem{}
 	query := `
 		select
 			tp.problem_id,
@@ -94,117 +121,56 @@ func (l *TopicProblemRepo) GetTopicsByProblemId(problemId string) (models.Topics
 
 // 	return &topicProblems, nil
 // }
-// func (t *TopicProblemRepo) GetProblemsByTopicId(topicId string) (*[]model.Problem, error) {
-// 	query := `
-// 	select
-// 		p.id, p.question_number, p.title, p.difficulty_level,
-// 		p.description, p.examples, p.hints, p.constraints
-// 	from
-// 		topics_problems as tp
-// 	join
-// 		topics as t
-// 	on
-// 		tp.topic_id = t.id and t.deleted_at is null
-// 	join
-// 		problems as p
-// 	on
-// 		p.id = tp.problem_id and p.deleted_at is null
-// 	where
-// 		tp.topic_id = $1 and tp.deleted_at is null
-// 	`
 
-// 	rows, err := t.Db.Query(query, topicId)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+// Update
+func (t *TopicProblemRepo) UpdateTopicProblem(tp *models.TopicProblemUpdate) error {
+	tx, err := t.Db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Commit()
+	query := `update topics_problems
+	set
+		topic_id = $1,
+		problem_id = $2,
+		updated_at = $3
+	where
+		deleted_at is null and id = $4`
+	_, err = tx.Exec(query, tp.TopicId, tp.ProblemId, time.Now(), tp.Id)
 
-// 	problems := []model.Problem{}
-// 	for rows.Next() {
-// 		problem := model.Problem{}
-// 		err := rows.Scan(&problem.Id, &problem.QuestionNumber,
-// 			&problem.Title, &problem.DifficultyLevel, &problem.Description,
-// 			pq.Array(&problem.Examples), pq.Array(&problem.Hints),
-// 			pq.Array(&problem.Constraints))
+	return err
+}
 
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		problems = append(problems, problem)
-// 	}
-// 	err = rows.Err()
+// Delete
+func (t *TopicProblemRepo) DeleteTopicProblem(id string) error {
+	tx, err := t.Db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Commit()
+	query := `update topics_problems
+	set
+		deleted_at = $1
+	where
+		deleted_at is null and id = $2 `
+	_, err = tx.Exec(query, time.Now(), id)
 
-// 	return &problems, err
-// }
+	return err
+}
 
-// func (t *TopicProblemRepo) GetTopicsByProblemId(problemId string) (*[]model.Topic, error) {
-// 	query := `
-// 	select
-// 		t.id, t.name
-// 	from
-// 		topics_problems as tp
-// 	join
-// 		topics as t
-// 	on
-// 		tp.topic_id = t.id and t.deleted_at is null
-// 	join
-// 		problems as p
-// 	on
-// 		p.id = tp.problem_id and p.deleted_at is null
-// 	where
-// 		tp.problem_id = 'c81c3b88-6937-47cc-9a8f-32f195911209'
-// 		and tp.deleted_at is null
-// 	`
+// Recover
+func (t *TopicProblemRepo) RecoverTopicProblem(id string) error {
+	tx, err := t.Db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Commit()
+	query := `update topics_problems
+	set
+		deleted_at = null
+	where
+		deleted_at is not null and id = $1`
+	_, err = tx.Exec(query, id)
 
-// 	rows, err := t.Db.Query(query, problemId)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	topics := []model.Topic{}
-// 	for rows.Next() {
-// 		topic := model.Topic{}
-// 		err := rows.Scan(&topic.Id, &topic.Name)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		topics = append(topics, topic)
-// 	}
-// 	err = rows.Err()
-
-// 	return &topics, err
-// }
-
-// // Update
-// func (t *TopicProblemRepo) UpdateTopicProblem(tp *model.TopicProblem) error {
-// 	tx, err := t.Db.Begin()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer tx.Commit()
-// 	query := `update topics_problems
-// 	set
-// 		topic_id = $1,
-// 		problem_id = $2
-// 	where
-// 		deleted_at is null and id = $3`
-// 	_, err = tx.Exec(query, tp.TopicId, tp.ProblemId, time.Now(), tp.Id)
-
-// 	return err
-// }
-
-// // Delete
-// func (t *TopicProblemRepo) DeleteTopicProblem(id string) error {
-// 	tx, err := t.Db.Begin()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer tx.Commit()
-// 	query := `update topics_problems
-// 	set
-// 		deleted_at = $1
-// 	where
-// 		deleted_at is null and id = $2 `
-// 	_, err = tx.Exec(query, time.Now(), id)
-
-// 	return err
-// }
+	return err
+}
