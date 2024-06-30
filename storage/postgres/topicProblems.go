@@ -81,47 +81,6 @@ func (l *TopicProblemRepo) GetTopicsByProblemId(problemId string) (models.Topics
 	return topicProblem, err
 }
 
-// func (l *TopicProblemRepo) GetTopicProblems(filter *model.TopicProblemFilter) (*[]model.TopicProblem, error) {
-// 	params := []interface{}{}
-// 	paramcount := 1
-// 	query := `
-// 	select * from topics_problems where deleted_at is null`
-// 	if filter.TopicId != nil {
-// 		query += fmt.Sprintf(" and topic_id=$%d", paramcount)
-// 		params = append(params, *filter.ProblemId)
-// 		paramcount++
-// 	}
-// 	if filter.ProblemId != nil {
-// 		query += fmt.Sprintf(" and problem_id=$%d", paramcount)
-// 		params = append(params, *filter.ProblemId)
-// 		paramcount++
-// 	}
-
-// 	rows, err := l.Db.Query(query, params...)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	topicProblems := []model.TopicProblem{}
-// 	for rows.Next() {
-// 		topicProblem := model.TopicProblem{}
-// 		err = rows.Scan(&topicProblem.Id, &topicProblem.TopicId,
-// 			&topicProblem.ProblemId, &topicProblem.Created_at,
-// 			&topicProblem.Updated_at, &topicProblem.Deleted_at)
-
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		topicProblems = append(topicProblems, topicProblem)
-// 	}
-// 	err = rows.Err()
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return &topicProblems, nil
-// }
-
 // Update
 func (t *TopicProblemRepo) UpdateTopicProblem(tp *models.TopicProblemUpdate) error {
 	tx, err := t.Db.Begin()
