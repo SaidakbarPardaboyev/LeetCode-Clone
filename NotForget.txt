@@ -1,1 +1,3 @@
 1. Filterlar handelerlarda maximal tekshililish va xato ma'lumot aslo databazagacha yetib bormasligi kerak.
+2. Create qilganda postgresda uuid go da breilishi kerak.
+3. Transaksiya commit bo'lganda error qaytaradi uni tekshirish kerak 

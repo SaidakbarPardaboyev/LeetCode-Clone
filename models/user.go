@@ -32,6 +32,7 @@ type LogInUser struct {
 }
 
 type UpdateUser struct {
+	Id           string    `json:"id"`
 	Username     string    `json:"username"`
 	FullName     string    `json:"full_name"`
 	Email        string    `json:"email"`

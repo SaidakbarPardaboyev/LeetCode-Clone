@@ -2,7 +2,7 @@ package generator
 
 import (
 	"database/sql"
-	"leetcode/model"
+	"leetcode/models"
 	"math/rand"
 	"time"
 )
@@ -122,7 +122,7 @@ func InsertSubmissions(db *sql.DB) {
 
 	for _, userId := range userUsersId {
 		for i := 0; i < 10; i++ {
-			submission := model.Submission{
+			submission := models.Submission{
 				ProblemId:        problemsId[rand.Intn(len(problemsId))],
 				UserId:           userId,
 				LanguageId:       languagesId[rand.Intn(len(languagesId))],
@@ -135,7 +135,7 @@ func InsertSubmissions(db *sql.DB) {
 				panic(err)
 			}
 			defer tx.Commit()
-			
+
 			query := `insert into submissions(problem_id, user_id, language_id, 
 			code, submission_status, submission_date)
 			values($1, $2, $3, $4, $5, $6)`

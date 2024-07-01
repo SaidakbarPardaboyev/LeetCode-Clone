@@ -95,7 +95,7 @@ CREATE TYPE status AS ENUM (
 );
 
 CREATE TABLE submissions (
-    id serial PRIMARY KEY NOT NULL,
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
     user_id uuid REFERENCES users(id) NOT NULL,
     problem_id uuid REFERENCES problems(id) NOT NULL,
     language_id uuid REFERENCES languages(id) NOT NULL,

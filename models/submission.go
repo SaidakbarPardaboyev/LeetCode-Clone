@@ -6,7 +6,7 @@ import (
 )
 
 type Submission struct {
-	Id               int             `json:"id"`
+	Id               string          `json:"id"`
 	ProblemId        string          `json:"problem_id"`
 	UserId           string          `json:"user_id"`
 	LanguageId       string          `json:"language_id"`
@@ -28,6 +28,7 @@ type CreateSubmission struct {
 }
 
 type UpdateSubmission struct {
+	Id               string          `json:"id"`
 	SubmissionStatus string          `json:"submission_status"`
 	Runtime          sql.NullFloat64 `json:"runtime"`
 }
