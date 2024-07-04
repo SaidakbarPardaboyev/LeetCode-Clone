@@ -27,7 +27,7 @@ func NewProblemRepo(db *sql.DB) *ProblemRepo {
 }
 
 // Create
-func (p *ProblemRepo) CreateProblem(problem *model.Problem) (string, error) {
+func (p *ProblemRepo) CreateProblem(problem *model.ProblemCreate) (string, error) {
 
 	tx, err := p.Db.Begin()
 	if err != nil {

@@ -17,12 +17,20 @@ type Problem struct {
 	Time
 }
 
+type ProblemCreate struct {
+	Title       string   `json:"title"`
+	Difficulty  string   `json:"difficulty"`
+	Description string   `json:"description"`
+	Constraints []string `json:"constraints"`
+	Hints       []string `json:"hints"`
+}
+
 type ProblemUpdate struct {
-	Id            string `json:"id"`
-	ProblemNumber int    `json:"problem_number"`
-	Title         string `json:"title"`
-	Difficulty    string `json:"difficulty"`
-	Description   string `json:"description"`
+	Id            string   `json:"id"`
+	ProblemNumber int      `json:"problem_number"`
+	Title         string   `json:"title"`
+	Difficulty    string   `json:"difficulty"`
+	Description   string   `json:"description"`
 	Constraints   []string `json:"constraints"`
 	Hints         []string `json:"hints"`
 }

@@ -27,3 +27,6 @@ tidy:
 
 drop-tables:
 	@psql $(DATABASE_URL) -a -f drop_objects.sql
+
+test:
+	@go test ./storage/postgres
