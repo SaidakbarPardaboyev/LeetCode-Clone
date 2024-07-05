@@ -22,8 +22,6 @@ func StartSubmissionsRoute(mainRouter *gin.RouterGroup, handler *handler.Handler
 
 	r.Router.GET("/getall/", r.Handler.GetSubmissions)
 	r.Router.GET("/:id", r.Handler.GetSubmissionByID)
-	r.Router.GET("/getsubmissions", r.Handler.GetSubmissionsOfUserForProblem)
-	r.Router.GET("/getrecentac/:id", r.Handler.GetRecentAcceptedSubmissions)
 	r.Router.POST("/create", r.Handler.CreateSubmission)
 	r.Router.PUT("/update/:id", r.Handler.UpdateSubmission)
 	r.Router.DELETE("/delete/:id", r.Handler.DeleteSubmission)

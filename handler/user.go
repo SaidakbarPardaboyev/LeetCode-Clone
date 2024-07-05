@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"leetcode/model"
+	"leetcode/models"
 	"log"
 	"net/http"
 
@@ -10,7 +10,7 @@ import (
 )
 
 func (h *Handler) GetUsers(c *gin.Context) {
-	filter := model.UserFilter{}
+	filter := models.UserFilter{}
 	fullName, hasKey := c.GetQuery("full_name")
 	if hasKey {
 		filter.FullName = &fullName
@@ -48,7 +48,7 @@ func (h *Handler) GetUserByID(c *gin.Context) {
 }
 
 func (h *Handler) CreateUser(c *gin.Context) {
-	newUser := model.User{}
+	newUser := models.User{}
 	err := json.NewDecoder(c.Request.Body).Decode(&newUser)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -70,7 +70,7 @@ func (h *Handler) CreateUser(c *gin.Context) {
 }
 
 func (h *Handler) UpdateUser(c *gin.Context) {
-	user := model.User{}
+	user := models.User{}
 
 	err := json.NewDecoder(c.Request.Body).Decode(&user)
 	if err != nil {

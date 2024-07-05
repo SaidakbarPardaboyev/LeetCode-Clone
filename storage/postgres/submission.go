@@ -147,9 +147,9 @@ func (s *SubmissionRepo) GetSubmissions(filter *models.SubmissionFilter) (*[]mod
 }
 
 func (s *SubmissionRepo) GetActiveDays(userId string, year int) (*models.UserActivity, error) {
-	if year == nil {
+	if year == 0 {
 		y := time.Now().Year()
-		year = &y
+		year = y
 	}
 	query := `
 	select

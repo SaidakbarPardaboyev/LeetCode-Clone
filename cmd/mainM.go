@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"image"
 	"image/png"
+	"leetcode/generator"
 	"leetcode/storage/postgres"
 	"os"
 )
@@ -16,6 +17,7 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+	generator.GenerateAllMockData(db)
 
 	// generator.GenerateAllMockData(db)
 	// u := postgres.NewUserRepo(db)

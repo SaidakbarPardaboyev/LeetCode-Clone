@@ -26,11 +26,12 @@ func (u *UserRepo) CreateUser(user *models.CreateUser) (string, error) {
 		return "", err
 	}
 
+	id := uuid.NewString()
 	query := `
 	insert into 
 		users(id, username, email, password) 
 		values($1, $2, $3, $4)`
-	_, err = tx.Exec(query, uuid.NewString(), user.Username, user.Email, user.Password)
+	_, err = tx.Exec(query, id, user.Username, user.Email, user.Password)
 
 	if err != nil {
 		tx.Rollback()
@@ -38,11 +39,11 @@ func (u *UserRepo) CreateUser(user *models.CreateUser) (string, error) {
 	}
 	err = tx.Commit()
 
-	return "", err
+	return id, err
 }
 
 // Read
-func (u *UserRepo) GetUserByUsername(id string) (models.User, error) {
+func (u *UserRepo) GetUserById(id string) (models.User, error) {
 	user := models.User{Id: id}
 	query := `
 	select 
@@ -52,13 +53,13 @@ func (u *UserRepo) GetUserByUsername(id string) (models.User, error) {
 	from 
 		users
 	where
-		username = $1 and deleted_at is null
+		id = $1 and deleted_at is null
 	`
 	row := u.Db.QueryRow(query, id)
 	err := row.Scan(&user.Username, &user.FullName, &user.Email,
-		&user.Password, &user.ProfileImage, &user.Gender, &user.Location, &user.Birthday,
-		&user.Summary, &user.Website, &user.Github, &user.LinkedIn,
-		&user.CreatedAt, &user.UpdatedAt)
+		&user.Password, &user.ProfileImage, &user.Gender, &user.Location, 
+		&user.Birthday, &user.Summary, &user.Website, &user.Github, 
+		&user.LinkedIn, &user.CreatedAt, &user.UpdatedAt)
 
 	return user, err
 }
@@ -67,7 +68,7 @@ func (u *UserRepo) GetUsers(filter *models.UserFilter) (*[]models.User, error) {
 	paramCount := 1
 	query := `
 	select 
-		username, full_name, email, password, profile_image, 
+		id, username, full_name, email, password, profile_image, 
 		gender, location, birthday, summary, website, github, linkedin,
 		created_at, updated_at 
 	from 
@@ -123,7 +124,7 @@ func (u *UserRepo) GetUsers(filter *models.UserFilter) (*[]models.User, error) {
 	users := []models.User{}
 	for rows.Next() {
 		user := models.User{}
-		err = rows.Scan(&user.Username, &user.FullName, &user.Email,
+		err = rows.Scan(&user.Id, &user.Username, &user.FullName, &user.Email,
 			&user.Password, &user.ProfileImage, &user.Gender, &user.Location, &user.Birthday,
 			&user.Summary, &user.Website, &user.Github, &user.LinkedIn,
 			&user.CreatedAt, &user.UpdatedAt)
@@ -169,7 +170,7 @@ func (u *UserRepo) GetUserRankingByUserId(userId string) (int, error) {
 		join
 			problems as p
 		on
-			p.title = als.problem_id
+			p.id = als.problem_id
 		group by
 			als.user_id
 	),
@@ -224,11 +225,17 @@ func (u *UserRepo) GetUserRankingByUserId(userId string) (int, error) {
 	rank := 0
 	row := u.Db.QueryRow(query, userId)
 	err := row.Scan(&rank)
+	if err == sql.ErrNoRows{
+		err := u.Db.QueryRow("select count(*) from users").Scan(&rank)
+		if err != nil {
+			return 12345, err
+		}
+	}
 
-	return rank, err
+	return rank, nil
 }
 
-func (u *UserRepo) GetNumberOfSolvedProblemsByUserId(userId string) (*models.AllStatisticsOfSolvedProblems, error) {
+func (u *UserRepo) GetNumberOfSolvedProblemsByUserIdWithStats(userId string) (*models.AllStatisticsOfSolvedProblems, error) {
 	unsolvedProblemsQuery := `
 		select 
 			count(case when difficulty = 'Easy' then 1 end) as easy,
@@ -406,7 +413,7 @@ func (u *UserRepo) GetLanguagesWithNumberOfAcceptedProblemsByUserId(userId strin
 	join
 		distict_langs as dl
 	on
-		l.id == dl.language_id	
+		l.id = dl.language_id	
 	`
 	rows, err := u.Db.Query(query, userId)
 	if err != nil {

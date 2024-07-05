@@ -35,12 +35,12 @@ create index
 	problems_search_vector_idx 
 		ON problems USING gin(search_vector);
 
-CREATE TYPE gender AS ENUM ('Male', 'Female');
+CREATE TYPE gender AS ENUM ('male', 'female');
 
 CREATE TABLE users (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-    username varchar NOT NULL,
-    email varchar NOT NULL,
+    username varchar UNIQUE NOT NULL,
+    email varchar UNIQUE NOT NULL,
     password varchar NOT NULL,
     full_name varchar,
     profile_image bytea,
