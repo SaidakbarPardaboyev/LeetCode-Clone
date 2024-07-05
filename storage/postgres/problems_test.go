@@ -29,6 +29,8 @@ func TestCreateProblem(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	id, err := NewProblemRepo(db).CreateProblem(&newProblem)
 	if err != nil || err == sql.ErrNoRows {
 		t.Error(err)
@@ -46,6 +48,8 @@ func TestGetProblemById(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	_, err = NewProblemRepo(db).GetProblemById(id)
 	if err != nil || err == sql.ErrNoRows {
 		t.Error(err)
@@ -85,6 +89,8 @@ func TestGetProblems(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	_, err = NewProblemRepo(db).GetProblems("d490e243-22df-4d17-b0bd-13887fda6e59", &models.ProblemFilter{
 		// Sorting:     &ascProblemNumber,
 		// Search:      &search,
@@ -104,6 +110,8 @@ func TestGetSubmissionStatisticsByProblemId(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	_, err = NewProblemRepo(db).GetSubmissionStatisticsByProblemId(
 		"79cb0553-226c-4368-b3fb-dc2b5f3b74ab") // zigzag-conversion
 
@@ -117,6 +125,8 @@ func TestGetAllProblemsId(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	_, err = NewProblemRepo(db).GetProblemById(
 		"79cb0553-226c-4368-b3fb-dc2b5f3b74ab")
 	if err != nil || err == sql.ErrNoRows {
@@ -129,6 +139,8 @@ func TestPickRandomProblem(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	_, err = NewProblemRepo(db).PickRandomProblem()
 	if err != nil || err == sql.ErrNoRows {
 		t.Error(err)
@@ -158,6 +170,8 @@ func TestUpdateProblem(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	err = NewProblemRepo(db).UpdateProblem(&pro)
 	if err != nil || err == sql.ErrNoRows {
 		t.Error(err)
@@ -169,6 +183,8 @@ func TestDeleteProblem(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	err = NewProblemRepo(db).DeleteProblem(
 		"2396a6bb-ef10-4176-a16c-6f3183ea0db2")
 	if err != nil || err == sql.ErrNoRows {
@@ -181,6 +197,8 @@ func TestRecoverProblem(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	defer db.Close()
+
 	err = NewProblemRepo(db).RecoverProblem(
 		"2396a6bb-ef10-4176-a16c-6f3183ea0db2")
 	if err != nil || err == sql.ErrNoRows {

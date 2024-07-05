@@ -38,7 +38,13 @@ func (e *ExampleRepo) CreateExample(example *models.ExampleCreate) (*string, err
 }
 
 func (e *ExampleRepo) GetExamplesByProblemId(problemId string) (*[]models.Example, error) {
-	query := `select input, output, explanation from examples where problem_id = $1`
+	query := `
+		select 
+			input, output, explanation 
+		from 
+			examples 
+		where 
+			problem_id = $1`
 
 	examples := []models.Example{}
 
@@ -77,7 +83,7 @@ func (e *ExampleRepo) UpdateExample(tp *models.ExampleUpdate) error {
 		explanation = $4,
 		updated_at = $5
 	where
-		deleted_at is null and id = $4`
+		deleted_at is null and id = $6`
 	_, err = tx.Exec(query, tp.ProblemId, tp.Input, tp.Output,
 		tp.Explanation, time.Now(), tp.Id)
 
