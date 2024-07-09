@@ -10,3 +10,4 @@ drop type if exists gender;
 drop table if exists problems;
 drop type if exists difficulty_levels;
 drop table if exists languages;
+drop table if exists default_codes;

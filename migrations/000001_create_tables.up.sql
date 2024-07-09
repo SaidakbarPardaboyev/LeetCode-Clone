@@ -123,17 +123,20 @@ CREATE TABLE testcases_non_btree (
     arg2 JSONB,
     arg3 JSONB,
     arg4 JSONB,
-    arg5 JSONB,
-    arg6 JSONB,
     answer JSONB,
     arg1_type varchar,
     arg2_type varchar,
     arg3_type varchar,
     arg4_type varchar,
-    arg5_type varchar,
-    arg6_type varchar,
     answer_type varchar,
     created_at timestamp DEFAULT now() NOT NULL,
     updated_at timestamp,
     deleted_at timestamp
+);
+
+CREATE TABLE default_codes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    problem_id UUID REFERENCES problems(id),
+    language_id UUID REFERENCES languages(id),
+    code TEXT,
 );
