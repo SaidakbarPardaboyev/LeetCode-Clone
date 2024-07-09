@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-package models
-=======
 package models
 
 import (
@@ -62,4 +59,3 @@ type ProblemFilter struct {
 	Limit       *int
 	Offset      *int
 }
->>>>>>> origin/Saidakbar

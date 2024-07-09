@@ -3,11 +3,8 @@ package models
 import "time"
 
 type User struct {
-<<<<<<< HEAD
+
 	Id           string    `json:"id"`
-=======
-	Id           string
->>>>>>> origin/Saidakbar
 	Username     string    `json:"username"`
 	FullName     string    `json:"full_name"`
 	Email        string    `json:"email"`
@@ -22,7 +19,6 @@ type User struct {
 	LinkedIn     string    `json:"linkedin,omitempty"`
 	Time
 }
-<<<<<<< HEAD
 
 type CreateUser struct {
 	Username string `json:"username"`
@@ -52,8 +48,6 @@ type UpdateUser struct {
 	LinkedIn     string    `json:"linkedin,omitempty"`
 }
 
-=======
->>>>>>> origin/Saidakbar
 type UserFilter struct {
 	FullName *string
 	Email    *string

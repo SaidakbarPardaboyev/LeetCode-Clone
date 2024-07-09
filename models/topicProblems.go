@@ -1,12 +1,5 @@
 package models
 
-<<<<<<< HEAD
-type TopicProblem struct {
-	Id        string
-	TopicId   string
-	ProblemId string
-	Time
-=======
 type TopicsOfProblem struct {
 	ProblemId  string   `json:"problem_id"`
 	TopicNames []string `json:"topics"`
@@ -21,7 +14,6 @@ type TopicProblemUpdate struct {
 	Id        string `json:"id"`
 	ProblemId string `json:"problem_id"`
 	TopicId   string `json:"topic_id"`
->>>>>>> origin/Saidakbar
 }
 
 type TopicProblemFilter struct {
