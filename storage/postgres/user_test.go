@@ -130,19 +130,19 @@ func TestUpdateUser(t *testing.T){
 	u := newUserRepoTest()
 
 	user := models.UpdateUser{
-		Id:           "hajime",
+		Id:           "294925d6-3004-49e1-8b4c-3c7a2bf23530",
 		Username:     "qale",
 		FullName:     "gfd",
 		Email:        "hbgfd",
 		Password:     "hgfd",
 		ProfileImage: []byte{},
 		Gender:       "male",
-		Location:     "",
+		Location:     "hytr",
 		Birthday:     time.Now(),
-		Summary:      "",
-		Website:      "",
-		Github:       "",
-		LinkedIn:     "",
+		Summary:      "iuyt",
+		Website:      "iuytr",
+		Github:       "iuytr",
+		LinkedIn:     "iuyt76yt",
 	}
 
 	err := u.UpdateUser(&user)
@@ -150,3 +150,13 @@ func TestUpdateUser(t *testing.T){
 		panic(err)
 	}
 }
+
+func TestDeleteUser(t *testing.T){
+	u := newUserRepoTest()
+
+	err := u.DeleteUser("294925d6-3004-49e1-8b4c-3c7a2bf23530")
+	if err != nil {
+		panic(err)
+	}
+}
+

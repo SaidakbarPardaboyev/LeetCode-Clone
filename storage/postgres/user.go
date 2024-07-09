@@ -444,7 +444,7 @@ func (u *UserRepo) UpdateUser(user *models.UpdateUser) error {
 	update 
 		users 
 	set  
-		username =      $1
+		username =      $1,
 		full_name =     $2, 
 		email =         $3, 
 		password =      $4, 
