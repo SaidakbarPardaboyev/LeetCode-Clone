@@ -1,8 +1,12 @@
 package pkg
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	model "leetcode/models"
+	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -437,20 +441,65 @@ func GetUniversalCode(functionName string) string {
 
 	part3 := fmt.Sprintf(`"%s": %s}`, functionName, functionName)
 
-	part4 := `
-	func twoSum(nums []int, target int) []int {
-		  count := map[int][]int{}
-		  for i, num := range nums {
-			count[num] = append(count[num], i)
-			if len(count[target-num]) > 0 {
-				  if count[target-num][0] != i {
-					return []int{count[target-num][0], i}
-				  }
-			}
-		  }
-	  return []int{}
-	}
-	`
-	code := part1 + functionName + part2 + part3 + part4
+	code := part1 + functionName + part2 + part3
 	return code
+}
+
+func Run(funcName, userCode string) (*string, error) {
+	code := GetUniversalCode(funcName) + userCode
+	res, err := ExecuteCode("go", code)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+// ExecuteCode executes code for a specified language and returns the output or an error
+func ExecuteCode(language, src string) (string, error) {
+	var tmpfile *os.File
+	var err error
+	var cmd *exec.Cmd
+
+	switch language {
+	case "python3":
+		tmpfile, err = ioutil.TempFile("", "*.py")
+	case "go":
+		tmpfile, err = ioutil.TempFile("", "*.go")
+	default:
+		return "", fmt.Errorf("unsupported language: %s", language)
+	}
+
+	if err != nil {
+		return "", err
+	}
+	defer os.Remove(tmpfile.Name()) // Clean up the file afterwards
+
+	// Write the source code to the temporary file
+	if _, err := tmpfile.Write([]byte(src)); err != nil {
+		tmpfile.Close()
+		return "", err
+	}
+	if err := tmpfile.Close(); err != nil {
+		return "", err
+	}
+
+	// Construct the command to run the code
+	switch language {
+	case "python3":
+		cmd = exec.Command("python3", tmpfile.Name())
+	case "go":
+		cmd = exec.Command("go", "run", tmpfile.Name())
+	}
+
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+
+	// Run the command and capture the output
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("%s: %s", err, stderr.String())
+	}
+
+	return out.String(), nil
 }
