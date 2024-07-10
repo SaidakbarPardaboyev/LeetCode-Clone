@@ -139,4 +139,7 @@ CREATE TABLE default_codes (
     problem_id UUID REFERENCES problems(id),
     language_id UUID REFERENCES languages(id),
     code TEXT,
+    created_at timestamp DEFAULT now() NOT NULL,
+    updated_at timestamp,
+    deleted_at timestamp
 );
