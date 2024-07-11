@@ -43,7 +43,8 @@ func ExecuteCode() {
 	}
 	defer rows.Close()
 
-	// avgRuntime := 
+	var avgRuntime int64 
+	var numberOfTestcases int64
 
 	for rows.Next() {
 		var functionName, id string
@@ -79,7 +80,10 @@ func ExecuteCode() {
 		}()
 		endTime := time.Now()
 
-		diff := tim
+		seconds := endTime.UnixMilli() - startingTime.UnixMilli()
+		avgRuntime += seconds
+		numberOfTestcases++
+
 		select {
 		case <-ctx.Done():
 			w.Close()
@@ -170,7 +174,7 @@ func ExecuteCode() {
 		Output:     "",
 		Result:     reflect.Value{},
 		TestcaseId: "",
-		RunTime:    0,
+		RunTime:    float64(avgRuntime/numberOfTestcases),
 	}
 
 	result := bytes.Buffer{}
