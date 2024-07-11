@@ -16,7 +16,7 @@ import (
 )
 
 type ResultValues struct {
-	Isaccepted bool
+	IsAccepted bool
 	Status     string
 	Output     string
 	Result     reflect.Value
@@ -42,6 +42,8 @@ func ExecuteCode() {
 		log.Fatal(err)
 	}
 	defer rows.Close()
+
+	// avgRuntime := 
 
 	for rows.Next() {
 		var functionName, id string
@@ -75,7 +77,9 @@ func ExecuteCode() {
 			results, err = callFunction(functionName, args, argsTypes, answerType)
 			done <- true
 		}()
+		endTime := time.Now()
 
+		diff := tim
 		select {
 		case <-ctx.Done():
 			w.Close()
@@ -86,7 +90,7 @@ func ExecuteCode() {
 			output := buf.String()
 
 			res := ResultValues{
-				Isaccepted: false,
+				IsAccepted: false,
 				Status:     "time limit exceeded",
 				Output:     output,
 				Result:     results[0],
@@ -94,6 +98,9 @@ func ExecuteCode() {
 				RunTime:    0,
 			}
 
+			result := bytes.Buffer{}
+			json.NewEncoder(&result).Encode(res)
+			fmt.Println(result.String())
 			return
 		case <-done:
 			break
@@ -111,14 +118,19 @@ func ExecuteCode() {
 		}
 
 		if len(output) > 10000 {
+
 			res := ResultValues{
-				Isaccepted: false,
+				IsAccepted: false,
 				Status:     "output limit exceeded",
-				Output:     output,
+				Output:     "",
 				Result:     results[0],
 				TestcaseId: id,
 				RunTime:    0,
 			}
+
+			result := bytes.Buffer{}
+			json.NewEncoder(&result).Encode(res)
+			fmt.Println(result.String())
 			return
 		}
 		if len(results) > 0 {
@@ -127,11 +139,44 @@ func ExecuteCode() {
 				panic(err)
 			}
 			if !res {
-				return false, "wrong answer", &output, &results[0], &id
+				w.Close()
+				os.Stdout = old
+
+				var buf bytes.Buffer
+				io.Copy(&buf, r)
+				output := buf.String()
+	
+				res := ResultValues{
+					IsAccepted: false,
+					Status:     "wrong answer",
+					Output:     output,
+					Result:     results[0],
+					TestcaseId: id,
+					RunTime:    0,
+				}
+	
+				result := bytes.Buffer{}
+				json.NewEncoder(&result).Encode(res)
+				fmt.Println(result.String())
+				return
 			}
 		}
 	}
-	return true, "accepted", nil, nil, nil
+
+
+	res := ResultValues{
+		IsAccepted: true,
+		Status:     "accepted",
+		Output:     "",
+		Result:     reflect.Value{},
+		TestcaseId: "",
+		RunTime:    0,
+	}
+
+	result := bytes.Buffer{}
+	json.NewEncoder(&result).Encode(res)
+	fmt.Println(result.String())
+
 }
 
 func callFunction(name string, args []sql.NullString, argsTypes []sql.NullString, answertype sql.NullString) ([]reflect.Value, error) {
