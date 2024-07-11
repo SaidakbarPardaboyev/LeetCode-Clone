@@ -79,7 +79,7 @@ func ExecuteCode() {
 		}()
 		endTime := time.Now()
 
-		diff := tim
+		diff := time.Duration(endTime.UnixMilli()) - 
 		select {
 		case <-ctx.Done():
 			w.Close()
