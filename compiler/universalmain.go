@@ -72,12 +72,33 @@ func ExecuteCode() {
 
 		done := make(chan bool, 1)
 		var results []reflect.Value
-		var err error
 
 		go func() {
 			results, err = callFunction(functionName, args, argsTypes, answerType)
 			done <- true
 		}()
+		if err != nil{
+			w.Close()
+			os.Stdout = old
+
+			var buf bytes.Buffer
+			io.Copy(&buf, r)
+			output := buf.String()
+
+			res := ResultValues{
+				IsAccepted: false,
+				Status:     "Runtime Error",
+				Output:     output,
+				Result:     results[0],
+				TestcaseId: id,
+				RunTime:    0,
+			}
+
+			result := bytes.Buffer{}
+			json.NewEncoder(&result).Encode(res)
+			fmt.Println(result.String())
+			return
+		}
 		endTime := time.Now()
 
 		seconds := endTime.UnixMilli() - startingTime.UnixMilli()
@@ -117,9 +138,6 @@ func ExecuteCode() {
 		io.Copy(&buf, r)
 		output := buf.String()
 
-		if err != nil {
-			panic(err)
-		}
 
 		if len(output) > 10000 {
 
