@@ -1,14 +1,28 @@
 package main
 
 import (
+	"bytes"
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"os"
 	"reflect"
+	"time"
 
 	_ "github.com/lib/pq"
 )
+
+type ResultValues struct {
+	Isaccepted bool
+	Status     string
+	Output     string
+	Result     reflect.Value
+	TestcaseId string
+	RunTime    float64
+}
 
 func ExecuteCode() {
 	connStr := "host=localhost user=postgres dbname=just password=root sslmode=disable"
@@ -20,9 +34,9 @@ func ExecuteCode() {
 
 	funcName := "Two Sum"
 
-	rows, err := db.Query("SELECT function_name, arg1, arg2, arg3, arg4, "+
+	rows, err := db.Query("SELECT id, function_name, arg1, arg2, arg3, arg4, "+
 		"arg5, arg6, answer, arg1_type, arg2_type, arg3_type, arg4_type, arg5_type, "+
-		"arg6_type, answer_type FROM function_calls WHERE function_name=$1", funcName)
+		"arg6_type, answer_type, time_limit FROM function_calls WHERE function_name=$1", funcName)
 
 	if err != nil {
 		log.Fatal(err)
@@ -30,13 +44,14 @@ func ExecuteCode() {
 	defer rows.Close()
 
 	for rows.Next() {
-		var functionName string
+		var functionName, id string
 		var arg1, arg2, arg3, arg4, arg5, arg6 sql.NullString
 		var arg1Type, arg2Type, arg3Type, arg4Type, arg5Type, arg6Type sql.NullString
 		var answer, answerType sql.NullString
-		if err := rows.Scan(&functionName, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6,
+		var timeLimit int64
+		if err := rows.Scan(&id, &functionName, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6,
 			&answer, &arg1Type, &arg2Type, &arg3Type, &arg4Type, &arg5Type, &arg6Type,
-			&answerType); err != nil {
+			&answerType, &timeLimit); err != nil {
 			log.Fatal(err)
 		}
 
@@ -44,9 +59,67 @@ func ExecuteCode() {
 		argsTypes := []sql.NullString{arg1Type, arg2Type, arg3Type, arg4Type,
 			arg5Type, arg6Type}
 
-		results, err := callFunction(functionName, args, argsTypes, answerType)
+		old := os.Stdout
+		r, w, _ := os.Pipe()
+		os.Stdout = w
+
+		startingTime := time.Now()
+		ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeLimit))
+		defer cancel()
+
+		done := make(chan bool, 1)
+		var results []reflect.Value
+		var err error
+
+		go func() {
+			results, err = callFunction(functionName, args, argsTypes, answerType)
+			done <- true
+		}()
+
+		select {
+		case <-ctx.Done():
+			w.Close()
+			os.Stdout = old
+
+			var buf bytes.Buffer
+			io.Copy(&buf, r)
+			output := buf.String()
+
+			res := ResultValues{
+				Isaccepted: false,
+				Status:     "time limit exceeded",
+				Output:     output,
+				Result:     results[0],
+				TestcaseId: id,
+				RunTime:    0,
+			}
+
+			return
+		case <-done:
+			break
+		}
+
+		w.Close()
+		os.Stdout = old
+
+		var buf bytes.Buffer
+		io.Copy(&buf, r)
+		output := buf.String()
+
 		if err != nil {
 			panic(err)
+		}
+
+		if len(output) > 10000 {
+			res := ResultValues{
+				Isaccepted: false,
+				Status:     "output limit exceeded",
+				Output:     output,
+				Result:     results[0],
+				TestcaseId: id,
+				RunTime:    0,
+			}
+			return
 		}
 		if len(results) > 0 {
 			res, err := checkResult(results, answer)
@@ -54,12 +127,11 @@ func ExecuteCode() {
 				panic(err)
 			}
 			if !res {
-				fmt.Printf("Wrong answer\nOutput: %v\nExpected: %v\n", results[0], answer.String)
-				return
+				return false, "wrong answer", &output, &results[0], &id
 			}
 		}
 	}
-	fmt.Println("Accepted")
+	return true, "accepted", nil, nil, nil
 }
 
 func callFunction(name string, args []sql.NullString, argsTypes []sql.NullString, answertype sql.NullString) ([]reflect.Value, error) {
@@ -172,6 +244,9 @@ var funcMap = map[string]interface{}{
 
 func twoSum(nums []int, target int) []int {
 	count := map[int][]int{}
+	for i := 0; i < 10000; i++ {
+		fmt.Print("Hello")
+	}
 	for i, num := range nums {
 		count[num] = append(count[num], i)
 		if len(count[target-num]) > 0 {
