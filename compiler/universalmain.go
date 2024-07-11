@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math"
 	"os"
 	"reflect"
 	"time"
@@ -19,12 +20,12 @@ type ResultValues struct {
 	IsAccepted bool
 	Status     string
 	Output     string
-	Result     reflect.Value
+	Result     interface{}
 	TestcaseId string
 	RunTime    float64
 }
 
-func ExecuteCode() {
+func main() {
 	connStr := "host=localhost user=postgres dbname=just password=root sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -43,7 +44,8 @@ func ExecuteCode() {
 	}
 	defer rows.Close()
 
-	// avgRuntime := 
+	var avgRuntime int64
+	var numberOfTestcases int64
 
 	for rows.Next() {
 		var functionName, id string
@@ -66,34 +68,40 @@ func ExecuteCode() {
 		os.Stdout = w
 
 		startingTime := time.Now()
-		ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeLimit))
+		ctx, cancel := context.WithTimeout(context.Background(),
+			time.Duration(timeLimit*int64(time.Millisecond)))
 		defer cancel()
 
 		done := make(chan bool, 1)
 		var results []reflect.Value
-		var err error
 
 		go func() {
 			results, err = callFunction(functionName, args, argsTypes, answerType)
 			done <- true
 		}()
-		endTime := time.Now()
+		if err != nil {
+			panic(err)
+		}
 
-		diff := time.Duration(endTime.UnixMilli()) - 
+		endTime := time.Now()
+		seconds := endTime.UnixMicro() - startingTime.UnixMicro()
+		avgRuntime += seconds
+		numberOfTestcases++
+
 		select {
 		case <-ctx.Done():
 			w.Close()
 			os.Stdout = old
 
-			var buf bytes.Buffer
-			io.Copy(&buf, r)
-			output := buf.String()
+			// var buf bytes.Buffer
+			// io.Copy(&buf, r)
+			// output := buf.String()
 
 			res := ResultValues{
 				IsAccepted: false,
 				Status:     "time limit exceeded",
-				Output:     output,
-				Result:     results[0],
+				Output:     "",
+				Result:     reflect.Value{},
 				TestcaseId: id,
 				RunTime:    0,
 			}
@@ -113,10 +121,6 @@ func ExecuteCode() {
 		io.Copy(&buf, r)
 		output := buf.String()
 
-		if err != nil {
-			panic(err)
-		}
-
 		if len(output) > 10000 {
 
 			res := ResultValues{
@@ -133,50 +137,45 @@ func ExecuteCode() {
 			fmt.Println(result.String())
 			return
 		}
-		if len(results) > 0 {
-			res, err := checkResult(results, answer)
-			if err != nil {
-				panic(err)
+		res, err := checkResult(results, answer)
+		if err != nil {
+			panic(err)
+		}
+		if !res {
+			res := ResultValues{
+				IsAccepted: false,
+				Status:     "wrong answer",
+				Output:     output,
+				Result:     results[0].Interface(),
+				TestcaseId: id,
+				RunTime:    0,
 			}
-			if !res {
-				w.Close()
-				os.Stdout = old
 
-				var buf bytes.Buffer
-				io.Copy(&buf, r)
-				output := buf.String()
-	
-				res := ResultValues{
-					IsAccepted: false,
-					Status:     "wrong answer",
-					Output:     output,
-					Result:     results[0],
-					TestcaseId: id,
-					RunTime:    0,
-				}
-	
-				result := bytes.Buffer{}
-				json.NewEncoder(&result).Encode(res)
-				fmt.Println(result.String())
-				return
-			}
+			result := bytes.Buffer{}
+			json.NewEncoder(&result).Encode(res)
+			fmt.Println(result.String())
+			return
 		}
 	}
 
-
+	runtime := RounDown(float64(avgRuntime)/float64(numberOfTestcases)/1000, 4)
 	res := ResultValues{
 		IsAccepted: true,
 		Status:     "accepted",
 		Output:     "",
 		Result:     reflect.Value{},
 		TestcaseId: "",
-		RunTime:    0,
+		RunTime:    runtime,
 	}
 
 	result := bytes.Buffer{}
 	json.NewEncoder(&result).Encode(res)
 	fmt.Println(result.String())
+}
 
+func RounDown(num float64, decimal int) float64 {
+	power := math.Pow(10, float64(decimal))
+	return math.Floor(num*power) / power
 }
 
 func callFunction(name string, args []sql.NullString, argsTypes []sql.NullString, answertype sql.NullString) ([]reflect.Value, error) {
@@ -279,7 +278,7 @@ func checkResult(result []reflect.Value, answerJson sql.NullString) (bool, error
 		}
 	}
 
-	fmt.Println("result does not match answer")
+	// fmt.Println("result does not match answer")
 	return false, nil
 }
 
@@ -289,7 +288,7 @@ var funcMap = map[string]interface{}{
 
 func twoSum(nums []int, target int) []int {
 	count := map[int][]int{}
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 1000000; i++ {
 		fmt.Print("Hello")
 	}
 	for i, num := range nums {
