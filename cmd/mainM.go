@@ -21,19 +21,14 @@ func main() {
 
 	// generator.GenerateAllMockData(db)
 	// u := postgres.NewUserRepo(db)
-	// imagePath := "profile/image.png"
-	// imageBytes, err := ioutil.ReadFile(imagePath)
-	// if err != nil {
-	// 	log.Fatal("Error reading file:", err)
-	// }
-
+	
 	// mockUser := model.User{
-	// 	Username:     "john_doe",
-	// 	FullName:     "John Doe",
-	// 	Email:        "john@example.com",
-	// 	Password:     "securepassword",
-	// 	ProfileImage: []byte{},
-	// 	Gender:       "Male",
+		// 	Username:     "john_doe",
+		// 	FullName:     "John Doe",
+		// 	Email:        "john@example.com",
+		// 	Password:     "securepassword",
+		// 	ProfileImage: []byte{},
+		// 	Gender:       "Male",
 	// 	Location:     "New York",
 	// 	Birthday:     time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC),
 	// 	Summary:      "A passionate software developer.",
@@ -53,7 +48,7 @@ func main() {
 	// "MediumAcceptanceRate",stats.MediumAcceptanceRate,"\n",
 	// "HardAcceptanceRate",  stats.HardAcceptanceRate,"\n",
 	// "TotalAcceptanceRate",  stats.TotalAcceptanceRate,)
-
+	
 	// skills, err := u.GetLanguagesWithNumberOfAcceptedProblemsByUsername("stark")
 	// if err != nil {
 	// 	panic(err)
@@ -65,6 +60,11 @@ func main() {
 	// server.ListenAndServe()
 }
 
+// imagePath := "profile/image.png"
+// imageBytes, err := ioutil.ReadFile(imagePath)
+// if err != nil {
+// 	log.Fatal("Error reading file:", err)
+// }
 func saveImage(profileImage []byte, path string) error {
 	file, err := os.Create(path)
 	if err != nil {

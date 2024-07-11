@@ -1,0 +1,21 @@
+total 88K
+-rw-rw-r-- 1 muhammadjon muhammadjon 1.2K Iyl  9 12:08 check.txt
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyl 10 09:12 cmd
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyl  9 12:17 compiler
+-rw-r--r-- 1 muhammadjon muhammadjon 6.7K Iyn 21 15:49 elect
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyn 28 16:01 generator
+-rw-rw-r-- 1 muhammadjon muhammadjon 1.4K Iyn 24 17:05 go.mod
+-rw-rw-r-- 1 muhammadjon muhammadjon 8.1K Iyn 24 17:05 go.sum
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyn 28 19:31 handler
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyn 24 10:55 json
+-rw-rw-r-- 1 muhammadjon muhammadjon  697 Iyl  9 11:58 Makefile
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyl  9 12:15 migrations
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyl  9 12:08 models
+-rw-rw-r-- 1 muhammadjon muhammadjon  235 Iyn 24 11:21 NotForget.txt
+-rw-rw-r-- 1 muhammadjon muhammadjon    0 Iyl 10 10:04 out.txt
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyl  9 12:17 pkg
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyn 19 15:00 profile
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyl  9 12:08 queries
+drwxrwxr-x 2 muhammadjon muhammadjon 4.0K Iyn 24 10:55 router
+drwxrwxr-x 3 muhammadjon muhammadjon 4.0K Iyn  8 10:45 storage
+drwxrwxr-x 6 muhammadjon muhammadjon 4.0K Iyn 26 17:54 vendor

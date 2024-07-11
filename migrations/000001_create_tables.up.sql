@@ -129,6 +129,7 @@ CREATE TABLE testcases_non_btree (
     arg3_type varchar,
     arg4_type varchar,
     answer_type varchar,
+    time_limit integer,
     created_at timestamp DEFAULT now() NOT NULL,
     updated_at timestamp,
     deleted_at timestamp
@@ -138,5 +139,19 @@ CREATE TABLE default_codes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     problem_id UUID REFERENCES problems(id),
     language_id UUID REFERENCES languages(id),
-    code TEXT,
+    code TEXT not null,
+    created_at timestamp DEFAULT now() NOT NULL,
+    updated_at timestamp,
+    deleted_at timestamp
+);
+
+CREATE TABLE about_submission (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    testcase_id UUID REFERENCES submissions(id),
+    error TEXT,
+    stdOut text,
+    output text,
+    created_at timestamp DEFAULT now() NOT NULL,
+    updated_at timestamp,
+    deleted_at timestamp
 );
